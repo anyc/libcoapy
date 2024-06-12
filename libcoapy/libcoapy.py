@@ -31,14 +31,7 @@ class CoapClientSession():
 	def __init__(self, ctx, uri_str):
 		self.ctx = ctx
 		
-		self.uri = coap_uri_t()
-		
-		if isinstance(uri_str, str):
-			self.uri_bytes = uri_str.encode()
-		else:
-			self.uri_bytes = uri_str
-		
-		coap_split_uri(ct.cast(ct.c_char_p(self.uri_bytes), c_uint8_p), len(self.uri_bytes), ct.byref(self.uri))
+		self.uri = self.parse_uri(uri_str)
 		
 		import socket
 		self.addr_info = coap_resolve_address_info(ct.byref(self.uri.host), self.uri.port, self.uri.port, self.uri.port, self.uri.port,
@@ -55,15 +48,68 @@ class CoapClientSession():
 	def __del__(self):
 		coap_free_address_info(self.addr_info)
 	
-	def sendMessage(self, payload=None, pdu_type=COAP_MESSAGE_CON, code=coap_pdu_code_t.COAP_REQUEST_CODE_GET, response_callback=None):
+	def parse_uri(self, uri_str):
+		uri = coap_uri_t()
+		
+		if isinstance(uri_str, str):
+			uri.bytes = uri_str.encode()
+		else:
+			uri.bytes = uri_str
+		
+		coap_split_uri(ct.cast(ct.c_char_p(uri.bytes), c_uint8_p), len(uri.bytes), ct.byref(uri))
+		
+		return uri
+	
+	def sendMessage(self, path=None, payload=None, pdu_type=COAP_MESSAGE_CON, code=coap_pdu_code_t.COAP_REQUEST_CODE_GET, response_callback=None):
 		pdu = coap_pdu_init(pdu_type, code, coap_new_message_id(self.lcoap_session), coap_session_max_pdu_size(self.lcoap_session));
 		
-		optlist = ct.POINTER(coap_optlist_t)()
-		scratch_t = ct.c_uint8 * 100
-		scratch = scratch_t()
-		coap_uri_into_options(ct.byref(self.uri), ct.byref(self.dest_addr), ct.byref(optlist), 1, scratch, ct.sizeof(scratch))
+		if path:
+			if path[0] == "/":
+				path = path[1:]
+			
+			# TODO how much extra space?
+			buf_t = ct.c_char * (len(path) + 1)
+			buf = buf_t()
+			optlist = ct.POINTER(coap_optlist_t)()
+			buflen = ct.c_size_t()
+			
+			buflen.value = len(buf)
+			bufit = ct.cast(buf, ct.c_voidp)
+			
+			n_elements = coap_split_path(path, len(path), buf, ct.byref(buflen))
+			while n_elements > 0:
+				coap_insert_optlist(ct.byref(optlist),
+									coap_new_optlist(COAP_OPTION_URI_PATH,
+													coap_opt_length(ct.cast(bufit, ct.POINTER(ct.c_ubyte))),
+													coap_opt_value(ct.cast(bufit, ct.POINTER(ct.c_ubyte)))
+													)
+									)
+				
+				bufit.value += coap_opt_size(ct.cast(bufit, ct.POINTER(ct.c_ubyte)));
+				
+				n_elements -= 1
+			
+			if optlist:
+				rv = coap_add_optlist_pdu(pdu, ct.byref(optlist))
+				coap_delete_optlist(optlist)
+				if rv != 1:
+					raise Exception("coap_add_optlist_pdu() failed\n")
+		else:
+			optlist = ct.POINTER(coap_optlist_t)()
+			scratch_t = ct.c_uint8 * 100
+			scratch = scratch_t()
+			
+			coap_uri_into_options(ct.byref(self.uri), ct.byref(self.dest_addr), ct.byref(optlist), 1, scratch, ct.sizeof(scratch))
+			
+			coap_add_optlist_pdu(pdu, ct.byref(optlist))
+			coap_delete_optlist(optlist)
 		
-		coap_add_optlist_pdu(pdu, ct.byref(optlist))
+		if payload:
+			if isinstance(payload, str):
+				payload = payload.encode()
+			payload_t = ct.c_ubyte * len(payload)
+			pdu.payload = payload_t.from_buffer_copy(payload)
+			coap_add_data_large_request(self.lcoap_session, pdu, len(payload), pdu.payload, ct.cast(None, coap_release_large_data_t), None)
 		
 		mid = coap_send(self.lcoap_session, pdu)
 		if mid == COAP_INVALID_MID:
