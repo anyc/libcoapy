@@ -4,14 +4,6 @@ import ctypes as ct
 
 verbosity = 0
 
-# class sockaddr_in(ctypes.Structure):
-# 	_fields_ = [
-# 		("sin_family", ctypes.c_ushort),
-# 		("sin_port", ctypes.c_ushort),
-# 		("sin_addr", ctypes.c_byte * 4),
-# 		("__pad", ctypes.c_byte * 8)
-# 		]
-
 class ctypes_enum_gen(enum.IntEnum):
 	@classmethod
 	def from_param(cls, param):
@@ -75,6 +67,23 @@ COAP_REQUEST_FETCH   = 5
 COAP_REQUEST_PATCH   = 6
 COAP_REQUEST_IPATCH  = 7
 
+COAP_OPTION_IF_MATCH       =  1
+COAP_OPTION_URI_HOST       =  3
+COAP_OPTION_ETAG           =  4
+COAP_OPTION_IF_NONE_MATCH  =  5
+COAP_OPTION_URI_PORT       =  7
+COAP_OPTION_LOCATION_PATH  =  8
+COAP_OPTION_URI_PATH       = 11
+COAP_OPTION_CONTENT_FORMAT = 12
+COAP_OPTION_CONTENT_TYPE   = COAP_OPTION_CONTENT_FORMAT
+COAP_OPTION_MAXAGE         = 14
+COAP_OPTION_URI_QUERY      = 15
+COAP_OPTION_ACCEPT         = 17
+COAP_OPTION_LOCATION_QUERY = 20
+COAP_OPTION_PROXY_URI      = 35
+COAP_OPTION_PROXY_SCHEME   = 39
+COAP_OPTION_SIZE1          = 60
+
 def COAP_RESPONSE_CODE(N): return (( int((N)/100) << 5) | (N)%100)
 
 class coap_pdu_code_t(ctypes_enum_gen):
@@ -124,6 +133,7 @@ class coap_pdu_code_t(ctypes_enum_gen):
 
 coap_tid_t = ct.c_int
 coap_mid_t = ct.c_int
+coap_opt_t = ct.c_uint8
 
 COAP_INVALID_MID = -1
 COAP_INVALID_TID = COAP_INVALID_MID
@@ -174,8 +184,8 @@ class coap_addr_info_t(ct.Structure):
 	pass
 coap_addr_info_t._fields_ = [
 		("next", ct.POINTER(coap_addr_info_t)),
-		("scheme", ct.c_int), #coap_uri_scheme_t
-		("proto", ct.c_int), #coap_proto_t
+		("scheme", ct.c_int),
+		("proto", ct.c_int),
 		("addr", coap_address_t),
 		]
 
@@ -201,13 +211,14 @@ class coap_uri_t(LStructure):
 			("port", ct.c_uint16),
 			("path", coap_str_const_t),
 			("query", coap_str_const_t),
-			("scheme", ct.c_int), #coap_uri_scheme_t
+			("scheme", ct.c_int),
 			]
 
 library_functions = [
 	{ "name": "coap_startup", "restype": None },
 	{ "name": "coap_cleanup", "restype": None },
 	{ "name": "coap_split_uri", "args": [ct.POINTER(ct.c_uint8), ct.c_size_t, ct.POINTER(coap_uri_t)] },
+	{ "name": "coap_split_path", "args": [ct.c_char_p, ct.c_size_t, ct.c_char_p, ct.POINTER(ct.c_size_t)] },
 	{ "name": "coap_new_context", "args": [ct.POINTER(coap_address_t)], "restype": ct.POINTER(coap_context_t) },
 	{ "name": "coap_new_client_session", "args": [ct.POINTER(coap_context_t), ct.POINTER(coap_address_t), ct.POINTER(coap_address_t), coap_proto_t], "restype": ct.POINTER(coap_session_t) },
 	{ "name": "coap_resolve_address_info", "args": [
@@ -274,6 +285,13 @@ library_functions = [
 	
 	{ "name": "coap_pdu_get_code", "args": [ct.POINTER(coap_pdu_t)], "restype": coap_pdu_code_t},
 	{ "name": "coap_pdu_get_mid", "args": [ct.POINTER(coap_pdu_t)], "restype": coap_mid_t},
+	
+	{ "name": "coap_new_optlist", "args": [ct.c_uint16, ct.c_size_t, ct.POINTER(ct.c_uint8)], "restype": ct.POINTER(coap_optlist_t) },
+	{ "name": "coap_insert_optlist", "args": [ct.POINTER(ct.POINTER(coap_optlist_t)), ct.POINTER(coap_optlist_t)], "expect": 1 },
+	{ "name": "coap_delete_optlist", "args": [ct.POINTER(coap_optlist_t)], "restype": None },
+	{ "name": "coap_opt_length", "args": [ct.POINTER(coap_opt_t)], "restype": ct.c_uint32 },
+	{ "name": "coap_opt_value", "args": [ct.POINTER(coap_opt_t)], "restype": ct.POINTER(ct.c_uint8) },
+	{ "name": "coap_opt_size", "args": [ct.POINTER(coap_opt_t)], "restype": ct.c_size_t },
 	]
 
 libcoap = ct.CDLL('libcoap-3-openssl.so.3')
