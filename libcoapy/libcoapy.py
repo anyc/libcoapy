@@ -253,23 +253,58 @@ class CoapClientSession():
 		
 		return hl_pdu
 	
-	def async_response_callback(self, session, tx_msg, rx_msg, mid, async_obj):
-		async_obj.rx_msg = rx_msg
-		async_obj.rx_msg.make_persistent()
-		async_obj.ev.set()
+	def async_response_callback(self, session, tx_msg, rx_msg, mid, observer):
+		observer.addResponse(rx_msg)
 	
 	async def query(self, *args, **kwargs):
-		async_obj = lambda: None
-		async_obj.ev = asyncio.Event()
+		observer = CoapObserver()
 		
 		kwargs["response_callback"] = self.async_response_callback
-		kwargs["response_callback_data"] = async_obj
+		kwargs["response_callback_data"] = observer
 		
 		tx_pdu = self.sendMessage(*args, **kwargs)
 		
-		await async_obj.ev.wait()
+		if kwargs.get("observe", False):
+			return observer
+		else:
+			return await observer.__anext__()
+
+class CoapObserver():
+	def __init__(self):
+		self.ev = asyncio.Event()
+		self.rx_msgs = []
+		self._stop = False
+	
+	async def wait(self):
+		await self.ev.wait()
+	
+	def addResponse(self, rx_msg):
+		rx_msg.make_persistent()
 		
-		return async_obj.rx_msg
+		self.rx_msgs.append(rx_msg)
+		
+		self.ev.set()
+	
+	def __aiter__(self):
+		return self
+	
+	async def __anext__(self):
+		if len(self.rx_msgs) == 0:
+			await self.wait()
+		
+		if self._stop:
+			raise StopAsyncIteration()
+		
+		rv = self.rx_msgs.pop()
+		
+		if len(self.rx_msgs) == 0:
+			self.ev.clear()
+		
+		return rv
+	
+	def stop(self):
+		self._stop = True
+		self.ev.set()
 
 class CoapContext():
 	def __init__(self):
@@ -496,9 +531,25 @@ if __name__ == "__main__":
 		
 		ctx.setEventLoop(loop)
 		
+		async def stop_observer(observer, timeout):
+			await asyncio.sleep(timeout)
+			observer.stop()
+		
 		async def startup():
-			resp = await session.query(payload="example data", observe=False)
+			# immediately return the response
+			resp = await session.query(observe=False)
 			print(resp.payload)
+			
+			# return a async generator
+			observer = await session.query(observe=True)
+			
+			# stop observing after five seconds
+			asyncio.ensure_future(stop_observer(observer, 5))
+			
+			async for resp in observer:
+				print(resp.payload)
+			
+			loop.stop()
 		
 		asyncio.ensure_future(startup())
 		
