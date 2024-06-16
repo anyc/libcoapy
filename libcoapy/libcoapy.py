@@ -160,6 +160,7 @@ class CoapClientSession():
 				 response_callback=None
 		):
 		pdu = coap_pdu_init(pdu_type, code, coap_new_message_id(self.lcoap_session), coap_session_max_pdu_size(self.lcoap_session));
+		hl_pdu = CoapMessage(pdu)
 		
 		token_t = ct.c_ubyte * 8
 		token = token_t()
@@ -234,11 +235,12 @@ class CoapClientSession():
 			if token not in self.ctx.token_handlers:
 				self.ctx.token_handlers[token] = {}
 			self.ctx.token_handlers[token]["handler"] = response_callback
+			self.ctx.token_handlers[token]["pdu"] = hl_pdu
+			hl_pdu.observe = observe
 			if observe:
 				self.ctx.token_handlers[token]["observed"] = True
 		
-		return CoapMessage(pdu)
-	
+		return hl_pdu
 
 class CoapContext():
 	def __init__(self):
@@ -367,10 +369,12 @@ class CoapContext():
 			if not session:
 				raise Exception("unexpected session", lcoap_session)
 			
-			tx_msg = CoapMessage(pdu_sent)
-			rx_msg = CoapMessage(pdu_recv)
+			tx_pdu = CoapMessage(pdu_sent)
+			rx_pdu = CoapMessage(pdu_recv)
 			
-			rv = self.token_handlers[token]["handler"](session, tx_msg, rx_msg, mid)
+			orig_tx_pdu = self.token_handlers[token]["pdu"]
+			
+			rv = self.token_handlers[token]["handler"](session, orig_tx_pdu, rx_pdu, mid)
 			if not self.token_handlers[token].get("observed", False):
 				del self.token_handlers[token]
 		
@@ -403,12 +407,13 @@ if __name__ == "__main__":
 	
 	ctx = CoapContext()
 	
-	session = ctx.newSession(uri_str)
+	session = ctx.newSession(uri_str, hint="user", key="password")
 	
 	def rx_cb(session, tx_msg, rx_msg, mid):
 		print(rx_msg.bytes)
-		session.ctx.stop_loop()
+		if not tx_msg.observe:
+			session.ctx.stop_loop()
 	
-	session.sendMessage(None, response_callback=rx_cb)
+	session.sendMessage(payload="example data", observe=False, response_callback=rx_cb)
 	
 	ctx.loop()
