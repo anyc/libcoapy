@@ -22,8 +22,16 @@ class CoapMessage():
 		
 		coap_get_data_large(self.pdu, ct.byref(self.size), ct.byref(self.payload_ptr), ct.byref(self.offset), ct.byref(self.total))
 	
+	def make_persistent(self):
+		if not self.payload_ptr:
+			self.getPayload()
+		self.payload_copy = ct.string_at(self.payload_ptr, self.size.value)
+	
 	@property
 	def payload(self):
+		if hasattr(self, "payload_copy"):
+			return self.payload_copy
+		
 		if not self.payload_ptr:
 			self.getPayload()
 		return ct.string_at(self.payload_ptr, self.size.value)
@@ -157,7 +165,8 @@ class CoapClientSession():
 				 pdu_type=COAP_MESSAGE_CON,
 				 code=coap_pdu_code_t.COAP_REQUEST_CODE_GET,
 				 observe=False,
-				 response_callback=None
+				 response_callback=None,
+				 response_callback_data=None
 		):
 		pdu = coap_pdu_init(pdu_type, code, coap_new_message_id(self.lcoap_session), coap_session_max_pdu_size(self.lcoap_session));
 		hl_pdu = CoapMessage(pdu)
@@ -235,12 +244,32 @@ class CoapClientSession():
 			if token not in self.ctx.token_handlers:
 				self.ctx.token_handlers[token] = {}
 			self.ctx.token_handlers[token]["handler"] = response_callback
+			if response_callback_data:
+				self.ctx.token_handlers[token]["handler_data"] = response_callback_data
 			self.ctx.token_handlers[token]["pdu"] = hl_pdu
 			hl_pdu.observe = observe
 			if observe:
 				self.ctx.token_handlers[token]["observed"] = True
 		
 		return hl_pdu
+	
+	def async_response_callback(self, session, tx_msg, rx_msg, mid, async_obj):
+		async_obj.rx_msg = rx_msg
+		async_obj.rx_msg.make_persistent()
+		async_obj.ev.set()
+	
+	async def query(self, *args, **kwargs):
+		async_obj = lambda: None
+		async_obj.ev = asyncio.Event()
+		
+		kwargs["response_callback"] = self.async_response_callback
+		kwargs["response_callback_data"] = async_obj
+		
+		tx_pdu = self.sendMessage(*args, **kwargs)
+		
+		await async_obj.ev.wait()
+		
+		return async_obj.rx_msg
 
 class CoapContext():
 	def __init__(self):
@@ -374,7 +403,10 @@ class CoapContext():
 			
 			orig_tx_pdu = self.token_handlers[token]["pdu"]
 			
-			rv = self.token_handlers[token]["handler"](session, orig_tx_pdu, rx_pdu, mid)
+			if "handler_data" in self.token_handlers[token]:
+				rv = self.token_handlers[token]["handler"](session, orig_tx_pdu, rx_pdu, mid, self.token_handlers[token]["handler_data"])
+			else:
+				rv = self.token_handlers[token]["handler"](session, orig_tx_pdu, rx_pdu, mid)
 			if not self.token_handlers[token].get("observed", False):
 				del self.token_handlers[token]
 		
@@ -463,8 +495,6 @@ if __name__ == "__main__":
 		if not tx_msg.observe:
 			session.ctx.stop_loop()
 	
-	session.sendMessage(payload="example data", observe=False, response_callback=rx_cb)
-	
 	if True:
 		import asyncio
 		
@@ -472,9 +502,17 @@ if __name__ == "__main__":
 		
 		ctx.setEventLoop(loop)
 		
+		async def startup():
+			resp = await session.query(payload="example data", observe=False)
+			print(resp.payload)
+		
+		asyncio.ensure_future(startup())
+		
 		try:
 			loop.run_forever()
 		except KeyboardInterrupt:
 			loop.stop()
 	else:
+		session.sendMessage(payload="example data", observe=False, response_callback=rx_cb)
+		
 		ctx.loop()
