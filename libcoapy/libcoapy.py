@@ -70,11 +70,11 @@ class CoapClientSession():
 				
 			# register an initial name and PSK that can get replaced by the callbacks above
 			if hint is None:
-				hint = getattr(self, "psk_hint", "")
+				hint = getattr(self, "psk_hint", None)
 			else:
 				self.psk_hint = hint
 			if key is None:
-				key = getattr(self, "psk_key", "")
+				key = getattr(self, "psk_key", None)
 			else:
 				self.psk_key = key
 			
@@ -102,11 +102,11 @@ class CoapClientSession():
 				1<<self.uri.scheme)
 	
 	@staticmethod
-	def _validate_ih_call_back(server_hint, session, self):
+	def _validate_ih_call_back(server_hint, ll_session, self):
 		result = coap_dtls_cpsk_info_t()
 		
 		if hasattr(self, "validate_ih_call_back"):
-			hint, key = self.validate_ih_call_back(self, server_hint, session)
+			hint, key = self.validate_ih_call_back(self, str(server_hint.contents))
 		else:
 			hint = getattr(self, "psk_hint", "")
 			key = getattr(self, "psk_key", "")
@@ -408,6 +408,13 @@ if __name__ == "__main__":
 	ctx = CoapContext()
 	
 	session = ctx.newSession(uri_str, hint="user", key="password")
+	
+	if True:
+		def ih_cb(session, server_hint):
+			print("server hint:", server_hint)
+			return server_hint, "password"
+		
+		session.validate_ih_call_back = ih_cb
 	
 	def rx_cb(session, tx_msg, rx_msg, mid):
 		print(rx_msg.payload)
