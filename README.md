@@ -11,6 +11,13 @@ Dependencies:
 
  - libcoap
 
+Status
+------
+
+This project is still in early development. Several functions of the libcoap
+library are not yet available and existing high-level libcoapy APIs might change
+in the future.
+
 Example
 -------
 
