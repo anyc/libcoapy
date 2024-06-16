@@ -57,6 +57,9 @@ class coap_pdu_signaling_proto_t(ctypes_enum_gen):
 COAP_BLOCK_USE_LIBCOAP = 0x01
 COAP_BLOCK_SINGLE_BODY = 0x02
 
+COAP_OBSERVE_ESTABLISH = 0
+COAP_OBSERVE_CANCEL    = 1
+
 COAP_MESSAGE_CON = 0
 COAP_MESSAGE_NON = 1
 COAP_MESSAGE_ACK = 2
@@ -74,6 +77,7 @@ COAP_OPTION_IF_MATCH       =  1
 COAP_OPTION_URI_HOST       =  3
 COAP_OPTION_ETAG           =  4
 COAP_OPTION_IF_NONE_MATCH  =  5
+COAP_OPTION_OBSERVE        =  6
 COAP_OPTION_URI_PORT       =  7
 COAP_OPTION_LOCATION_PATH  =  8
 COAP_OPTION_URI_PATH       = 11
@@ -208,6 +212,8 @@ class coap_str_const_t(LStructure):
 	def __str__(self):
 		return str(c_uint8_p_to_str(self.s, self.length))
 
+coap_bin_const_t = coap_str_const_t
+
 class coap_uri_t(LStructure):
 	_fields_ = [
 			("host", coap_str_const_t),
@@ -293,8 +299,10 @@ library_functions = [
 	
 	{ "name": "coap_pdu_get_code", "args": [ct.POINTER(coap_pdu_t)], "restype": coap_pdu_code_t},
 	{ "name": "coap_pdu_get_mid", "args": [ct.POINTER(coap_pdu_t)], "restype": coap_mid_t},
+	{ "name": "coap_pdu_get_token", "args": [ct.POINTER(coap_pdu_t)], "restype": coap_bin_const_t},
 	
 	{ "name": "coap_new_optlist", "args": [ct.c_uint16, ct.c_size_t, ct.POINTER(ct.c_uint8)], "restype": ct.POINTER(coap_optlist_t) },
+	{ "name": "coap_add_option", "args": [ct.POINTER(coap_pdu_t), ct.c_uint16, ct.c_size_t, ct.c_uint8], "restype": ct.c_size_t, "res_error": 0 },
 	{ "name": "coap_insert_optlist", "args": [ct.POINTER(ct.POINTER(coap_optlist_t)), ct.POINTER(coap_optlist_t)], "expect": 1 },
 	{ "name": "coap_delete_optlist", "args": [ct.POINTER(coap_optlist_t)], "restype": None },
 	{ "name": "coap_opt_length", "args": [ct.POINTER(coap_opt_t)], "restype": ct.c_uint32 },
@@ -337,6 +345,8 @@ for f in library_functions:
 		
 		if "expect" in f:
 			dyn_fct.expect = f["expect"]
+		if "res_error" in f:
+			dyn_fct.expect = f["res_error"]
 		
 		return dyn_fct
 	

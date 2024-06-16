@@ -80,8 +80,26 @@ class CoapClientSession():
 		
 		return uri
 	
-	def sendMessage(self, path=None, payload=None, pdu_type=COAP_MESSAGE_CON, code=coap_pdu_code_t.COAP_REQUEST_CODE_GET, response_callback=None):
+	def sendMessage(self,
+				 path=None,
+				 payload=None,
+				 pdu_type=COAP_MESSAGE_CON,
+				 code=coap_pdu_code_t.COAP_REQUEST_CODE_GET,
+				 observe=False,
+				 response_callback=None
+		):
 		pdu = coap_pdu_init(pdu_type, code, coap_new_message_id(self.lcoap_session), coap_session_max_pdu_size(self.lcoap_session));
+		
+		token_t = ct.c_ubyte * 8
+		token = token_t()
+		token_length = ct.c_size_t()
+		
+		coap_session_new_token(self.lcoap_session, ct.byref(token_length), token)
+		if coap_add_token(pdu, token_length, token) == 0:
+			print("coap_add_token() failed\n")
+		
+		
+		token = int.from_bytes(ct.string_at(token, token_length.value))
 		
 		if path:
 			if path[0] == "/":
@@ -109,21 +127,28 @@ class CoapClientSession():
 				
 				n_elements -= 1
 			
-			if optlist:
-				rv = coap_add_optlist_pdu(pdu, ct.byref(optlist))
-				coap_delete_optlist(optlist)
-				if rv != 1:
-					raise Exception("coap_add_optlist_pdu() failed\n")
 		else:
 			optlist = ct.POINTER(coap_optlist_t)()
 			scratch_t = ct.c_uint8 * 100
 			scratch = scratch_t()
 			
 			coap_uri_into_options(ct.byref(self.uri), ct.byref(self.dest_addr), ct.byref(optlist), 1, scratch, ct.sizeof(scratch))
-			
-			coap_add_optlist_pdu(pdu, ct.byref(optlist))
-			coap_delete_optlist(optlist)
 		
+		if observe:
+			scratch_t = ct.c_uint8 * 100
+			scratch = scratch_t()
+			coap_insert_optlist(ct.byref(optlist),
+				coap_new_optlist(COAP_OPTION_OBSERVE,
+					coap_encode_var_safe(scratch, ct.sizeof(scratch), COAP_OBSERVE_ESTABLISH),
+					scratch)
+				)
+		
+		if optlist:
+			rv = coap_add_optlist_pdu(pdu, ct.byref(optlist))
+			coap_delete_optlist(optlist)
+			if rv != 1:
+				raise Exception("coap_add_optlist_pdu() failed\n")
+	
 		if payload:
 			if isinstance(payload, str):
 				payload = payload.encode()
@@ -136,8 +161,11 @@ class CoapClientSession():
 			raise Exception("COAP_INVALID_MID")
 		
 		if response_callback:
-			mid = coap_pdu_get_mid(pdu)
-			self.ctx.mid_handlers[mid] = response_callback
+			if token not in self.ctx.token_handlers:
+				self.ctx.token_handlers[token] = {}
+			self.ctx.token_handlers[token]["handler"] = response_callback
+			if observe:
+				self.ctx.token_handlers[token]["observed"] = True
 		
 		return CoapMessage(pdu)
 	
@@ -156,7 +184,7 @@ class CoapContext():
 		self.resp_handler_obj = coap_response_handler_t(self.responseHandler)
 		coap_register_response_handler(self.lcoap_ctx, self.resp_handler_obj)
 		
-		self.mid_handlers = {}
+		self.token_handlers = {}
 	
 	def __del__(self):
 		contexts.remove(self)
@@ -173,7 +201,10 @@ class CoapContext():
 	def responseHandler(self, lcoap_session, pdu_sent, pdu_recv, mid):
 		rv = None
 		
-		if mid in self.mid_handlers:
+		token = coap_pdu_get_token(pdu_recv)
+		token = int.from_bytes(ct.string_at(token.s, token.length))
+		
+		if token in self.token_handlers:
 			session = None
 			for s in self.sessions:
 				if ct.cast(s.lcoap_session, ct.c_void_p).value == ct.cast(lcoap_session, ct.c_void_p).value:
@@ -185,8 +216,9 @@ class CoapContext():
 			tx_msg = CoapMessage(pdu_sent)
 			rx_msg = CoapMessage(pdu_recv)
 			
-			rv = self.mid_handlers[mid](session, tx_msg, rx_msg, mid)
-			del self.mid_handlers[mid]
+			rv = self.token_handlers[token]["handler"](session, tx_msg, rx_msg, mid)
+			if not self.token_handlers[token].get("observed", False):
+				del self.token_handlers[token]
 		
 		if rv is None:
 			rv = coap_response_t.COAP_RESPONSE_OK
