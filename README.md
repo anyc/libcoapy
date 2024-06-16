@@ -17,15 +17,21 @@ Example
 ```python
 from libcoapy import *
 
+if len(sys.argv) < 2:
+	uri_str = "coaps://localhost/.well-known/core"
+else:
+	uri_str = sys.argv[1]
+
 ctx = CoapContext()
 
-session = ctx.newSession("coap://localhost")
+session = ctx.newSession(uri_str, hint="user", key="password")
 
 def rx_cb(session, tx_msg, rx_msg, mid):
 	print(rx_msg.bytes)
-	session.ctx.stop_loop()
+	if not tx_msg.observe:
+		session.ctx.stop_loop()
 
-session.sendMessage(path=".well-known/core", response_callback=rx_cb)
+session.sendMessage(payload="example data", observe=False, response_callback=rx_cb)
 
 ctx.loop()
 ```
