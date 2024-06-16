@@ -475,7 +475,10 @@ class CoapContext():
 	def setEventLoop(self, loop=None):
 		if loop is None:
 			from asyncio import get_event_loop
-			self._loop = get_event_loop()
+			try:
+				self._loop = asyncio.get_running_loop()
+			except RuntimeError:
+				self._loop = asyncio.new_event_loop()
 		else:
 			self._loop = loop
 		
@@ -530,7 +533,10 @@ if __name__ == "__main__":
 	if True:
 		import asyncio
 		
-		loop = asyncio.get_event_loop()
+		try:
+			loop = asyncio.get_running_loop()
+		except RuntimeError:
+			loop = asyncio.new_event_loop()
 		
 		ctx.setEventLoop(loop)
 		
@@ -554,7 +560,7 @@ if __name__ == "__main__":
 			
 			loop.stop()
 		
-		asyncio.ensure_future(startup())
+		asyncio.ensure_future(startup(), loop=loop)
 		
 		try:
 			loop.run_forever()
