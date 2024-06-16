@@ -316,6 +316,7 @@ class CoapContext():
 		self.lcoap_ctx = coap_new_context(None);
 		
 		self.sessions = []
+		self._loop = None
 		
 		self.resp_handler_obj = coap_response_handler_t(self.responseHandler)
 		coap_register_response_handler(self.lcoap_ctx, self.resp_handler_obj)
@@ -464,21 +465,21 @@ class CoapContext():
 				raise Exception("coap_io_process() returned:", res)
 	
 	def stop_loop(self):
-		if self.loop:
-			self.loop.stop()
+		if self._loop:
+			self._loop.stop()
 		else:
 			self.loop_stop = True
 	
 	def setEventLoop(self, loop=None):
 		if loop is None:
 			from asyncio import get_event_loop
-			self.loop = get_event_loop()
+			self._loop = get_event_loop()
 		else:
-			self.loop = loop
+			self._loop = loop
 		
 		self.coap_fd = coap_context_get_coap_fd(self.lcoap_ctx)
 		
-		self.loop.add_reader(self.coap_fd, self.fd_callback)
+		self._loop.add_reader(self.coap_fd, self.fd_callback)
 	
 	async def fd_timeout_cb(self, timeout_ms):
 		from asyncio import sleep
@@ -501,7 +502,7 @@ class CoapContext():
 		
 		if timeout_ms > 0:
 			self.fd_timeout_ms = timeout_ms
-			self.fd_timeout_fut = self.loop.create_task(self.fd_timeout_cb(self.fd_timeout_ms))
+			self.fd_timeout_fut = self._loop.create_task(self.fd_timeout_cb(self.fd_timeout_ms))
 
 if __name__ == "__main__":
 	if len(sys.argv) < 2:
