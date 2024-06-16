@@ -2,6 +2,7 @@
 from .llapi import *
 
 contexts = []
+local_unix_socket_counter = 0
 
 class UnresolvableAddress(Exception):
 	def __init__(self, uri, context=None):
@@ -39,14 +40,32 @@ class CoapClientSession():
 		if not self.addr_info:
 			raise UnresolvableAddress(self.uri, context=self)
 		
+		self.local_addr = None
 		self.dest_addr = self.addr_info.contents.addr
 		
-		self.lcoap_session = coap_new_client_session(self.ctx.lcoap_ctx, None, ct.byref(self.dest_addr), 1<<self.uri.scheme)
-		if not self.lcoap_session:
-			raise OSError(-1, "coap_new_client_session failed")
+		if coap_is_af_unix(self.dest_addr):
+			import os
+			global local_unix_socket_counter
+			
+			# the "in" socket must be unique per session
+			self.local_addr = coap_address_t()
+			coap_address_init(ct.byref(self.local_addr));
+			self.local_addr_unix_path = b"/tmp/libcoapy.%d.%d" % (os.getpid(), local_unix_socket_counter)
+			local_unix_socket_counter += 1
+			
+			coap_address_set_unix_domain(ct.byref(self.local_addr), bytes2uint8p(self.local_addr_unix_path), len(self.local_addr_unix_path))
+			
+			if os.path.exists(self.local_addr_unix_path):
+				os.unlink(self.local_addr_unix_path)
+		
+		self.lcoap_session = coap_new_client_session(self.ctx.lcoap_ctx, ct.byref(self.local_addr) if self.local_addr else None, ct.byref(self.dest_addr), 1<<self.uri.scheme)
 	
 	def __del__(self):
-		coap_free_address_info(self.addr_info)
+		if getattr(self, "addr_info", None):
+			coap_free_address_info(self.addr_info)
+		if getattr(self, "local_addr_unix_path", None):
+			if os.path.exists(self.local_addr_unix_path):
+				os.unlink(self.local_addr_unix_path);
 	
 	def parse_uri(self, uri_str):
 		uri = coap_uri_t()

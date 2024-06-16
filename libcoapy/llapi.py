@@ -214,6 +214,9 @@ class coap_uri_t(LStructure):
 			("scheme", ct.c_int),
 			]
 
+def bytes2uint8p(b):
+	return ct.cast(ct.create_string_buffer(b), c_uint8_p)
+
 library_functions = [
 	{ "name": "coap_startup", "restype": None },
 	{ "name": "coap_cleanup", "restype": None },
@@ -233,7 +236,9 @@ library_functions = [
 			],
 		"restype": ct.POINTER(coap_addr_info_t)
 		},
+	{ "name": "coap_is_bcast", "args": [ct.POINTER(coap_address_t)] },
 	{ "name": "coap_is_mcast", "args": [ct.POINTER(coap_address_t)] },
+	{ "name": "coap_is_af_unix", "args": [ct.POINTER(coap_address_t)] },
 	{ "name": "coap_free_address_info", "args": [ct.POINTER(coap_addr_info_t)], "restype": None },
 	{ "name": "coap_register_response_handler", "args": [ct.POINTER(coap_context_t), coap_response_handler_t], "restype": None },
 	{ "name": "coap_pdu_init", "args": [ct.c_uint8, ct.c_uint8, ct.c_uint16, ct.c_size_t], "restype": ct.POINTER(coap_pdu_t) },
@@ -292,6 +297,13 @@ library_functions = [
 	{ "name": "coap_opt_length", "args": [ct.POINTER(coap_opt_t)], "restype": ct.c_uint32 },
 	{ "name": "coap_opt_value", "args": [ct.POINTER(coap_opt_t)], "restype": ct.POINTER(ct.c_uint8) },
 	{ "name": "coap_opt_size", "args": [ct.POINTER(coap_opt_t)], "restype": ct.c_size_t },
+	{ "name": "coap_encode_var_safe", "args": [ct.POINTER(ct.c_uint8), ct.c_size_t, ct.c_uint], "restype": ct.c_uint, "res_error": 0},
+	
+	{ "name": "coap_session_new_token", "args": [ct.POINTER(coap_session_t), ct.POINTER(ct.c_size_t), ct.POINTER(ct.c_uint8)], "restype": None },
+	{ "name": "coap_add_token", "args": [ct.POINTER(coap_pdu_t), ct.c_size_t, ct.POINTER(ct.c_uint8)], "res_error": 0 },
+	
+	{ "name": "coap_address_init", "args": [ct.POINTER(coap_address_t)], "restype": None },
+	{ "name": "coap_address_set_unix_domain", "args": [ct.POINTER(coap_address_t), ct.POINTER(ct.c_uint8), ct.c_size_t], "expect": 1 },
 	]
 
 libcoap = ct.CDLL('libcoap-3-openssl.so.3')
