@@ -271,7 +271,9 @@ class CoapClientSession():
 
 class CoapObserver():
 	def __init__(self):
-		self.ev = asyncio.Event()
+		from asyncio import Event
+		
+		self.ev = Event()
 		self.rx_msgs = []
 		self._stop = False
 	
