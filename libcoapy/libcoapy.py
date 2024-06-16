@@ -397,7 +397,44 @@ class CoapContext():
 				raise Exception("coap_io_process() returned:", res)
 	
 	def stop_loop(self):
-		self.loop_stop = True
+		if self.loop:
+			self.loop.stop()
+		else:
+			self.loop_stop = True
+	
+	def setEventLoop(self, loop=None):
+		if loop is None:
+			from asyncio import get_event_loop
+			self.loop = get_event_loop()
+		else:
+			self.loop = loop
+		
+		self.coap_fd = coap_context_get_coap_fd(self.lcoap_ctx)
+		
+		self.loop.add_reader(self.coap_fd, self.fd_callback)
+	
+	async def fd_timeout_cb(self, timeout_ms):
+		from asyncio import sleep
+		
+		await sleep(timeout_ms / 1000)
+		
+		self.fd_timeout_fut = None
+		self.fd_callback()
+	
+	def fd_callback(self):
+		if getattr(self, "fd_timeout_fut", False):
+			self.fd_timeout_fut.cancel()
+		
+		now = coap_tick_t()
+		
+		coap_io_process(self.lcoap_ctx, COAP_IO_NO_WAIT)
+		
+		coap_ticks(ct.byref(now))
+		timeout_ms = coap_io_prepare_epoll(self.lcoap_ctx, now);
+		
+		if timeout_ms > 0:
+			self.fd_timeout_ms = timeout_ms
+			self.fd_timeout_fut = self.loop.create_task(self.fd_timeout_cb(self.fd_timeout_ms))
 
 if __name__ == "__main__":
 	if len(sys.argv) < 2:
@@ -413,7 +450,11 @@ if __name__ == "__main__":
 		# example how to use the callback function instead of static hint and key
 		def ih_cb(session, server_hint):
 			print("server hint:", server_hint)
-			return server_hint, "password"
+			print("New hint: ", end="")
+			hint = input()
+			print("Key: ", end="")
+			key = input()
+			return hint, key
 		
 		session.validate_ih_call_back = ih_cb
 	
@@ -424,4 +465,16 @@ if __name__ == "__main__":
 	
 	session.sendMessage(payload="example data", observe=False, response_callback=rx_cb)
 	
-	ctx.loop()
+	if True:
+		import asyncio
+		
+		loop = asyncio.get_event_loop()
+		
+		ctx.setEventLoop(loop)
+		
+		try:
+			loop.run_forever()
+		except KeyboardInterrupt:
+			loop.stop()
+	else:
+		ctx.loop()

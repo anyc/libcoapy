@@ -73,6 +73,9 @@ COAP_BLOCK_SINGLE_BODY = 0x02
 COAP_OBSERVE_ESTABLISH = 0
 COAP_OBSERVE_CANCEL    = 1
 
+COAP_IO_WAIT    = 0
+COAP_IO_NO_WAIT = ct.c_uint32(-1)
+
 COAP_MESSAGE_CON = 0
 COAP_MESSAGE_NON = 1
 COAP_MESSAGE_ACK = 2
@@ -154,6 +157,7 @@ class coap_pdu_code_t(ctypes_enum_gen):
 coap_tid_t = ct.c_int
 coap_mid_t = ct.c_int
 coap_opt_t = ct.c_uint8
+coap_tick_t = ct.c_uint64
 
 COAP_INVALID_MID = -1
 COAP_INVALID_TID = COAP_INVALID_MID
@@ -321,7 +325,6 @@ library_functions = [
 	{ "name": "coap_add_optlist_pdu", "args": [ct.POINTER(coap_pdu_t), ct.POINTER(ct.POINTER(coap_optlist_t))], "expect": 1 },
 	{ "name": "coap_send", "args": [ct.POINTER(coap_session_t), ct.POINTER(coap_pdu_t)], "restype": coap_mid_t },
 	{ "name": "coap_session_get_default_leisure", "args": [ct.POINTER(coap_session_t)], "restype": coap_fixed_point_t },
-	{ "name": "coap_io_process", "args": [ct.POINTER(coap_context_t), ct.c_uint32] },
 	
 	{ "name": "coap_context_set_block_mode", "args": [ct.POINTER(coap_context_t), ct.c_uint8], "restype": None },
 	{ "name": "coap_add_data_large_request", "args": [
@@ -382,6 +385,11 @@ library_functions = [
 		"setup_data": ct.POINTER(coap_dtls_cpsk_t),
 		},
 		"restype": ct.POINTER(coap_session_t) },
+	
+	{ "name": "coap_io_process", "args": [ct.POINTER(coap_context_t), ct.c_uint32] },
+	{ "name": "coap_io_prepare_epoll", "args": [ct.POINTER(coap_context_t), coap_tick_t], "restype": ct.c_uint },
+	{ "name": "coap_context_get_coap_fd", "args": [ct.POINTER(coap_context_t)] },
+	{ "name": "coap_ticks", "args": [ct.POINTER(coap_tick_t)], "restype": None },
 	]
 
 libcoap = ct.CDLL('libcoap-3-openssl.so.3')
