@@ -12,6 +12,19 @@ class ctypes_enum_gen(enum.IntEnum):
 	def from_param(cls, param):
 		return ct.c_int(param)
 
+coap_log_t = ctypes_enum_gen("coap_log_t", [
+	"COAP_LOG_EMERG",
+	"COAP_LOG_ALERT",
+	"COAP_LOG_CRIT",
+	"COAP_LOG_ERR",
+	"COAP_LOG_WARN",
+	"COAP_LOG_NOTICE",
+	"COAP_LOG_INFO",
+	"COAP_LOG_DEBUG",
+	"COAP_LOG_OSCORE",
+	"COAP_LOG_DTLS_BASE",
+	], start=0)
+
 coap_proto_t = ctypes_enum_gen("coap_proto_t", [
 		"COAP_PROTO_NONE",
 		"COAP_PROTO_UDP",
@@ -229,6 +242,7 @@ def bytes2uint8p(b):
 library_functions = [
 	{ "name": "coap_startup", "restype": None },
 	{ "name": "coap_cleanup", "restype": None },
+	{ "name": "coap_set_log_level", "args": [coap_log_t], "restype": None },
 	{ "name": "coap_split_uri", "args": [ct.POINTER(ct.c_uint8), ct.c_size_t, ct.POINTER(coap_uri_t)] },
 	{ "name": "coap_split_path", "args": [ct.c_char_p, ct.c_size_t, ct.c_char_p, ct.POINTER(ct.c_size_t)] },
 	{ "name": "coap_new_context", "args": [ct.POINTER(coap_address_t)], "restype": ct.POINTER(coap_context_t) },
