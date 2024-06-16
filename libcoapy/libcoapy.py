@@ -476,24 +476,18 @@ if __name__ == "__main__":
 	
 	ctx = CoapContext()
 	
+	# start a new session with a default hint and key
 	session = ctx.newSession(uri_str, hint="user", key="password")
 	
-	if True:
-		# example how to use the callback function instead of static hint and key
-		def ih_cb(session, server_hint):
-			print("server hint:", server_hint)
-			print("New hint: ", end="")
-			hint = input()
-			print("Key: ", end="")
-			key = input()
-			return hint, key
-		
-		session.validate_ih_call_back = ih_cb
-	
-	def rx_cb(session, tx_msg, rx_msg, mid):
-		print(rx_msg.payload)
-		if not tx_msg.observe:
-			session.ctx.stop_loop()
+	# example how to use the callback function instead of static hint and key
+	def ih_cb(session, server_hint):
+		print("server hint:", server_hint)
+		print("New hint: ", end="")
+		hint = input()
+		print("Key: ", end="")
+		key = input()
+		return hint, key
+	session.validate_ih_call_back = ih_cb
 	
 	if True:
 		import asyncio
@@ -513,6 +507,11 @@ if __name__ == "__main__":
 		except KeyboardInterrupt:
 			loop.stop()
 	else:
+		def rx_cb(session, tx_msg, rx_msg, mid):
+			print(rx_msg.payload)
+			if not tx_msg.observe:
+				session.ctx.stop_loop()
+		
 		session.sendMessage(payload="example data", observe=False, response_callback=rx_cb)
 		
 		ctx.loop()
