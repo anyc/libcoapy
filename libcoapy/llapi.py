@@ -4,6 +4,9 @@ import ctypes as ct
 
 verbosity = 0
 
+class NullPointer(Exception):
+	pass
+
 class ctypes_enum_gen(enum.IntEnum):
 	@classmethod
 	def from_param(cls, param):
@@ -387,11 +390,13 @@ def ct_call(*nargs, **kwargs):
 			if func.restype in [ct.c_long, ct.c_int] and res < 0:
 				raise OSError(res, call+" failed with: "+os.strerror(-res)+" ("+str(-res)+")")
 			else:
-				raise OSError(res, call+" failed with: "+str(res)+" ("+str(func.expect)+")")
+				raise OSError(res, call+" failed with: "+str(res)+" (!="+str(func.expect)+")")
+		elif hasattr(func, "res_error") and res == func.res_error:
+			raise OSError(res, call+" failed with: "+str(res)+" (=="+str(func.res_error)+")")
 		elif func.restype in [ct.c_long, ct.c_int] and res < 0:
 			raise OSError(res, call+" failed with: "+os.strerror(-res)+" ("+str(-res)+")")
 		elif isinstance(res, ct._Pointer) and not res:
-			raise OSError(res, call+" returned NULL pointer")
+			raise NullPointer(call+" returned NULL pointer")
 	if check and isinstance(func.restype, ct.POINTER) and res == None:
 		raise OSError(res, call+" returned NULL")
 	

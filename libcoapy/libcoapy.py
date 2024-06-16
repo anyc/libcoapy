@@ -35,9 +35,10 @@ class CoapClientSession():
 		self.uri = self.parse_uri(uri_str)
 		
 		import socket
-		self.addr_info = coap_resolve_address_info(ct.byref(self.uri.host), self.uri.port, self.uri.port, self.uri.port, self.uri.port,
-			socket.AF_UNSPEC, 1 << self.uri.scheme, coap_resolve_type_t.COAP_RESOLVE_TYPE_REMOTE);
-		if not self.addr_info:
+		try:
+			self.addr_info = coap_resolve_address_info(ct.byref(self.uri.host), self.uri.port, self.uri.port, self.uri.port, self.uri.port,
+				socket.AF_UNSPEC, 1 << self.uri.scheme, coap_resolve_type_t.COAP_RESOLVE_TYPE_REMOTE);
+		except NullPointer as e:
 			raise UnresolvableAddress(self.uri, context=self)
 		
 		self.local_addr = None
