@@ -29,7 +29,7 @@ class CoapMessage():
 		return ct.string_at(self.payload_ptr, self.size.value)
 
 class CoapClientSession():
-	def __init__(self, ctx, uri_str):
+	def __init__(self, ctx, uri_str, hint=None, key=None):
 		self.ctx = ctx
 		
 		self.uri = self.parse_uri(uri_str)
@@ -59,7 +59,78 @@ class CoapClientSession():
 			if os.path.exists(self.local_addr_unix_path):
 				os.unlink(self.local_addr_unix_path)
 		
-		self.lcoap_session = coap_new_client_session(self.ctx.lcoap_ctx, ct.byref(self.local_addr) if self.local_addr else None, ct.byref(self.dest_addr), 1<<self.uri.scheme)
+		if self.uri.scheme == coap_uri_scheme_t.COAP_URI_SCHEME_COAPS:
+			self.dtls_psk = coap_dtls_cpsk_t()
+			
+			self.dtls_psk.version = COAP_DTLS_SPSK_SETUP_VERSION
+			
+			self.dtls_psk.validate_ih_call_back = coap_dtls_ih_callback_t(self._validate_ih_call_back)
+			self.dtls_psk.ih_call_back_arg = self
+			self.dtls_psk.client_sni = None
+				
+			# register an initial name and PSK that can get replaced by the callbacks above
+			if hint is None:
+				hint = getattr(self, "psk_hint", "")
+			else:
+				self.psk_hint = hint
+			if key is None:
+				key = getattr(self, "psk_key", "")
+			else:
+				self.psk_key = key
+			
+			if isinstance(hint, str):
+				hint = hint.encode()
+			if isinstance(key, str):
+				key = key.encode()
+			
+			self.dtls_psk.psk_info.hint.s = bytes2uint8p(hint)
+			self.dtls_psk.psk_info.key.s = bytes2uint8p(key)
+			
+			self.dtls_psk.psk_info.hint.length = len(hint)
+			self.dtls_psk.psk_info.key.length = len(key)
+		
+			self.lcoap_session = coap_new_client_session_psk2(self.ctx.lcoap_ctx,
+				ct.byref(self.local_addr) if self.local_addr else None,
+				ct.byref(self.dest_addr),
+				1<<self.uri.scheme,
+				self.dtls_psk
+				)
+		else:
+			self.lcoap_session = coap_new_client_session(self.ctx.lcoap_ctx,
+				ct.byref(self.local_addr) if self.local_addr else None,
+				ct.byref(self.dest_addr),
+				1<<self.uri.scheme)
+	
+	@staticmethod
+	def _validate_ih_call_back(server_hint, session, self):
+		result = coap_dtls_cpsk_info_t()
+		
+		if hasattr(self, "validate_ih_call_back"):
+			hint, key = self.validate_ih_call_back(self, server_hint, session)
+		else:
+			hint = getattr(self, "psk_hint", "")
+			key = getattr(self, "psk_key", "")
+		
+		if server_hint.contents != hint:
+			# print("server sent different hint: \"%s\" (!= \"%s\")" % (server_hint.contents, hint))
+			pass
+		
+		if isinstance(hint, str):
+			hint = hint.encode()
+		if isinstance(key, str):
+			key = key.encode()
+		
+		result.hint.s = bytes2uint8p(hint)
+		result.key.s = bytes2uint8p(key)
+		
+		result.hint.length = len(hint)
+		result.key.length = len(key)
+		
+		self.dtls_psk.cb_data = ct.byref(result)
+		
+		# for some reason, ctypes expects an integer that it converts itself to c_void_p
+		# https://bugs.python.org/issue1574593
+		return ct.cast(self.dtls_psk.cb_data, ct.c_void_p).value
 	
 	def __del__(self):
 		if getattr(self, "addr_info", None):
@@ -97,7 +168,6 @@ class CoapClientSession():
 		coap_session_new_token(self.lcoap_session, ct.byref(token_length), token)
 		if coap_add_token(pdu, token_length, token) == 0:
 			print("coap_add_token() failed\n")
-		
 		
 		token = int.from_bytes(ct.string_at(token, token_length.value))
 		
@@ -191,12 +261,96 @@ class CoapContext():
 		if not contexts:
 			coap_cleanup()
 	
-	def newSession(self, uri_str):
-		session = CoapClientSession(self, uri_str)
+	def newSession(self, *args, **kwargs):
+		session = CoapClientSession(self, *args, **kwargs)
 		
 		self.sessions.append(session)
 		
 		return session
+	
+	@staticmethod
+	def _verify_psk_sni_callback(sni, session, self):
+		result = coap_dtls_spsk_info_t()
+		
+		if hasattr(self, "verify_psk_sni_callback"):
+			hint, key = self.verify_psk_sni_callback(self, sni, session)
+		else:
+			hint = getattr(self, "psk_hint", "")
+			key = getattr(self, "psk_key", "")
+		
+		if isinstance(hint, str):
+			hint = hint.encode()
+		if isinstance(key, str):
+			key = key.encode()
+		
+		result.hint.s = bytes2uint8p(hint)
+		result.key.s = bytes2uint8p(key)
+		
+		result.hint.length = len(hint)
+		result.key.length = len(key)
+		
+		session.dtls_spsk_sni_cb_data = ct.byref(result)
+		
+		# for some reason, ctypes expects an integer that it converts itself to c_void_p
+		# https://bugs.python.org/issue1574593
+		return ct.cast(session.dtls_spsk_sni_cb_data, ct.c_void_p).value
+	
+	@staticmethod
+	def _verify_id_callback(identity, session, self):
+		result = coap_bin_const_t()
+		
+		if hasattr(self, "verify_id_callback"):
+			key = self.verify_id_callback(self, sni, session)
+		else:
+			key = getattr(self, "psk_key", "")
+		
+		if isinstance(key, str):
+			key = key.encode()
+		
+		result.s = bytes2uint8p(key)
+		
+		result.length = len(key)
+		
+		session.dtls_spsk_id_cb_data = ct.byref(result)
+		
+		# for some reason, ctypes expects an integer that it converts itself to c_void_p
+		# https://bugs.python.org/issue1574593
+		return ct.cast(session.dtls_spsk_id_cb_data, ct.c_void_p).value
+	
+	def setup_dtls_psk(self, hint=None, key=None):
+		self.dtls_spsk = coap_dtls_spsk_t()
+		
+		self.dtls_spsk.version = COAP_DTLS_SPSK_SETUP_VERSION
+		
+		self.dtls_spsk.ct_validate_sni_call_back = coap_dtls_psk_sni_callback_t(self._verify_psk_sni_callback)
+		self.dtls_spsk.validate_sni_call_back = self.dtls_spsk.ct_validate_sni_call_back
+		self.dtls_spsk.sni_call_back_arg = self
+		self.dtls_spsk.ct_validate_id_call_back = coap_dtls_id_callback_t(self._verify_id_callback)
+		self.dtls_spsk.validate_id_call_back = self.dtls_spsk.ct_validate_id_call_back
+		self.dtls_spsk.id_call_back_arg = self
+		
+		# register an initial name and PSK that can get replaced by the callbacks above
+		if hint is None:
+			hint = getattr(self, "psk_hint", "")
+		else:
+			self.psk_hint = hint
+		if key is None:
+			key = getattr(self, "psk_key", "")
+		else:
+			self.psk_key = key
+		
+		if isinstance(hint, str):
+			hint = hint.encode()
+		if isinstance(key, str):
+			key = key.encode()
+		
+		self.dtls_spsk.psk_info.hint.s = bytes2uint8p(hint)
+		self.dtls_spsk.psk_info.key.s = bytes2uint8p(key)
+		
+		self.dtls_spsk.psk_info.hint.length = len(hint)
+		self.dtls_spsk.psk_info.key.length = len(key)
+		
+		coap_context_set_psk2(self.lcoap_ctx, ct.byref(self.dtls_spsk))
 	
 	def responseHandler(self, lcoap_session, pdu_sent, pdu_recv, mid):
 		rv = None

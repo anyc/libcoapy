@@ -236,8 +236,51 @@ class coap_uri_t(LStructure):
 			("scheme", ct.c_int),
 			]
 
-def bytes2uint8p(b):
-	return ct.cast(ct.create_string_buffer(b), c_uint8_p)
+class coap_dtls_spsk_info_t(LStructure):
+	_fields_ = [
+		("hint", coap_bin_const_t),
+		("key", coap_bin_const_t),
+		]
+
+# actually returns coap_dtls_spsk_info_t
+coap_dtls_psk_sni_callback_t = ct.CFUNCTYPE(ct.c_void_p, ct.c_char_p, ct.POINTER(coap_session_t), ct.py_object)
+# actually returns coap_bin_const_t
+coap_dtls_id_callback_t = ct.CFUNCTYPE(ct.c_void_p, ct.POINTER(coap_bin_const_t), ct.POINTER(coap_session_t), ct.py_object)
+
+COAP_DTLS_SPSK_SETUP_VERSION = 1
+
+class coap_dtls_spsk_t(LStructure):
+	_fields_ = [
+		("version", ct.c_uint8),
+		("reserved", ct.c_uint8 * 7),
+		("validate_id_call_back", coap_dtls_id_callback_t),
+		("id_call_back_arg", ct.py_object),
+		("validate_sni_call_back", coap_dtls_psk_sni_callback_t),
+		("sni_call_back_arg", ct.py_object),
+		("psk_info", coap_dtls_spsk_info_t),
+		]
+
+class coap_dtls_cpsk_info_t(LStructure):
+	_fields_ = [
+		("hint", coap_bin_const_t),
+		("key", coap_bin_const_t),
+		]
+
+# actually returns coap_dtls_cpsk_info_t
+coap_dtls_ih_callback_t = ct.CFUNCTYPE(ct.c_void_p, ct.POINTER(coap_str_const_t), ct.POINTER(coap_session_t), ct.py_object)
+
+class coap_dtls_cpsk_t(LStructure):
+	_fields_ = [
+		("version", ct.c_uint8),
+		("reserved", ct.c_uint8 * 7),
+		("validate_ih_call_back", coap_dtls_ih_callback_t),
+		("ih_call_back_arg", ct.py_object),
+		("client_sni", ct.c_char_p),
+		("psk_info", coap_dtls_cpsk_info_t),
+		]
+
+def bytes2uint8p(b, cast=c_uint8_p):
+	return ct.cast(ct.create_string_buffer(b), cast)
 
 library_functions = [
 	{ "name": "coap_startup", "restype": None },
@@ -329,6 +372,16 @@ library_functions = [
 	
 	{ "name": "coap_address_init", "args": [ct.POINTER(coap_address_t)], "restype": None },
 	{ "name": "coap_address_set_unix_domain", "args": [ct.POINTER(coap_address_t), ct.POINTER(ct.c_uint8), ct.c_size_t], "expect": 1 },
+	
+	{ "name": "coap_context_set_psk2", "args": [ct.POINTER(coap_context_t), ct.POINTER(coap_dtls_spsk_t)] },
+	{ "name": "coap_new_client_session_psk2", "args": {
+		"context": ct.POINTER(coap_context_t),
+		"local_if": ct.POINTER(coap_address_t),
+		"server": ct.POINTER(coap_address_t),
+		"proto": coap_proto_t,
+		"setup_data": ct.POINTER(coap_dtls_cpsk_t),
+		},
+		"restype": ct.POINTER(coap_session_t) },
 	]
 
 libcoap = ct.CDLL('libcoap-3-openssl.so.3')
