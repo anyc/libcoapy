@@ -29,7 +29,7 @@ class CoapMessage():
 		return ct.string_at(self.payload_ptr, self.size.value)
 
 class CoapClientSession():
-	def __init__(self, ctx, uri_str, hint=None, key=None):
+	def __init__(self, ctx, uri_str, hint=None, key=None, sni=None):
 		self.ctx = ctx
 		
 		self.uri = self.parse_uri(uri_str)
@@ -66,7 +66,7 @@ class CoapClientSession():
 			
 			self.dtls_psk.validate_ih_call_back = coap_dtls_ih_callback_t(self._validate_ih_call_back)
 			self.dtls_psk.ih_call_back_arg = self
-			self.dtls_psk.client_sni = None
+			self.dtls_psk.client_sni = sni
 				
 			# register an initial name and PSK that can get replaced by the callbacks above
 			if hint is None:
@@ -410,6 +410,7 @@ if __name__ == "__main__":
 	session = ctx.newSession(uri_str, hint="user", key="password")
 	
 	if True:
+		# example how to use the callback function instead of static hint and key
 		def ih_cb(session, server_hint):
 			print("server hint:", server_hint)
 			return server_hint, "password"
