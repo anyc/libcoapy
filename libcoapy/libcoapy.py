@@ -23,7 +23,7 @@ class CoapMessage():
 		coap_get_data_large(self.pdu, ct.byref(self.size), ct.byref(self.payload_ptr), ct.byref(self.offset), ct.byref(self.total))
 	
 	@property
-	def bytes(self):
+	def payload(self):
 		if not self.payload_ptr:
 			self.getPayload()
 		return ct.string_at(self.payload_ptr, self.size.value)
@@ -410,7 +410,7 @@ if __name__ == "__main__":
 	session = ctx.newSession(uri_str, hint="user", key="password")
 	
 	def rx_cb(session, tx_msg, rx_msg, mid):
-		print(rx_msg.bytes)
+		print(rx_msg.payload)
 		if not tx_msg.observe:
 			session.ctx.stop_loop()
 	
