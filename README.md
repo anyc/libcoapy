@@ -34,7 +34,7 @@ ctx = CoapContext()
 session = ctx.newSession(uri_str, hint="user", key="password")
 
 def rx_cb(session, tx_msg, rx_msg, mid):
-	print(rx_msg.bytes)
+	print(rx_msg.payload)
 	if not tx_msg.observe:
 		session.ctx.stop_loop()
 
