@@ -14,7 +14,7 @@ requires-python = ">=3.0"
 classifiers = [
     "Programming Language :: Python :: 3",
 ]
-keywords = ["CoAP", 'network']
+keywords = ["CoAP", 'network', 'libcoap']
 license = {file = "LICENSE.txt"}
 
 [project.urls]
