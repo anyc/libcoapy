@@ -36,9 +36,15 @@ class CoapMessage():
 			self.getPayload()
 		return ct.string_at(self.payload_ptr, self.size.value)
 
-class CoapClientSession():
-	def __init__(self, ctx, uri_str, hint=None, key=None, sni=None):
+class CoapSession():
+	def __init__(self, ctx):
 		self.ctx = ctx
+		
+		self.token_handlers = {}
+
+class CoapClientSession(CoapSession):
+	def __init__(self, ctx, uri_str, hint=None, key=None, sni=None):
+		super().__init__(ctx)
 		
 		self.uri = self.ctx.parse_uri(uri_str)
 		
@@ -201,15 +207,15 @@ class CoapClientSession():
 			raise Exception("COAP_INVALID_MID")
 		
 		if response_callback:
-			if token not in self.ctx.token_handlers:
-				self.ctx.token_handlers[token] = {}
-			self.ctx.token_handlers[token]["handler"] = response_callback
+			if token not in self.token_handlers:
+				self.token_handlers[token] = {}
+			self.token_handlers[token]["handler"] = response_callback
 			if response_callback_data:
-				self.ctx.token_handlers[token]["handler_data"] = response_callback_data
-			self.ctx.token_handlers[token]["pdu"] = hl_pdu
+				self.token_handlers[token]["handler_data"] = response_callback_data
+			self.token_handlers[token]["pdu"] = hl_pdu
 			hl_pdu.observe = observe
 			if observe:
-				self.ctx.token_handlers[token]["observed"] = True
+				self.token_handlers[token]["observed"] = True
 		
 		return hl_pdu
 	
@@ -282,8 +288,6 @@ class CoapContext():
 		
 		self.resp_handler_obj = coap_response_handler_t(self.responseHandler)
 		coap_register_response_handler(self.lcoap_ctx, self.resp_handler_obj)
-		
-		self.token_handlers = {}
 	
 	def __del__(self):
 		contexts.remove(self)
@@ -409,26 +413,27 @@ class CoapContext():
 		token = coap_pdu_get_token(pdu_recv)
 		token = int.from_bytes(ct.string_at(token.s, token.length))
 		
-		if token in self.token_handlers:
-			session = None
-			for s in self.sessions:
-				if ct.cast(s.lcoap_session, ct.c_void_p).value == ct.cast(lcoap_session, ct.c_void_p).value:
-					session = s
-					break
-			if not session:
-				raise Exception("unexpected session", lcoap_session)
-			
+		session = None
+		for s in self.sessions:
+			if ct.cast(s.lcoap_session, ct.c_void_p).value == ct.cast(lcoap_session, ct.c_void_p).value:
+				session = s
+				break
+		
+		if session and token in session.token_handlers:
 			tx_pdu = CoapMessage(pdu_sent)
 			rx_pdu = CoapMessage(pdu_recv)
 			
-			orig_tx_pdu = self.token_handlers[token]["pdu"]
+			orig_tx_pdu = session.token_handlers[token]["pdu"]
 			
-			if "handler_data" in self.token_handlers[token]:
-				rv = self.token_handlers[token]["handler"](session, orig_tx_pdu, rx_pdu, mid, self.token_handlers[token]["handler_data"])
+			if "handler_data" in session.token_handlers[token]:
+				rv = session.token_handlers[token]["handler"](session, orig_tx_pdu, rx_pdu, mid, session.token_handlers[token]["handler_data"])
 			else:
-				rv = self.token_handlers[token]["handler"](session, orig_tx_pdu, rx_pdu, mid)
-			if not self.token_handlers[token].get("observed", False):
-				del self.token_handlers[token]
+				rv = session.token_handlers[token]["handler"](session, orig_tx_pdu, rx_pdu, mid)
+			if not session.token_handlers[token].get("observed", False):
+				del session.token_handlers[token]
+		else:
+			if not session:
+				print("unexpected session", lcoap_session, file=sys.stderr)
 		
 		if rv is None:
 			rv = coap_response_t.COAP_RESPONSE_OK
