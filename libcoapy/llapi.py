@@ -11,6 +11,10 @@ class ctypes_enum_gen(enum.IntEnum):
 	@classmethod
 	def from_param(cls, param):
 		return ct.c_int(param)
+	
+	@classmethod
+	def get_ctype(cls):
+		return ct.c_int
 
 coap_log_t = ctypes_enum_gen("coap_log_t", [
 	"COAP_LOG_EMERG",
@@ -173,6 +177,10 @@ class LStructure(ct.Structure):
 				)
 				for f in self._fields_])
 			)
+	
+	@classmethod
+	def set_fields(cls, fields):
+		cls._fields_ = [ (name, typ) for typ, name in fields ]
 
 class coap_address_t(ct.Structure):
 	pass
@@ -283,6 +291,42 @@ class coap_dtls_cpsk_t(LStructure):
 		("client_sni", ct.c_char_p),
 		("psk_info", coap_dtls_cpsk_info_t),
 		]
+
+# we handle this as opaque type for now due to preprocessor conditions
+class coap_socket_t(LStructure):
+	pass
+# #if defined(WITH_LWIP)
+#   struct udp_pcb *pcb;
+# #elif defined(WITH_CONTIKI)
+#   struct uip_udp_conn *udp_conn;
+#   coap_context_t *context;
+# #else
+#   coap_fd_t fd;
+# #endif /* WITH_LWIP */
+# #if defined(RIOT_VERSION)
+#   gnrc_pktsnip_t *pkt; 
+# #endif /* RIOT_VERSION */
+#   coap_socket_flags_t flags; 
+#   coap_session_t *session; 
+# #if COAP_SERVER_SUPPORT
+#   coap_endpoint_t *endpoint; 
+# #endif /* COAP_SERVER_SUPPORT */
+# #if COAP_CLIENT_SUPPORT
+#   coap_address_t mcast_addr; 
+# #endif /* COAP_CLIENT_SUPPORT */
+#   coap_layer_func_t lfunc[COAP_LAYER_LAST];
+
+class coap_endpoint_t(LStructure):
+	pass
+coap_endpoint_t.set_fields([
+		(ct.POINTER(coap_endpoint_t), "next"),
+		(ct.POINTER(coap_context_t), "context"),
+		(coap_proto_t.get_ctype(), "proto"),
+		(ct.c_uint16, "default_mtu"),
+		(coap_socket_t, "sock"),
+		(coap_address_t, "bind_addr"),
+		(ct.POINTER(coap_session_t), "sessions"),
+		])
 
 def bytes2uint8p(b, cast=c_uint8_p):
 	return ct.cast(ct.create_string_buffer(b), cast)
@@ -413,6 +457,8 @@ library_functions = [
 	{ "name": "coap_io_prepare_epoll", "args": [ct.POINTER(coap_context_t), coap_tick_t], "restype": ct.c_uint },
 	{ "name": "coap_context_get_coap_fd", "args": [ct.POINTER(coap_context_t)] },
 	{ "name": "coap_ticks", "args": [ct.POINTER(coap_tick_t)], "restype": None },
+	
+	{ "name": "coap_new_endpoint", "args": [ct.POINTER(coap_context_t), ct.POINTER(coap_address_t), coap_proto_t], "restype": ct.POINTER(coap_endpoint_t) },
 	]
 
 libcoap = ct.CDLL(os.environ.get("LIBCOAPY_LIB", 'libcoap-3-openssl.so.3'))

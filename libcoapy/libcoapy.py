@@ -274,6 +274,15 @@ class CoapObserver():
 		self._stop = True
 		self.ev.set()
 
+class CoapEndpoint():
+	def __init__(self, ctx, uri):
+		self.ctx = ctx
+		
+		self.uri = ctx.parse_uri(uri)
+		self.addr_info = ctx.get_addr_info(self.uri)
+		
+		self.lcoap_endpoint = coap_new_endpoint(self.ctx.lcoap_ctx, self.addr_info.contents.addr, coap_uri_scheme_to_proto(self.uri.scheme))
+
 class CoapContext():
 	def __init__(self):
 		if not contexts:
@@ -322,6 +331,11 @@ class CoapContext():
 			raise UnresolvableAddress(uri, context=self)
 		
 		return addr_info
+	
+	def addEndpoint(self, uri):
+		self.ep = CoapEndpoint(self, uri)
+		
+		return self.ep
 	
 	@staticmethod
 	def _verify_psk_sni_callback(sni, session, self):
