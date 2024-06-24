@@ -287,6 +287,9 @@ class coap_dtls_cpsk_t(LStructure):
 def bytes2uint8p(b, cast=c_uint8_p):
 	return ct.cast(ct.create_string_buffer(b), cast)
 
+def coap_uri_scheme_to_proto(uri_scheme):
+	return 1<<uri_scheme
+
 library_functions = [
 	{ "name": "coap_startup", "restype": None },
 	{ "name": "coap_cleanup", "restype": None },

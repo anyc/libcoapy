@@ -100,14 +100,14 @@ class CoapClientSession(CoapSession):
 			self.lcoap_session = coap_new_client_session_psk2(self.ctx.lcoap_ctx,
 				ct.byref(self.local_addr) if self.local_addr else None,
 				ct.byref(self.dest_addr),
-				1<<self.uri.scheme,
+				coap_uri_scheme_to_proto(self.uri.scheme),
 				self.dtls_psk
 				)
 		else:
 			self.lcoap_session = coap_new_client_session(self.ctx.lcoap_ctx,
 				ct.byref(self.local_addr) if self.local_addr else None,
 				ct.byref(self.dest_addr),
-				1<<self.uri.scheme)
+				coap_uri_scheme_to_proto(self.uri.scheme))
 	
 	@staticmethod
 	def _validate_ih_call_back(server_hint, ll_session, self):
