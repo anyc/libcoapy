@@ -25,21 +25,21 @@ async def stop_observer(observer, timeout):
 
 # startup task
 async def startup():
-	# first, immediately return the response
-	resp = await session.query(observe=False)
+	# First, immediately return the response.
+	resp = await session.query()
 	print(resp.payload)
 	
-	# second, return a async generator...
+	# Second, get an async generator, ...
 	observer = await session.query(observe=True)
 	
-	# and stop observing after five seconds
+	# stop observing after five seconds, ...
 	asyncio.ensure_future(stop_observer(observer, 5))
 	
-	# continuously print the received messages
+	# and continuously print the received messages.
 	async for resp in observer:
 		print(resp.payload)
 	
-	# if the observer stopped, stop the event loop
+	# If the observer stopped, stop the event loop to terminate the process.
 	loop.stop()
 
 # create a task that is executed after the event loop started

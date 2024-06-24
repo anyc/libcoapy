@@ -9,7 +9,7 @@ to the libcoap functions.
 Dependencies:
 -------------
 
- - libcoap
+ - [libcoap](https://libcoap.net/)
 
 Status
 ------
@@ -43,4 +43,4 @@ session.sendMessage(payload="example data", observe=False, response_callback=rx_
 ctx.loop()
 ```
 
-For an example with the low-level API, see `examples/ll-client.py`.
+More examples can be found in the `examples` directory.
