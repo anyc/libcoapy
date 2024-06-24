@@ -181,38 +181,16 @@ class CoapClientSession():
 		
 		token = int.from_bytes(ct.string_at(token, token_length.value))
 		
+		optlist = ct.POINTER(coap_optlist_t)()
 		if path:
 			if path[0] == "/":
 				path = path[1:]
 			
-			# TODO how much extra space?
-			buf_t = ct.c_char * (len(path) + 1)
-			buf = buf_t()
-			optlist = ct.POINTER(coap_optlist_t)()
-			buflen = ct.c_size_t()
+			path = path.encode()
 			
-			buflen.value = len(buf)
-			bufit = ct.cast(buf, ct.c_voidp)
-			
-			n_elements = coap_split_path(path, len(path), buf, ct.byref(buflen))
-			while n_elements > 0:
-				coap_insert_optlist(ct.byref(optlist),
-									coap_new_optlist(COAP_OPTION_URI_PATH,
-													coap_opt_length(ct.cast(bufit, ct.POINTER(ct.c_ubyte))),
-													coap_opt_value(ct.cast(bufit, ct.POINTER(ct.c_ubyte)))
-													)
-									)
-				
-				bufit.value += coap_opt_size(ct.cast(bufit, ct.POINTER(ct.c_ubyte)));
-				
-				n_elements -= 1
-			
+			coap_path_into_optlist(ct.cast(ct.c_char_p(path), c_uint8_p), len(path), COAP_OPTION_URI_PATH, ct.byref(optlist))
 		else:
-			optlist = ct.POINTER(coap_optlist_t)()
-			scratch_t = ct.c_uint8 * 100
-			scratch = scratch_t()
-			
-			coap_uri_into_options(ct.byref(self.uri), ct.byref(self.dest_addr), ct.byref(optlist), 1, scratch, ct.sizeof(scratch))
+			coap_uri_into_optlist(ct.byref(self.uri), ct.byref(self.dest_addr), ct.byref(optlist), 1)
 		
 		if observe:
 			scratch_t = ct.c_uint8 * 100

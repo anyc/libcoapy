@@ -158,6 +158,7 @@ coap_tid_t = ct.c_int
 coap_mid_t = ct.c_int
 coap_opt_t = ct.c_uint8
 coap_tick_t = ct.c_uint64
+coap_option_num_t = ct.c_uint16
 
 COAP_INVALID_MID = -1
 COAP_INVALID_TID = COAP_INVALID_MID
@@ -314,15 +315,6 @@ library_functions = [
 	{ "name": "coap_pdu_init", "args": [ct.c_uint8, ct.c_uint8, ct.c_uint16, ct.c_size_t], "restype": ct.POINTER(coap_pdu_t) },
 	{ "name": "coap_new_message_id", "args": [ct.POINTER(coap_session_t)], "restype": ct.c_uint16 },
 	{ "name": "coap_session_max_pdu_size", "args": [ct.POINTER(coap_session_t)], "restype": ct.c_size_t },
-	{ "name": "coap_uri_into_options", "args": [
-			ct.POINTER(coap_uri_t),
-			ct.POINTER(coap_address_t),
-			ct.POINTER(ct.POINTER(coap_optlist_t)),
-			ct.c_int,
-			ct.POINTER(ct.c_uint8),
-			ct.c_size_t,
-			]},
-	{ "name": "coap_add_optlist_pdu", "args": [ct.POINTER(coap_pdu_t), ct.POINTER(ct.POINTER(coap_optlist_t))], "expect": 1 },
 	{ "name": "coap_send", "args": [ct.POINTER(coap_session_t), ct.POINTER(coap_pdu_t)], "restype": coap_mid_t },
 	{ "name": "coap_session_get_default_leisure", "args": [ct.POINTER(coap_session_t)], "restype": coap_fixed_point_t },
 	
@@ -369,6 +361,34 @@ library_functions = [
 	{ "name": "coap_opt_value", "args": [ct.POINTER(coap_opt_t)], "restype": ct.POINTER(ct.c_uint8) },
 	{ "name": "coap_opt_size", "args": [ct.POINTER(coap_opt_t)], "restype": ct.c_size_t },
 	{ "name": "coap_encode_var_safe", "args": [ct.POINTER(ct.c_uint8), ct.c_size_t, ct.c_uint], "restype": ct.c_uint, "res_error": 0},
+	{ "name": "coap_uri_into_options", "args": [
+			ct.POINTER(coap_uri_t),
+			ct.POINTER(coap_address_t),
+			ct.POINTER(ct.POINTER(coap_optlist_t)),
+			ct.c_int,
+			ct.POINTER(ct.c_uint8),
+			ct.c_size_t,
+			]},
+	{ "name": "coap_add_optlist_pdu", "args": [ct.POINTER(coap_pdu_t), ct.POINTER(ct.POINTER(coap_optlist_t))], "expect": 1 },
+	{ "name": "coap_uri_into_optlist", "args": [
+			ct.POINTER(coap_uri_t),
+			ct.POINTER(coap_address_t),
+			ct.POINTER(ct.POINTER(coap_optlist_t)),
+			ct.c_int,
+			]},
+	{ "name": "coap_path_into_optlist", "args": [
+			ct.POINTER(ct.c_uint8),
+			ct.c_size_t,
+			coap_option_num_t,
+			ct.POINTER(ct.POINTER(coap_optlist_t)),
+			]},
+	{ "name": "coap_query_into_optlist", "args": [
+			ct.POINTER(ct.POINTER(ct.c_uint8)),
+			ct.c_size_t,
+			coap_option_num_t,
+			ct.POINTER(ct.POINTER(coap_optlist_t)),
+			]},
+	
 	
 	{ "name": "coap_session_new_token", "args": [ct.POINTER(coap_session_t), ct.POINTER(ct.c_size_t), ct.POINTER(ct.c_uint8)], "restype": None },
 	{ "name": "coap_add_token", "args": [ct.POINTER(coap_pdu_t), ct.c_size_t, ct.POINTER(ct.c_uint8)], "res_error": 0 },
@@ -392,7 +412,7 @@ library_functions = [
 	{ "name": "coap_ticks", "args": [ct.POINTER(coap_tick_t)], "restype": None },
 	]
 
-libcoap = ct.CDLL('libcoap-3-openssl.so.3')
+libcoap = ct.CDLL(os.environ.get("LIBCOAPY_LIB", 'libcoap-3-openssl.so.3'))
 libc = ct.CDLL('libc.so.6')
 libc.free.args = [ct.c_void_p]
 
