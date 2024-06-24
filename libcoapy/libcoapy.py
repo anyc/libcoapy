@@ -40,15 +40,9 @@ class CoapClientSession():
 	def __init__(self, ctx, uri_str, hint=None, key=None, sni=None):
 		self.ctx = ctx
 		
-		self.uri = self.parse_uri(uri_str)
+		self.uri = self.ctx.parse_uri(uri_str)
 		
-		import socket
-		try:
-			self.addr_info = coap_resolve_address_info(ct.byref(self.uri.host), self.uri.port, self.uri.port, self.uri.port, self.uri.port,
-				socket.AF_UNSPEC, 1 << self.uri.scheme, coap_resolve_type_t.COAP_RESOLVE_TYPE_REMOTE);
-		except NullPointer as e:
-			raise UnresolvableAddress(self.uri, context=self)
-		
+		self.addr_info = self.ctx.get_addr_info(self.uri)
 		self.local_addr = None
 		self.dest_addr = self.addr_info.contents.addr
 		
@@ -146,18 +140,6 @@ class CoapClientSession():
 		if getattr(self, "local_addr_unix_path", None):
 			if os.path.exists(self.local_addr_unix_path):
 				os.unlink(self.local_addr_unix_path);
-	
-	def parse_uri(self, uri_str):
-		uri = coap_uri_t()
-		
-		if isinstance(uri_str, str):
-			uri.bytes = uri_str.encode()
-		else:
-			uri.bytes = uri_str
-		
-		coap_split_uri(ct.cast(ct.c_char_p(uri.bytes), c_uint8_p), len(uri.bytes), ct.byref(uri))
-		
-		return uri
 	
 	def sendMessage(self,
 				 path=None,
@@ -314,6 +296,28 @@ class CoapContext():
 		self.sessions.append(session)
 		
 		return session
+	
+	def parse_uri(self, uri_str):
+		uri = coap_uri_t()
+		
+		if isinstance(uri_str, str):
+			uri.bytes = uri_str.encode()
+		else:
+			uri.bytes = uri_str
+		
+		coap_split_uri(ct.cast(ct.c_char_p(uri.bytes), c_uint8_p), len(uri.bytes), ct.byref(uri))
+		
+		return uri
+	
+	def get_addr_info(self, uri):
+		import socket
+		try:
+			addr_info = coap_resolve_address_info(ct.byref(uri.host), uri.port, uri.port, uri.port, uri.port,
+				socket.AF_UNSPEC, 1 << uri.scheme, coap_resolve_type_t.COAP_RESOLVE_TYPE_REMOTE);
+		except NullPointer as e:
+			raise UnresolvableAddress(uri, context=self)
+		
+		return addr_info
 	
 	@staticmethod
 	def _verify_psk_sni_callback(sni, session, self):
