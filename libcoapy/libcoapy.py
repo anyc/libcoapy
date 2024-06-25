@@ -9,9 +9,9 @@ class UnresolvableAddress(Exception):
 		self.uri = uri
 		self.ctx = context
 
-class CoapMessage():
+class CoapPDU():
 	def __init__(self, pdu=None):
-		self.pdu = pdu
+		self.lcoap_pdu = pdu
 		self.payload_ptr = ct.POINTER(ct.c_uint8)()
 	
 	def getPayload(self):
@@ -20,7 +20,15 @@ class CoapMessage():
 		self.offset = ct.c_size_t()
 		self.total = ct.c_size_t()
 		
-		coap_get_data_large(self.pdu, ct.byref(self.size), ct.byref(self.payload_ptr), ct.byref(self.offset), ct.byref(self.total))
+		coap_get_data_large(self.lcoap_pdu, ct.byref(self.size), ct.byref(self.payload_ptr), ct.byref(self.offset), ct.byref(self.total))
+	
+	@property
+	def code(self):
+		return coap_pdu_get_code(self.lcoap_pdu)
+	
+	@code.setter
+	def code(self, value):
+		coap_pdu_set_code(self.lcoap_pdu, value)
 	
 	def make_persistent(self):
 		if not self.payload_ptr:
@@ -157,7 +165,7 @@ class CoapClientSession(CoapSession):
 				 response_callback_data=None
 		):
 		pdu = coap_pdu_init(pdu_type, code, coap_new_message_id(self.lcoap_session), coap_session_max_pdu_size(self.lcoap_session));
-		hl_pdu = CoapMessage(pdu)
+		hl_pdu = CoapPDU(pdu)
 		
 		token_t = ct.c_ubyte * 8
 		token = token_t()
@@ -434,8 +442,8 @@ class CoapContext():
 				break
 		
 		if session and token in session.token_handlers:
-			tx_pdu = CoapMessage(pdu_sent)
-			rx_pdu = CoapMessage(pdu_recv)
+			tx_pdu = CoapPDU(pdu_sent)
+			rx_pdu = CoapPDU(pdu_recv)
 			
 			orig_tx_pdu = session.token_handlers[token]["pdu"]
 			
