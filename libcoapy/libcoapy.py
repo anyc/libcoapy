@@ -49,12 +49,21 @@ class CoapPDU():
 		return ct.string_at(self.payload_ptr, self.size.value)
 
 class CoapResource():
-	def __init__(self, ctx, lcoap_rs, observable=True):
+	def __init__(self, ctx, uri, observable=True, lcoap_rs=None):
 		self.ctx = ctx
-		self.lcoap_rs = lcoap_rs
 		self.handlers = {}
 		
 		self.ct_handler = coap_method_handler_t(self._handler)
+		
+		if lcoap_rs:
+			self.lcoap_rs = lcoap_rs
+		else:
+			# keep URI stored
+			self.uri_bytes = uri.encode()
+			ruri = coap_make_str_const(self.uri_bytes)
+			self.lcoap_rs = coap_resource_init(ruri, 0);
+		
+		coap_resource_set_userdata(self.lcoap_rs, self)
 		
 		if observable:
 			coap_resource_set_get_observable(self.lcoap_rs, 1)
@@ -84,14 +93,12 @@ class CoapUnknownResource(CoapResource):
 		
 		lcoap_rs = coap_resource_unknown_init2(self.ct_handler, flags)
 		
-		super().__init__(ctx, lcoap_rs, observable)
+		super().__init__(ctx, None, observable=observable, lcoap_rs=lcoap_rs)
 		
 		if handle_wellknown_core:
 			flags |= COAP_RESOURCE_HANDLE_WELLKNOWN_CORE
 		
 		self.addHandler(put_handler, COAP_REQUEST_PUT)
-		
-		coap_resource_set_userdata(self.lcoap_rs, self)
 
 class CoapSession():
 	def __init__(self, ctx):

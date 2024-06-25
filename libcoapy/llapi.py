@@ -518,6 +518,11 @@ library_functions = [
 	{ "name": "coap_cancel_observe", "args": {ct.POINTER(coap_session_t): "session", ct.POINTER(coap_binary_t): "token", coap_pdu_type_t: "message_type"} },
 	
 	{ "name": "coap_pdu_set_code", "args": {ct.POINTER(coap_pdu_t): "pdu", coap_pdu_code_t: "code"}, "restype": None },
+	
+	{ "name": "coap_make_str_const", "args": {ct.c_char_p: "string"}, "restype": ct.POINTER(coap_str_const_t) },
+	{ "name": "coap_get_uri_path", "args": { ct.POINTER(coap_pdu_t): "pdu" }, "restype": ct.POINTER(coap_string_t)},
+	
+	{ "name": "coap_join_mcast_group_intf", "args": {ct.POINTER(coap_context_t): "context", ct.c_char_p: "groupname", ct.c_char_p: "ifname"} },
 	]
 
 libcoap = ct.CDLL(os.environ.get("LIBCOAPY_LIB", 'libcoap-3-openssl.so.3'))
