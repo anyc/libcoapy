@@ -23,8 +23,12 @@ class CoapPDU():
 		coap_get_data_large(self.lcoap_pdu, ct.byref(self.size), ct.byref(self.payload_ptr), ct.byref(self.offset), ct.byref(self.total))
 	
 	@property
+	def uri(self):
+		return str(coap_get_uri_path(self.lcoap_pdu).contents)
+	
+	@property
 	def code(self):
-		return coap_pdu_get_code(self.lcoap_pdu)
+		return coap_pdu_code_t(coap_pdu_get_code(self.lcoap_pdu))
 	
 	@code.setter
 	def code(self, value):
