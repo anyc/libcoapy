@@ -74,6 +74,19 @@ class coap_pdu_signaling_proto_t(ctypes_enum_gen):
 	COAP_SIGNALING_RELEASE = COAP_SIGNALING_CODE(704)
 	COAP_SIGNALING_ABORT   = COAP_SIGNALING_CODE(705)
 
+coap_log_t = ctypes_enum_gen("coap_log_t", [
+	"COAP_LOG_EMERG",
+	"COAP_LOG_ALERT",
+	"COAP_LOG_CRIT",
+	"COAP_LOG_ERR",
+	"COAP_LOG_WARN",
+	"COAP_LOG_NOTICE",
+	"COAP_LOG_INFO",
+	"COAP_LOG_DEBUG",
+	"COAP_LOG_OSCORE",
+	"COAP_LOG_DTLS_BASE",
+	], start=0)
+
 COAP_BLOCK_USE_LIBCOAP = 0x01
 COAP_BLOCK_SINGLE_BODY = 0x02
 
