@@ -44,6 +44,51 @@ class CoapPDU():
 			self.getPayload()
 		return ct.string_at(self.payload_ptr, self.size.value)
 
+class CoapResource():
+	def __init__(self, ctx, lcoap_rs, observable=True):
+		self.ctx = ctx
+		self.lcoap_rs = lcoap_rs
+		self.handlers = {}
+		
+		self.ct_handler = coap_method_handler_t(self._handler)
+		
+		if observable:
+			coap_resource_set_get_observable(self.lcoap_rs, 1)
+	
+	@property
+	def uri(self):
+		uri_path = coap_resource_get_uri_path(self.lcoap_rs)
+		
+		return str(uri_path.contents)
+	
+	def _handler(self, resource, session, request, query, response):
+		req_pdu = CoapPDU(request)
+		resp_pdu = CoapPDU(response)
+		
+		session = coap_session_get_app_data(session)
+		
+		self.handlers[req_pdu.code](self, session, req_pdu, query.contents if query else None, resp_pdu)
+	
+	def addHandler(self, handler, code=COAP_REQUEST_GET):
+		self.handlers[code] = handler
+		
+		coap_register_handler(self.lcoap_rs, code, self.ct_handler)
+
+class CoapUnknownResource(CoapResource):
+	def __init__(self, ctx, put_handler, observable=True, handle_wellknown_core=False, flags=0):
+		self.ct_handler = coap_method_handler_t(self._handler)
+		
+		lcoap_rs = coap_resource_unknown_init2(self.ct_handler, flags)
+		
+		super().__init__(ctx, lcoap_rs, observable)
+		
+		if handle_wellknown_core:
+			flags |= COAP_RESOURCE_HANDLE_WELLKNOWN_CORE
+		
+		self.addHandler(put_handler, COAP_REQUEST_PUT)
+		
+		coap_resource_set_userdata(self.lcoap_rs, self)
+
 class CoapSession():
 	def __init__(self, ctx):
 		self.ctx = ctx
@@ -301,6 +346,7 @@ class CoapContext():
 		self.lcoap_ctx = coap_new_context(None);
 		
 		self.sessions = []
+		self.resources = []
 		self._loop = None
 		
 		self.resp_handler_obj = coap_response_handler_t(self.responseHandler)
@@ -344,6 +390,11 @@ class CoapContext():
 		self.ep = CoapEndpoint(self, uri)
 		
 		return self.ep
+	
+	def addResource(self, resource):
+		self.resources.append(resource)
+		
+		coap_add_resource(self.lcoap_ctx, resource.lcoap_rs)
 	
 	@staticmethod
 	def _verify_psk_sni_callback(sni, session, self):

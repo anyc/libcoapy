@@ -160,6 +160,28 @@ class coap_pdu_code_t(ctypes_enum_gen):
 	COAP_SIGNALING_CODE_RELEASE                   = coap_pdu_signaling_proto_t.COAP_SIGNALING_RELEASE
 	COAP_SIGNALING_CODE_ABORT                     = coap_pdu_signaling_proto_t.COAP_SIGNALING_ABORT
 
+COAP_RESOURCE_FLAGS_RELEASE_URI = 0x1
+COAP_RESOURCE_FLAGS_NOTIFY_NON  = 0x0
+COAP_RESOURCE_FLAGS_NOTIFY_CON  = 0x2
+COAP_RESOURCE_FLAGS_NOTIFY_NON_ALWAYS  = 0x4
+COAP_RESOURCE_FLAGS_HAS_MCAST_SUPPORT  = 0x8 
+COAP_RESOURCE_FLAGS_LIB_DIS_MCAST_DELAYS = 0x10
+COAP_RESOURCE_FLAGS_LIB_ENA_MCAST_SUPPRESS_2_05 = 0x20
+COAP_RESOURCE_FLAGS_LIB_ENA_MCAST_SUPPRESS_2_XX = 0x40
+COAP_RESOURCE_FLAGS_LIB_DIS_MCAST_SUPPRESS_4_XX = 0x80
+COAP_RESOURCE_FLAGS_LIB_DIS_MCAST_SUPPRESS_5_XX = 0x100
+COAP_RESOURCE_FLAGS_MCAST_LIST = (
+   COAP_RESOURCE_FLAGS_HAS_MCAST_SUPPORT |
+   COAP_RESOURCE_FLAGS_LIB_DIS_MCAST_DELAYS |
+   COAP_RESOURCE_FLAGS_LIB_ENA_MCAST_SUPPRESS_2_05 |
+   COAP_RESOURCE_FLAGS_LIB_ENA_MCAST_SUPPRESS_2_XX |
+   COAP_RESOURCE_FLAGS_LIB_DIS_MCAST_SUPPRESS_4_XX |
+   COAP_RESOURCE_FLAGS_LIB_DIS_MCAST_SUPPRESS_5_XX)
+ 
+COAP_RESOURCE_FLAGS_FORCE_SINGLE_BODY = 0x200
+COAP_RESOURCE_FLAGS_OSCORE_ONLY       = 0x400
+COAP_RESOURCE_HANDLE_WELLKNOWN_CORE   = 0x800
+
 coap_tid_t = ct.c_int
 coap_mid_t = ct.c_int
 coap_opt_t = ct.c_uint8
@@ -205,6 +227,7 @@ class coap_session_t(ct.Structure):
 # looks like ctypes does not support coap_response_t (enum) as return value
 coap_response_handler_t = ct.CFUNCTYPE(ct.c_int, ct.POINTER(coap_session_t), ct.POINTER(coap_pdu_t), ct.POINTER(coap_pdu_t), coap_mid_t)
 coap_release_large_data_t = ct.CFUNCTYPE(None, ct.POINTER(coap_session_t), ct.c_void_p)
+coap_resource_release_userdata_handler_t = ct.CFUNCTYPE(None, ct.c_void_p)
 
 def c_uint8_p_to_str(uint8p, length):
 	b = ct.string_at(uint8p, length)
@@ -232,7 +255,7 @@ class coap_string_t(LStructure):
 	_fields_ = [("length", ct.c_size_t), ("s", c_uint8_p)]
 	
 	def __str__(self):
-		return str(c_uint8_p_to_str(self.s, self.length))
+		return c_uint8_p_to_str(self.s, self.length)
 
 class coap_str_const_t(coap_string_t):
 	pass
@@ -260,6 +283,9 @@ class coap_dtls_spsk_info_t(LStructure):
 		("hint", coap_bin_const_t),
 		("key", coap_bin_const_t),
 		]
+
+coap_method_handler_t = ct.CFUNCTYPE(None, ct.POINTER(coap_resource_t), ct.POINTER(coap_session_t),
+	ct.POINTER(coap_pdu_t), ct.POINTER(coap_string_t), ct.POINTER(coap_pdu_t));
 
 # actually returns coap_dtls_spsk_info_t
 coap_dtls_psk_sni_callback_t = ct.CFUNCTYPE(ct.c_void_p, ct.c_char_p, ct.POINTER(coap_session_t), ct.py_object)
@@ -364,12 +390,17 @@ library_functions = [
 	{ "name": "coap_is_mcast", "args": [ct.POINTER(coap_address_t)] },
 	{ "name": "coap_is_af_unix", "args": [ct.POINTER(coap_address_t)] },
 	{ "name": "coap_free_address_info", "args": [ct.POINTER(coap_addr_info_t)], "restype": None },
-	{ "name": "coap_register_response_handler", "args": [ct.POINTER(coap_context_t), coap_response_handler_t], "restype": None },
 	{ "name": "coap_pdu_init", "args": [ct.c_uint8, ct.c_uint8, ct.c_uint16, ct.c_size_t], "restype": ct.POINTER(coap_pdu_t) },
 	{ "name": "coap_new_message_id", "args": [ct.POINTER(coap_session_t)], "restype": ct.c_uint16 },
 	{ "name": "coap_session_max_pdu_size", "args": [ct.POINTER(coap_session_t)], "restype": ct.c_size_t },
 	{ "name": "coap_send", "args": [ct.POINTER(coap_session_t), ct.POINTER(coap_pdu_t)], "restype": coap_mid_t },
+	
 	{ "name": "coap_session_get_default_leisure", "args": [ct.POINTER(coap_session_t)], "restype": coap_fixed_point_t },
+	{ "name": "coap_session_set_app_data", "args": { ct.POINTER(coap_session_t): "session", ct.py_object: "data"}, "restype": None },
+	{ "name": "coap_session_get_app_data", "args": { ct.POINTER(coap_session_t): "session" }, "restype": ct.py_object },
+	
+	{ "name": "coap_register_response_handler", "args": [ct.POINTER(coap_context_t), coap_response_handler_t], "restype": None },
+	{ "name": "coap_register_handler", "args": { "resource": ct.POINTER(coap_resource_t), "method": ct.c_ubyte, "handler": coap_method_handler_t}, "restype": None},
 	
 	{ "name": "coap_context_set_block_mode", "args": [ct.POINTER(coap_context_t), ct.c_uint8], "restype": None },
 	{ "name": "coap_add_data_large_request", "args": [
@@ -465,6 +496,25 @@ library_functions = [
 	{ "name": "coap_ticks", "args": [ct.POINTER(coap_tick_t)], "restype": None },
 	
 	{ "name": "coap_new_endpoint", "args": [ct.POINTER(coap_context_t), ct.POINTER(coap_address_t), coap_proto_t], "restype": ct.POINTER(coap_endpoint_t) },
+	
+	{ "name": "coap_resource_init", "args": {"uri_path": ct.POINTER(coap_str_const_t), "flags": ct.c_int}, "restype": ct.POINTER(coap_resource_t) },
+	{ "name": "coap_resource_unknown_init", "args": {"put_handler": coap_method_handler_t}, "restype": ct.POINTER(coap_resource_t) },
+	{ "name": "coap_resource_unknown_init2", "args": {"put_handler": coap_method_handler_t, "flags": ct.c_int}, "restype": ct.POINTER(coap_resource_t) },
+	{ "name": "coap_resource_proxy_uri_init", "args": {"proxy_handler": coap_method_handler_t, "host_name_count": ct.c_size_t, "host_name_list": ct.POINTER(ct.c_char_p)}, "restype": ct.POINTER(coap_resource_t) },
+	{ "name": "coap_resource_proxy_uri_init2", "args": {"proxy_handler": coap_method_handler_t, "host_name_count": ct.c_size_t, "host_name_list": ct.POINTER(ct.c_char_p), "flags": ct.c_int}, "restype": ct.POINTER(coap_resource_t) },
+	{ "name": "coap_add_resource", "args": {"context": ct.POINTER(coap_context_t), "resource": ct.POINTER(coap_resource_t)}, "restype": None },
+	{ "name": "coap_delete_resource", "args": {"context": ct.POINTER(coap_context_t), "resource": ct.POINTER(coap_resource_t)} },
+	{ "name": "coap_resource_set_mode", "args": {"resource": ct.POINTER(coap_resource_t), "mode": ct.c_int}, "restype": None },
+	{ "name": "coap_resource_set_userdata", "args": {"resource": ct.POINTER(coap_resource_t), "data": ct.py_object}, "restype": None },
+	{ "name": "coap_resource_get_userdata", "args": {"resource": ct.POINTER(coap_resource_t)}, "restype": ct.py_object },
+	{ "name": "coap_resource_release_userdata_handler", "args": {"context": ct.POINTER(coap_context_t), "callback": coap_resource_release_userdata_handler_t}, "restype": None },
+	{ "name": "coap_resource_get_uri_path", "args": {"resource": ct.POINTER(coap_resource_t)}, "restype": ct.POINTER(coap_str_const_t) },
+	
+	{ "name": "coap_resource_set_get_observable", "args": {ct.POINTER(coap_resource_t): "resource", ct.c_int: "mode"}, "restype": None },
+	{ "name": "coap_resource_notify_observers", "args": {ct.POINTER(coap_resource_t): "resource", ct.POINTER(coap_string_t): "query"} },
+	{ "name": "coap_cancel_observe", "args": {ct.POINTER(coap_session_t): "session", ct.POINTER(coap_binary_t): "token", coap_pdu_type_t: "message_type"} },
+	
+	{ "name": "coap_pdu_set_code", "args": {ct.POINTER(coap_pdu_t): "pdu", coap_pdu_code_t: "code"}, "restype": None },
 	]
 
 libcoap = ct.CDLL(os.environ.get("LIBCOAPY_LIB", 'libcoap-3-openssl.so.3'))
@@ -483,7 +533,12 @@ for f in library_functions:
 				if isinstance(f["args"], list):
 					args = f["args"]
 				else:
-					args = f["args"].values()
+					args = []
+					for key, value in f["args"].items():
+						if isinstance(key, str):
+							args.append(value)
+						else:
+							args.append(key)
 			else:
 				args = None
 			if "restype" in f:
@@ -533,7 +588,11 @@ def ct_call(*nargs, **kwargs):
 	if args:
 		func.argtypes = args
 	if "restype" in kwargs:
-		func.restype = kwargs["restype"]
+		# workaround if the function returns NULL
+		if kwargs["restype"] == ct.py_object:
+			func.restype = ct.c_void_p
+		else:
+			func.restype = kwargs["restype"]
 	
 	newargs = tuple()
 	for i in range(len(nargs)):
@@ -541,6 +600,12 @@ def ct_call(*nargs, **kwargs):
 	
 	#print(call, newargs)
 	res = func(*newargs)
+	
+	if kwargs["restype"] == ct.py_object:
+		if res:
+			res = ct.cast(res, ct.py_object)
+		else:
+			res = None
 	
 	if verbosity > 1:
 		print(call, newargs, "=", res)
