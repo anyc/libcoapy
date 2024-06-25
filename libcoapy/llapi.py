@@ -15,6 +15,9 @@ class ctypes_enum_gen(enum.IntEnum):
 	@classmethod
 	def get_ctype(cls):
 		return ct.c_int
+	
+	def __str__(self):
+		return self.name
 
 coap_log_t = ctypes_enum_gen("coap_log_t", [
 	"COAP_LOG_EMERG",
