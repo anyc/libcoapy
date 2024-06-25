@@ -80,11 +80,6 @@ COAP_OBSERVE_CANCEL    = 1
 COAP_IO_WAIT    = 0
 COAP_IO_NO_WAIT = ct.c_uint32(-1)
 
-COAP_MESSAGE_CON = 0
-COAP_MESSAGE_NON = 1
-COAP_MESSAGE_ACK = 2
-COAP_MESSAGE_RST = 3
-
 COAP_REQUEST_GET     = 1
 COAP_REQUEST_POST    = 2
 COAP_REQUEST_PUT     = 3
@@ -112,6 +107,13 @@ COAP_OPTION_PROXY_SCHEME   = 39
 COAP_OPTION_SIZE1          = 60
 
 def COAP_RESPONSE_CODE(N): return (( int((N)/100) << 5) | (N)%100)
+
+coap_pdu_type_t = ctypes_enum_gen("coap_pdu_type_t", [
+	"COAP_MESSAGE_CON",
+	"COAP_MESSAGE_NON",
+	"COAP_MESSAGE_ACK",
+	"COAP_MESSAGE_RST",
+	], start=0)
 
 class coap_pdu_code_t(ctypes_enum_gen):
 	COAP_EMTPY_CODE = 0

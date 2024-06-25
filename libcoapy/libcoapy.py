@@ -150,7 +150,7 @@ class CoapClientSession(CoapSession):
 	def sendMessage(self,
 				 path=None,
 				 payload=None,
-				 pdu_type=COAP_MESSAGE_CON,
+				 pdu_type=coap_pdu_type_t.COAP_MESSAGE_CON,
 				 code=coap_pdu_code_t.COAP_REQUEST_CODE_GET,
 				 observe=False,
 				 response_callback=None,
