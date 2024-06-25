@@ -271,7 +271,7 @@ class coap_string_t(LStructure):
 	_fields_ = [("length", ct.c_size_t), ("s", c_uint8_p)]
 	
 	def __str__(self):
-		return c_uint8_p_to_str(self.s, self.length)
+		return str(c_uint8_p_to_str(self.s, self.length))
 
 class coap_str_const_t(coap_string_t):
 	pass
