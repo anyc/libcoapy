@@ -234,13 +234,17 @@ class coap_string_t(LStructure):
 	def __str__(self):
 		return str(c_uint8_p_to_str(self.s, self.length))
 
-class coap_str_const_t(LStructure):
+class coap_str_const_t(coap_string_t):
+	pass
+
+class coap_binary_t(LStructure):
 	_fields_ = [("length", ct.c_size_t), ("s", c_uint8_p)]
 	
 	def __str__(self):
-		return str(c_uint8_p_to_str(self.s, self.length))
+		return str([ "0x%02x" % (self.s[i]) for i in range(self.length)])
 
-coap_bin_const_t = coap_str_const_t
+class coap_bin_const_t(coap_binary_t):
+	pass
 
 class coap_uri_t(LStructure):
 	_fields_ = [
