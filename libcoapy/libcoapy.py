@@ -4,6 +4,15 @@ from .llapi import *
 contexts = []
 local_unix_socket_counter = 0
 
+COAP_MCAST_ADDR4	= "224.0.1.187"
+COAP_MCAST_ADDR4_6	= "0:0:0:0:0:ffff:e000:01bb"
+COAP_MCAST_ADDR6_LL	= "ff02::fd" # link-local
+COAP_MCAST_ADDR6_SL	= "ff05::fd" # site-local
+COAP_MCAST_ADDR6_VS	= "ff0x::fd" # variable-scope
+COAP_MCAST_ADDR6	= COAP_MCAST_ADDR6_SL
+COAP_DEF_PORT		= 5683
+COAPS_DEF_PORT		= 5684
+
 class UnresolvableAddress(Exception):
 	def __init__(self, uri, context=None):
 		self.uri = uri
@@ -579,6 +588,78 @@ class CoapContext():
 		if timeout_ms > 0:
 			self.fd_timeout_ms = timeout_ms
 			self.fd_timeout_fut = self._loop.create_task(self.fd_timeout_cb(self.fd_timeout_ms))
+	
+	def _enable_multicast(self, multicast_address=COAP_MCAST_ADDR4, interface_name=None):
+		coap_join_mcast_group_intf(self.lcoap_ctx, multicast_address, interface_name)
+	
+	def enable_multicast(self, multicast_interfaces=None):
+		import socket
+		
+		if multicast_interfaces:
+			self.multicast_interfaces = multicast_interfaces
+		else:
+			self.multicast_interfaces = [i[1] for i in socket.if_nameindex()]
+		
+		try:
+			import netifaces
+		except ModuleNotFoundError:
+			netifaces = None
+		
+		self.interfaces = []
+		for if_name in self.multicast_interfaces:
+			mc_intf = lambda: None
+			mc_intf.name = if_name
+			
+			if if_name == "lo":
+				continue
+			
+			# with netifaces module add all IPs, without use the first we get
+			if netifaces:
+				mc_intf.ips = []
+				for link in netifaces.ifaddresses(if_name).get(netifaces.AF_INET, []):
+					mc_intf.ips.append( (socket.AF_INET, link['addr']) )
+				for link in netifaces.ifaddresses(if_name).get(netifaces.AF_INET6, []):
+					mc_intf.ips.append( (socket.AF_INET6, link['addr']) )
+			else:
+				import fcntl
+				import struct
+				def get_ip_address(ifname):
+					s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+					return socket.inet_ntoa(fcntl.ioctl(
+						s.fileno(),
+						0x8915,  # SIOCGIFADDR
+						struct.pack('256s', ifname[:15].encode())
+						)[20:24])
+				
+				try:
+					# TODO
+					mc_intf.ips = [(None, get_ip_address(mc_intf.name))]
+				except OSError as e:
+					# [Errno 99] Cannot assign requested address
+					# interfaces without IP?
+					if e.errno != 99:
+						print(mc_intf.name, e)
+					continue
+				except Exception as e:
+					print(mc_intf.name, e)
+					continue
+			
+			if not mc_intf.ips:
+				continue
+			
+			if not hasattr(mc_intf, "endpoints"):
+				mc_intf.endpoints = []
+			
+			families = [ family for family, ip in mc_intf.ips ]
+			
+			if socket.AF_INET6 in families:
+				mcast_addr = COAP_MCAST_ADDR6
+			else:
+				mcast_addr = COAP_MCAST_ADDR4
+			
+			self._enable_multicast(mcast_addr, if_name)
+			
+			self.interfaces.append(mc_intf)
 
 if __name__ == "__main__":
 	if len(sys.argv) < 2:
