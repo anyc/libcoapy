@@ -538,49 +538,6 @@ library_functions = [
 	{ "name": "coap_join_mcast_group_intf", "args": {ct.POINTER(coap_context_t): "context", ct.c_char_p: "groupname", ct.c_char_p: "ifname"} },
 	]
 
-libcoap = ct.CDLL(os.environ.get("LIBCOAPY_LIB", 'libcoap-3-openssl.so.3'))
-libc = ct.CDLL('libc.so.6')
-libc.free.args = [ct.c_void_p]
-
-for f in library_functions:
-	if getattr(libcoap, f["name"], None) is None:
-		if verbosity > 0:
-			print(f["name"], "not found in library")
-		continue
-	
-	def function_factory(f=f):
-		def dyn_fct(*nargs, **kwargs):
-			if "args" in f:
-				if isinstance(f["args"], list):
-					args = f["args"]
-				else:
-					args = []
-					for key, value in f["args"].items():
-						if isinstance(key, str):
-							args.append(value)
-						else:
-							args.append(key)
-			else:
-				args = None
-			if "restype" in f:
-				restype = f["restype"]
-			else:
-				restype = ct.c_int
-			
-			return ct_call(f["name"], *nargs, args=args, restype=restype)
-		
-		if "expect" in f:
-			dyn_fct.expect = f["expect"]
-		if "res_error" in f:
-			dyn_fct.expect = f["res_error"]
-		
-		return dyn_fct
-	
-	if hasattr(sys.modules[__name__], f["name"]):
-		print("duplicate function", f["name"], file=sys.stderr)
-	
-	setattr(sys.modules[__name__], f["name"], function_factory(f))
-
 if sys.version_info < (3,):
 	def to_bytes(x):
 		return x
@@ -591,62 +548,106 @@ else:
 		else:
 			return s
 
-def ct_call(*nargs, **kwargs):
-	call = nargs[0]
+def setup_fct(fdict):
+	ct_fct = getattr(libcoap, fdict["name"])
 	
-	if "args" in kwargs:
-		args = kwargs["args"]
+	if "args" in fdict:
+		if isinstance(fdict["args"], list):
+			args = fdict["args"]
+		else:
+			args = []
+			for key, value in fdict["args"].items():
+				if isinstance(key, str):
+					args.append(value)
+				else:
+					args.append(key)
 	else:
 		args = None
-	if "check" in kwargs:
-		check = kwargs["check"]
-	else:
-		check = None
 	
-	nargs = nargs[1:]
+	ct_fct.argtypes = args
 	
-	func = getattr(libcoap, call)
-	if args:
-		func.argtypes = args
-	if "restype" in kwargs:
-		# workaround if the function returns NULL
-		if kwargs["restype"] == ct.py_object:
-			func.restype = ct.c_void_p
-		else:
-			func.restype = kwargs["restype"]
+	ct_fct.restype = fdict.get("restype", ct.c_int)
+	# workaround if the function returns NULL
+	if ct_fct.restype == ct.py_object:
+		ct_fct.restype = ct.c_void_p
 	
-	newargs = tuple()
+	fdict["ct_fct"] = ct_fct
+
+def ct_call(fdict, *nargs, **kwargs):
+	if "ct_fct" not in fdict:
+		setup_fct(fdict)
+	
+	ct_fct = fdict["ct_fct"]
+	
+	newargs = list()
 	for i in range(len(nargs)):
 		newargs += (to_bytes(nargs[i]), )
 	
-	#print(call, newargs)
-	res = func(*newargs)
+	if "args" in fdict:
+		for i in range(len(nargs), len(fdict["args"])):
+			newargs += (None, )
+		
+		if isinstance(fdict["args"], dict) and kwargs:
+			for key, value in kwargs.items():
+				i = 0
+				for argtype, argname in fdict["args"].items():
+					if argname == key:
+						newargs[i] = value
+						break
+					i += 1
 	
-	if kwargs["restype"] == ct.py_object:
+	res = ct_fct(*newargs)
+	if fdict.get("restype", ct.c_int) == ct.py_object:
 		if res:
-			res = ct.cast(res, ct.py_object)
+			res = ct.cast(res, ct.py_object).value
 		else:
 			res = None
 	
 	if verbosity > 1:
-		print(call, newargs, "=", res)
+		print(fdict["name"], newargs, "=", res)
 	
-	if (check is None or check):
-		if hasattr(func, "expect") and res != func.expect:
-			if func.restype in [ct.c_long, ct.c_int] and res < 0:
-				raise OSError(res, call+" failed with: "+os.strerror(-res)+" ("+str(-res)+")")
-			else:
-				raise OSError(res, call+" failed with: "+str(res)+" (!="+str(func.expect)+")")
-		elif hasattr(func, "res_error") and res == func.res_error:
-			raise OSError(res, call+" failed with: "+str(res)+" (=="+str(func.res_error)+")")
-		elif func.restype in [ct.c_long, ct.c_int] and res < 0:
-			raise OSError(res, call+" failed with: "+os.strerror(-res)+" ("+str(-res)+")")
+	if kwargs.get("llapi_check", True):
+		if fdict.get("expect", False):
+			if res != fdict["expect"]:
+				if fdict.get("restype", ct.c_int) in [ct.c_long, ct.c_int] and res < 0:
+					raise OSError(res, fdict["name"]+str(newargs)+" failed with: "+os.strerror(-res)+" ("+str(-res)+")")
+				else:
+					raise OSError(res, fdict["name"]+str(newargs)+" failed with: "+str(res)+" (!= "+str(fdict["expect"])+")")
+		elif fdict.get("res_error", False):
+			if res == fdict["res_error"]:
+				raise OSError(res, fdict["name"]+str(newargs)+" failed with: "+str(res)+" (== "+str(fdict["res_error"])+")")
+		elif fdict.get("restype", ct.c_int) in [ct.c_long, ct.c_int] and res < 0:
+			raise OSError(res, fdict["name"]+str(newargs)+" failed with: "+os.strerror(-res)+" ("+str(-res)+")")
 		elif isinstance(res, ct._Pointer) and not res:
-			raise NullPointer(call+" returned NULL pointer")
-	if check and isinstance(func.restype, ct.POINTER) and res == None:
-		raise OSError(res, call+" returned NULL")
+			raise NullPointer(fdict["name"]+str(newargs)+" returned NULL pointer")
 	
 	return res
+
+libcoap = ct.CDLL(os.environ.get("LIBCOAPY_LIB", 'libcoap-3-openssl.so.3'))
+libc = ct.CDLL('libc.so.6')
+libc.free.args = [ct.c_void_p]
+
+resolve_immediately = False
+
+for fdict in library_functions:
+	if getattr(libcoap, fdict["name"], None) is None:
+		if verbosity > 0:
+			print(f["name"], "not found in library")
+		continue
+	
+	if resolve_immediately:
+		setup_fct(fdict)
+	
+	# we need the function generator to avoid issues due to late binding
+	def function_generator(fdict=fdict):
+		def dyn_fct(*nargs, **kwargs):
+			return ct_call(fdict, *nargs, **kwargs)
+		return dyn_fct
+	
+	if hasattr(sys.modules[__name__], fdict["name"]):
+		print("duplicate function", fdict["name"], file=sys.stderr)
+	
+	setattr(sys.modules[__name__], fdict["name"], function_generator(fdict))
 
 if __name__ == "__main__":
 	coap_startup()
