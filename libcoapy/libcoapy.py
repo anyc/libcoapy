@@ -126,13 +126,44 @@ class CoapUnknownResource(CoapResource):
 		if handle_wellknown_core:
 			flags |= COAP_RESOURCE_HANDLE_WELLKNOWN_CORE
 		
-		self.addHandler(put_handler, COAP_REQUEST_PUT)
+		self.addHandler(put_handler, coap_request_t.COAP_REQUEST_PUT)
 
 class CoapSession():
-	def __init__(self, ctx):
+	def __init__(self, ctx, lcoap_session=None):
 		self.ctx = ctx
+		self.lcoap_session = lcoap_session
 		
 		self.token_handlers = {}
+	
+	def getInterfaceIndex(self):
+		return coap_session_get_ifindex(self.lcoap_session)
+	
+	def getInterfaceName(self):
+		from socket import if_indextoname
+		
+		return if_indextoname(self.getInterfaceIndex())
+	
+	@property
+	def remote_address(self):
+		addr = coap_session_get_addr_remote(self.lcoap_session)
+		
+		s_len = 64
+		s_ptr_t = ct.c_uint8*s_len
+		s_ptr = s_ptr_t()
+		new_len = coap_print_addr(addr, s_ptr, s_len)
+		
+		return ct.string_at(s_ptr, new_len).decode()
+	
+	@property
+	def remote_ip(self):
+		addr = coap_session_get_addr_remote(self.lcoap_session)
+		
+		s_len = 64
+		s_ptr_t = ct.c_uint8*s_len
+		s_ptr = s_ptr_t()
+		coap_print_ip_addr(addr, s_ptr, s_len)
+		
+		return ct.cast(s_ptr, ct.c_char_p).value.decode()
 
 class CoapClientSession(CoapSession):
 	def __init__(self, ctx, uri_str, hint=None, key=None, sni=None):
