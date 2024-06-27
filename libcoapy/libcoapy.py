@@ -19,9 +19,10 @@ class UnresolvableAddress(Exception):
 		self.ctx = context
 
 class CoapPDU():
-	def __init__(self, pdu=None):
+	def __init__(self, pdu=None, session=None):
 		self.lcoap_pdu = pdu
 		self.payload_ptr = ct.POINTER(ct.c_uint8)()
+		self.session = session
 	
 	def getPayload(self):
 		self.size = ct.c_size_t()
@@ -29,7 +30,14 @@ class CoapPDU():
 		self.offset = ct.c_size_t()
 		self.total = ct.c_size_t()
 		
-		coap_get_data_large(self.lcoap_pdu, ct.byref(self.size), ct.byref(self.payload_ptr), ct.byref(self.offset), ct.byref(self.total))
+		try:
+			coap_get_data_large(self.lcoap_pdu, ct.byref(self.size), ct.byref(self.payload_ptr), ct.byref(self.offset), ct.byref(self.total))
+		except OSError as e:
+			if e.errno == 0:
+				# libcoap considers no data a failure
+				return
+			else:
+				raise
 	
 	@property
 	def uri(self):
@@ -38,6 +46,11 @@ class CoapPDU():
 	@property
 	def code(self):
 		return coap_pdu_code_t(coap_pdu_get_code(self.lcoap_pdu))
+	
+	@property
+	def token(self):
+		b = coap_pdu_get_token(self.lcoap_pdu)
+		return ct.string_at(b.s, b.length)
 	
 	@code.setter
 	def code(self, value):
@@ -56,6 +69,9 @@ class CoapPDU():
 		if not self.payload_ptr:
 			self.getPayload()
 		return ct.string_at(self.payload_ptr, self.size.value)
+	
+	def cancelObservation(self):
+		coap_cancel_observe(self.session.lcoap_session, coap_pdu_get_token(self.lcoap_pdu), coap_pdu_type_t.COAP_MESSAGE_CON)
 
 class CoapResource():
 	def __init__(self, ctx, uri, observable=True, lcoap_rs=None):
@@ -83,15 +99,18 @@ class CoapResource():
 		
 		return str(uri_path.contents)
 	
-	def _handler(self, resource, session, request, query, response):
-		req_pdu = CoapPDU(request)
-		resp_pdu = CoapPDU(response)
+	def _handler(self, lcoap_resource, lcoap_session, lcoap_request, lcoap_query, lcoap_response):
+		session = coap_session_get_app_data(lcoap_session)
 		
-		session = coap_session_get_app_data(session)
+		req_pdu = CoapPDU(lcoap_request, session)
+		resp_pdu = CoapPDU(lcoap_response, session)
 		
-		self.handlers[req_pdu.code](self, session, req_pdu, query.contents if query else None, resp_pdu)
+		if session is None:
+			session = lcoap_session
+		
+		self.handlers[req_pdu.code](self, session, req_pdu, lcoap_query.contents if lcoap_query else None, resp_pdu)
 	
-	def addHandler(self, handler, code=COAP_REQUEST_GET):
+	def addHandler(self, handler, code=coap_request_t.COAP_REQUEST_GET):
 		self.handlers[code] = handler
 		
 		coap_register_handler(self.lcoap_rs, code, self.ct_handler)
@@ -230,7 +249,7 @@ class CoapClientSession(CoapSession):
 				 response_callback_data=None
 		):
 		pdu = coap_pdu_init(pdu_type, code, coap_new_message_id(self.lcoap_session), coap_session_max_pdu_size(self.lcoap_session));
-		hl_pdu = CoapPDU(pdu)
+		hl_pdu = CoapPDU(pdu, self)
 		
 		token_t = ct.c_ubyte * 8
 		token = token_t()
@@ -513,8 +532,8 @@ class CoapContext():
 				break
 		
 		if session and token in session.token_handlers:
-			tx_pdu = CoapPDU(pdu_sent)
-			rx_pdu = CoapPDU(pdu_recv)
+			tx_pdu = CoapPDU(pdu_sent, session)
+			rx_pdu = CoapPDU(pdu_recv, session)
 			
 			orig_tx_pdu = session.token_handlers[token]["pdu"]
 			
