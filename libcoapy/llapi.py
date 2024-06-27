@@ -65,6 +65,51 @@ coap_response_t = ctypes_enum_gen("coap_response_t", [
 		"COAP_RESPONSE_OK",
 		], start=0)
 
+coap_nack_reason_t = ctypes_enum_gen("coap_nack_reason_t", [
+	"COAP_NACK_TOO_MANY_RETRIES",
+	"COAP_NACK_NOT_DELIVERABLE",
+	"COAP_NACK_RST",
+	"COAP_NACK_TLS_FAILED",
+	"COAP_NACK_ICMP_ISSUE"
+	])
+
+class coap_event_t(ctypes_enum_gen):
+	COAP_EVENT_DTLS_CLOSED		= 0x0000
+	COAP_EVENT_DTLS_CONNECTED	= 0x01DE
+	COAP_EVENT_DTLS_RENEGOTIATE	= 0x01DF
+	COAP_EVENT_DTLS_ERROR		= 0x0200
+	
+	COAP_EVENT_TCP_CONNECTED	= 0x1001
+	COAP_EVENT_TCP_CLOSED		= 0x1002
+	COAP_EVENT_TCP_FAILED		= 0x1003
+	
+	COAP_EVENT_SESSION_CONNECTED	= 0x2001
+	COAP_EVENT_SESSION_CLOSED		= 0x2002
+	COAP_EVENT_SESSION_FAILED		= 0x2003
+	
+	COAP_EVENT_PARTIAL_BLOCK	= 0x3001
+	COAP_EVENT_XMIT_BLOCK_FAIL	= 0x3002
+	
+	COAP_EVENT_SERVER_SESSION_NEW = 0x4001
+	
+	COAP_EVENT_SERVER_SESSION_DEL = 0x4002
+	
+	COAP_EVENT_BAD_PACKET			= 0x5001
+	COAP_EVENT_MSG_RETRANSMITTED	= 0x5002
+	
+	COAP_EVENT_OSCORE_DECRYPTION_FAILURE	= 0x6001
+	COAP_EVENT_OSCORE_NOT_ENABLED		 	= 0x6002
+	COAP_EVENT_OSCORE_NO_PROTECTED_PAYLOAD	= 0x6003
+	COAP_EVENT_OSCORE_NO_SECURITY			= 0x6004
+	COAP_EVENT_OSCORE_INTERNAL_ERROR		= 0x6005
+	COAP_EVENT_OSCORE_DECODE_ERROR			= 0x6006
+	
+	COAP_EVENT_WS_PACKET_SIZE	= 0x7001
+	COAP_EVENT_WS_CONNECTED		= 0x7002
+	COAP_EVENT_WS_CLOSED		= 0x7003
+	
+	COAP_EVENT_KEEPALIVE_FAILURE = 0x8001
+
 def COAP_SIGNALING_CODE(N): return ((int((N)/100) << 5) | (N)%100)
 
 class coap_pdu_signaling_proto_t(ctypes_enum_gen):
@@ -96,13 +141,14 @@ COAP_OBSERVE_CANCEL    = 1
 COAP_IO_WAIT    = 0
 COAP_IO_NO_WAIT = ct.c_uint32(-1)
 
-COAP_REQUEST_GET     = 1
-COAP_REQUEST_POST    = 2
-COAP_REQUEST_PUT     = 3
-COAP_REQUEST_DELETE  = 4
-COAP_REQUEST_FETCH   = 5
-COAP_REQUEST_PATCH   = 6
-COAP_REQUEST_IPATCH  = 7
+class coap_request_t(ctypes_enum_gen):
+	COAP_REQUEST_GET     = 1
+	COAP_REQUEST_POST    = 2
+	COAP_REQUEST_PUT     = 3
+	COAP_REQUEST_DELETE  = 4
+	COAP_REQUEST_FETCH   = 5
+	COAP_REQUEST_PATCH   = 6
+	COAP_REQUEST_IPATCH  = 7
 
 COAP_OPTION_IF_MATCH       =  1
 COAP_OPTION_URI_HOST       =  3
@@ -134,13 +180,13 @@ coap_pdu_type_t = ctypes_enum_gen("coap_pdu_type_t", [
 class coap_pdu_code_t(ctypes_enum_gen):
 	COAP_EMTPY_CODE = 0
 	
-	COAP_REQUEST_CODE_GET    = COAP_REQUEST_GET
-	COAP_REQUEST_CODE_POST   = COAP_REQUEST_POST
-	COAP_REQUEST_CODE_PUT    = COAP_REQUEST_PUT
-	COAP_REQUEST_CODE_DELETE = COAP_REQUEST_DELETE
-	COAP_REQUEST_CODE_FETCH  = COAP_REQUEST_FETCH
-	COAP_REQUEST_CODE_PATCH  = COAP_REQUEST_PATCH
-	COAP_REQUEST_CODE_IPATCH = COAP_REQUEST_IPATCH
+	COAP_REQUEST_CODE_GET    = coap_request_t.COAP_REQUEST_GET
+	COAP_REQUEST_CODE_POST   = coap_request_t.COAP_REQUEST_POST
+	COAP_REQUEST_CODE_PUT    = coap_request_t.COAP_REQUEST_PUT
+	COAP_REQUEST_CODE_DELETE = coap_request_t.COAP_REQUEST_DELETE
+	COAP_REQUEST_CODE_FETCH  = coap_request_t.COAP_REQUEST_FETCH
+	COAP_REQUEST_CODE_PATCH  = coap_request_t.COAP_REQUEST_PATCH
+	COAP_REQUEST_CODE_IPATCH = coap_request_t.COAP_REQUEST_IPATCH
 	
 	COAP_RESPONSE_CODE_CREATED                    = COAP_RESPONSE_CODE(201)
 	COAP_RESPONSE_CODE_DELETED                    = COAP_RESPONSE_CODE(202)
@@ -240,11 +286,6 @@ class coap_resource_t(ct.Structure):
 class coap_session_t(ct.Structure):
 	pass
 
-# looks like ctypes does not support coap_response_t (enum) as return value
-coap_response_handler_t = ct.CFUNCTYPE(ct.c_int, ct.POINTER(coap_session_t), ct.POINTER(coap_pdu_t), ct.POINTER(coap_pdu_t), coap_mid_t)
-coap_release_large_data_t = ct.CFUNCTYPE(None, ct.POINTER(coap_session_t), ct.c_void_p)
-coap_resource_release_userdata_handler_t = ct.CFUNCTYPE(None, ct.c_void_p)
-
 def c_uint8_p_to_str(uint8p, length):
 	b = ct.string_at(uint8p, length)
 	try:
@@ -300,8 +341,18 @@ class coap_dtls_spsk_info_t(LStructure):
 		("key", coap_bin_const_t),
 		]
 
+# looks like ctypes does not support coap_response_t (enum) as return value
+coap_response_handler_t = ct.CFUNCTYPE(ct.c_int, ct.POINTER(coap_session_t), ct.POINTER(coap_pdu_t), ct.POINTER(coap_pdu_t), coap_mid_t)
+coap_release_large_data_t = ct.CFUNCTYPE(None, ct.POINTER(coap_session_t), ct.c_void_p)
+coap_resource_release_userdata_handler_t = ct.CFUNCTYPE(None, ct.c_void_p)
+
 coap_method_handler_t = ct.CFUNCTYPE(None, ct.POINTER(coap_resource_t), ct.POINTER(coap_session_t),
 	ct.POINTER(coap_pdu_t), ct.POINTER(coap_string_t), ct.POINTER(coap_pdu_t));
+coap_nack_handler_t = ct.CFUNCTYPE(None, ct.POINTER(coap_session_t), ct.POINTER(coap_pdu_t), coap_nack_reason_t, coap_mid_t)
+coap_ping_handler_t = ct.CFUNCTYPE(None, ct.POINTER(coap_session_t), ct.POINTER(coap_pdu_t), coap_mid_t)
+coap_pong_handler_t = ct.CFUNCTYPE(None, ct.POINTER(coap_session_t), ct.POINTER(coap_pdu_t), coap_mid_t)
+# get_ctype() to avoid "TypeError: cannot build parameter" message
+coap_event_handler_t = ct.CFUNCTYPE(None, ct.POINTER(coap_session_t), coap_event_t.get_ctype())
 
 # actually returns coap_dtls_spsk_info_t
 coap_dtls_psk_sni_callback_t = ct.CFUNCTYPE(ct.c_void_p, ct.c_char_p, ct.POINTER(coap_session_t), ct.py_object)
@@ -415,10 +466,16 @@ library_functions = [
 	{ "name": "coap_session_set_app_data", "args": { ct.POINTER(coap_session_t): "session", ct.py_object: "data"}, "restype": None },
 	{ "name": "coap_session_get_app_data", "args": { ct.POINTER(coap_session_t): "session" }, "restype": ct.py_object },
 	
-	{ "name": "coap_register_response_handler", "args": [ct.POINTER(coap_context_t), coap_response_handler_t], "restype": None },
+	{ "name": "coap_register_request_handler", "args": {ct.POINTER(coap_resource_t): "resource", coap_request_t: "method", coap_method_handler_t: "handler"}, "restype": None },
+	{ "name": "coap_register_response_handler", "args": {ct.POINTER(coap_context_t): "context", coap_response_handler_t: "handler"}, "restype": None },
+	{ "name": "coap_register_nack_handler", "args": {ct.POINTER(coap_context_t): "context", coap_nack_handler_t: "handler"}, "restype": None },
+	{ "name": "coap_register_ping_handler", "args": {ct.POINTER(coap_context_t): "context", coap_ping_handler_t: "handler"}, "restype": None },
+	{ "name": "coap_register_pong_handler", "args": {ct.POINTER(coap_context_t): "context", coap_pong_handler_t: "handler"}, "restype": None },
+	{ "name": "coap_register_event_handler", "args": {ct.POINTER(coap_context_t): "context", coap_event_handler_t: "handler"}, "restype": None },
+	
 	{ "name": "coap_register_handler", "args": { "resource": ct.POINTER(coap_resource_t), "method": ct.c_ubyte, "handler": coap_method_handler_t}, "restype": None},
 	
-	{ "name": "coap_context_set_block_mode", "args": [ct.POINTER(coap_context_t), ct.c_uint8], "restype": None },
+	{ "name": "coap_context_set_block_mode", "args": { ct.POINTER(coap_context_t): "context", ct.c_uint8: "block_mode"}, "restype": None },
 	{ "name": "coap_add_data_large_request", "args": [
 			ct.POINTER(coap_session_t),
 			ct.POINTER(coap_pdu_t),
@@ -528,7 +585,7 @@ library_functions = [
 	
 	{ "name": "coap_resource_set_get_observable", "args": {ct.POINTER(coap_resource_t): "resource", ct.c_int: "mode"}, "restype": None },
 	{ "name": "coap_resource_notify_observers", "args": {ct.POINTER(coap_resource_t): "resource", ct.POINTER(coap_string_t): "query"} },
-	{ "name": "coap_cancel_observe", "args": {ct.POINTER(coap_session_t): "session", ct.POINTER(coap_binary_t): "token", coap_pdu_type_t: "message_type"} },
+	{ "name": "coap_cancel_observe", "args": {ct.POINTER(coap_session_t): "session", ct.POINTER(coap_binary_t): "token", coap_pdu_type_t: "message_type"}, "res_error": 0 },
 	
 	{ "name": "coap_pdu_set_code", "args": {ct.POINTER(coap_pdu_t): "pdu", coap_pdu_code_t: "code"}, "restype": None },
 	
@@ -536,6 +593,14 @@ library_functions = [
 	{ "name": "coap_get_uri_path", "args": { ct.POINTER(coap_pdu_t): "pdu" }, "restype": ct.POINTER(coap_string_t)},
 	
 	{ "name": "coap_join_mcast_group_intf", "args": {ct.POINTER(coap_context_t): "context", ct.c_char_p: "groupname", ct.c_char_p: "ifname"} },
+	{ "name": "coap_session_get_ifindex", "args": {ct.POINTER(coap_session_t): "session"}, "res_error": -1 },
+	
+	{ "name": "coap_session_get_addr_local", "args": {ct.POINTER(coap_session_t): "session"}, "restype": ct.POINTER(coap_address_t) },
+	{ "name": "coap_session_get_addr_mcast", "args": {ct.POINTER(coap_session_t): "session"}, "restype": ct.POINTER(coap_address_t) },
+	{ "name": "coap_session_get_addr_remote", "args": {ct.POINTER(coap_session_t): "session"}, "restype": ct.POINTER(coap_address_t) },
+	
+	{ "name": "coap_print_addr", "args": {ct.POINTER(coap_address_t): "address", ct.POINTER(ct.c_ubyte): "buffer", ct.c_size_t: "length" }, "restype": ct.c_size_t },
+	{ "name": "coap_print_ip_addr", "args": {ct.POINTER(coap_address_t): "address", ct.POINTER(ct.c_ubyte): "buffer", ct.c_size_t: "length" }, "restype": ct.c_char_p },
 	]
 
 if sys.version_info < (3,):
