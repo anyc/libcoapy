@@ -423,12 +423,35 @@ class CoapContext():
 		self._loop = None
 		
 		self.resp_handler_obj = coap_response_handler_t(self.responseHandler)
-		coap_register_response_handler(self.lcoap_ctx, self.resp_handler_obj)
+		coap_register_response_handler(context=self.lcoap_ctx, handler=self.resp_handler_obj)
+		
+		self.event_handler_obj = coap_event_handler_t(self.eventHandler)
+		coap_register_event_handler(self.lcoap_ctx, self.event_handler_obj)
+		
+		self.setBlockMode(COAP_BLOCK_USE_LIBCOAP | COAP_BLOCK_SINGLE_BODY)
+	
+	def eventHandler(self, ll_session, event_type):
+		event_type = coap_event_t(event_type)
+		session = coap_session_get_app_data(ll_session)
+		
+		if event_type == coap_event_t.COAP_EVENT_SERVER_SESSION_NEW:
+			session = CoapSession(self, ll_session)
+			
+			coap_session_set_app_data(ll_session, session)
+			
+			self.sessions.append(session)
+		elif event_type == coap_event_t.COAP_EVENT_SERVER_SESSION_DEL:
+			coap_session_set_app_data(ll_session, 0)
+			if session:
+				self.sessions.remove(session)
 	
 	def __del__(self):
 		contexts.remove(self)
 		if not contexts:
 			coap_cleanup()
+	
+	def setBlockMode(self, mode):
+		coap_context_set_block_mode(self.lcoap_ctx, mode)
 	
 	def newSession(self, *args, **kwargs):
 		session = CoapClientSession(self, *args, **kwargs)
