@@ -171,6 +171,9 @@ class CoapClientSession(CoapSession):
 		
 		self.uri = self.ctx.parse_uri(uri_str)
 		
+		# from socket import AI_ALL, AI_V4MAPPED
+		# ai_hint_flags=AI_ALL | AI_V4MAPPED)
+		
 		self.addr_info = self.ctx.get_addr_info(self.uri)
 		self.local_addr = None
 		self.dest_addr = self.addr_info.contents.addr
@@ -446,11 +449,15 @@ class CoapContext():
 		
 		return uri
 	
-	def get_addr_info(self, uri):
+	def get_addr_info(self, uri, ai_hint_flags=None):
 		import socket
+		
+		if ai_hint_flags is None:
+			ai_hint_flags = 0
+		
 		try:
 			addr_info = coap_resolve_address_info(ct.byref(uri.host), uri.port, uri.port, uri.port, uri.port,
-				socket.AF_UNSPEC, 1 << uri.scheme, coap_resolve_type_t.COAP_RESOLVE_TYPE_REMOTE);
+				ai_hint_flags, 1 << uri.scheme, coap_resolve_type_t.COAP_RESOLVE_TYPE_REMOTE);
 		except NullPointer as e:
 			raise UnresolvableAddress(uri, context=self)
 		
