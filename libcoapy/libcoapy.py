@@ -114,7 +114,7 @@ class CoapGetTlsLibraryVersion():
 		return str(self.as_dict())
 
 class CoapPDU():
-	"""! PDU base class
+	"""! PDU base class (see also \ref pdu of libcoap)
 	
 	A PDU represents a packet in the CoAP protocol.
 	"""
@@ -353,7 +353,7 @@ class CoapUnknownResource(CoapResource):
 		self.addHandler(put_handler, coap_request_t.COAP_REQUEST_PUT)
 
 class CoapSession():
-	"""! represents a CoAP session or connection between two peers """
+	"""! represents a CoAP session or connection between two peers (see also \ref session of libcoap)"""
 	def __init__(self, ctx, lcoap_session=None):
 		self.ctx = ctx
 		self.lcoap_session = lcoap_session
@@ -872,7 +872,7 @@ class CoapEndpoint():
 		self.lcoap_endpoint = coap_new_endpoint(self.ctx.lcoap_ctx, self.addr_info.contents.addr, self.addr_info.contents.proto)
 
 class CoapContext():
-	"""! a context is the main object for CoAP operations """
+	"""! a context is the main object for CoAP operations (see also \ref context of libcoap)"""
 	def __init__(self):
 		contexts.append(self)
 		
