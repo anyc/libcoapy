@@ -374,6 +374,7 @@ COAP_BLOCK_NO_PREEMPTIVE_RTAG = 0x10;
 COAP_BLOCK_STLESS_FETCH = 0x20;
 COAP_BLOCK_STLESS_BLOCK2 = 0x40;
 COAP_BLOCK_NOT_RANDOM_BLOCK1 = 0x80;
+COAP_BLOCK_CACHE_RESPONSE = 0x100;
 COAP_RESOURCE_CHECK_TIME = 2;
 COAP_ATTR_FLAGS_RELEASE_NAME = 0x1;
 COAP_ATTR_FLAGS_RELEASE_VALUE = 0x2;
@@ -796,6 +797,7 @@ class coap_session_state_t(ctypes_enum_gen):
 	COAP_SESSION_STATE_CSM = 3
 	COAP_SESSION_STATE_ESTABLISHED = 4
 
+coap_app_data_free_callback_t = ct.CFUNCTYPE(None, ct.py_object)
 class coap_log_t(ctypes_enum_gen):
 	COAP_LOG_EMERG = 0
 	COAP_LOG_ALERT = 1
@@ -817,6 +819,7 @@ coap_response_handler_t = ct.CFUNCTYPE(coap_response_t.get_ctype(), ct.POINTER(c
 coap_nack_handler_t = ct.CFUNCTYPE(None, ct.POINTER(coap_session_t), ct.POINTER(coap_pdu_t), coap_nack_reason_t.get_ctype(), ct.c_int)
 coap_ping_handler_t = ct.CFUNCTYPE(None, ct.POINTER(coap_session_t), ct.POINTER(coap_pdu_t), ct.c_int)
 coap_pong_handler_t = ct.CFUNCTYPE(None, ct.POINTER(coap_session_t), ct.POINTER(coap_pdu_t), ct.c_int)
+coap_io_process_thread_t = ct.CFUNCTYPE(None, ct.py_object)
 coap_block_t._fields_ = [
 	("num", ct.c_uint),
 	("m", ct.c_uint),
@@ -847,6 +850,10 @@ coap_oscore_save_seq_num_t = ct.CFUNCTYPE(ct.c_int, ct.c_ulong, ct.py_object)
 class coap_proxy_t(ctypes_enum_gen):
 	COAP_PROXY_REVERSE = 0
 	COAP_PROXY_REVERSE_STRIP = 1
+	COAP_PROXY_FORWARD_STATIC = 2
+	COAP_PROXY_FORWARD_STATIC_STRIP = 3
+	COAP_PROXY_FORWARD_DYNAMIC = 4
+	COAP_PROXY_FORWARD_DYNAMIC_STRIP = 5
 	COAP_PROXY_FORWARD = 2
 	COAP_PROXY_FORWARD_STRIP = 3
 	COAP_PROXY_DIRECT = 4
@@ -1645,6 +1652,15 @@ library_functions.append({
 	"restype": ct.py_object,
 	})
 library_functions.append({
+	"name": "coap_session_set_app_data2",
+	"args": [
+		(ct.POINTER(coap_session_t), "session"),
+		(ct.py_object, "data"),
+		(coap_app_data_free_callback_t, "callback"),
+		],
+	"restype": ct.py_object,
+	})
+library_functions.append({
 	"name": "coap_session_get_addr_remote",
 	"args": [
 		(ct.POINTER(coap_session_t), "session"),
@@ -2160,6 +2176,14 @@ library_functions.append({
 	"restype": None,
 	})
 library_functions.append({
+	"name": "coap_register_proxy_response_handler",
+	"args": [
+		(ct.POINTER(coap_context_t), "context"),
+		(coap_response_handler_t, "handler"),
+		],
+	"restype": None,
+	})
+library_functions.append({
 	"name": "coap_register_nack_handler",
 	"args": [
 		(ct.POINTER(coap_context_t), "context"),
@@ -2234,6 +2258,13 @@ library_functions.append({
 	"restype": ct.c_int,
 	})
 library_functions.append({
+	"name": "coap_context_load_pki_trust_store",
+	"args": [
+		(ct.POINTER(coap_context_t), "context"),
+		],
+	"restype": ct.c_int,
+	})
+library_functions.append({
 	"name": "coap_context_set_keepalive",
 	"args": [
 		(ct.POINTER(coap_context_t), "context"),
@@ -2289,11 +2320,26 @@ library_functions.append({
 	"restype": None,
 	})
 library_functions.append({
+	"name": "coap_context_set_session_reconnect_time",
+	"args": [
+		(ct.POINTER(coap_context_t), "context"),
+		(ct.c_uint, "reconnect_time"),
+		],
+	"restype": None,
+	})
+library_functions.append({
 	"name": "coap_context_get_session_timeout",
 	"args": [
 		(ct.POINTER(coap_context_t), "context"),
 		],
 	"restype": ct.c_uint,
+	})
+library_functions.append({
+	"name": "coap_context_set_shutdown_no_observe",
+	"args": [
+		(ct.POINTER(coap_context_t), "context"),
+		],
+	"restype": None,
 	})
 library_functions.append({
 	"name": "coap_context_set_csm_timeout",
@@ -2499,6 +2545,15 @@ library_functions.append({
 	"restype": None,
 	})
 library_functions.append({
+	"name": "coap_context_set_app_data2",
+	"args": [
+		(ct.POINTER(coap_context_t), "context"),
+		(ct.py_object, "data"),
+		(coap_app_data_free_callback_t, "callback"),
+		],
+	"restype": ct.py_object,
+	})
+library_functions.append({
 	"name": "coap_context_get_app_data",
 	"args": [
 		(ct.POINTER(coap_context_t), "context"),
@@ -2566,6 +2621,36 @@ library_functions.append({
 		(ct.POINTER(coap_context_t), "ctx"),
 		(ct.POINTER(epoll_event), "events"),
 		(ct.c_size_t, "nevents"),
+		],
+	"restype": None,
+	})
+library_functions.append({
+	"name": "coap_io_process_loop",
+	"args": [
+		(ct.POINTER(coap_context_t), "context"),
+		(coap_io_process_thread_t, "main_loop_code"),
+		(ct.py_object, "main_loop_code_arg"),
+		(ct.c_uint, "timeout_ms"),
+		(ct.c_uint, "thread_count"),
+		],
+	"restype": ct.c_int,
+	})
+library_functions.append({
+	"name": "coap_io_process_terminate_loop",
+	"restype": None,
+	})
+library_functions.append({
+	"name": "coap_io_process_configure_threads",
+	"args": [
+		(ct.POINTER(coap_context_t), "context"),
+		(ct.c_uint, "thread_count"),
+		],
+	"restype": ct.c_int,
+	})
+library_functions.append({
+	"name": "coap_io_process_remove_threads",
+	"args": [
+		(ct.POINTER(coap_context_t), "context"),
 		],
 	"restype": None,
 	})
@@ -2657,6 +2742,15 @@ library_functions.append({
 	"name": "coap_async_get_app_data",
 	"args": [
 		(ct.POINTER(coap_async_t), "async"),
+		],
+	"restype": ct.py_object,
+	})
+library_functions.append({
+	"name": "coap_async_set_app_data2",
+	"args": [
+		(ct.POINTER(coap_async_t), "async_entry"),
+		(ct.py_object, "data"),
+		(coap_app_data_free_callback_t, "callback"),
 		],
 	"restype": ct.py_object,
 	})
@@ -2929,9 +3023,18 @@ library_functions.append({
 	"args": [
 		(ct.POINTER(coap_cache_entry_t), "cache_entry"),
 		(ct.py_object, "data"),
-		(coap_cache_app_data_free_callback_t, "callback"),
+		(coap_app_data_free_callback_t, "callback"),
 		],
 	"restype": None,
+	})
+library_functions.append({
+	"name": "coap_cache_set_app_data2",
+	"args": [
+		(ct.POINTER(coap_cache_entry_t), "cache_entry"),
+		(ct.py_object, "data"),
+		(coap_app_data_free_callback_t, "callback"),
+		],
+	"restype": ct.py_object,
 	})
 library_functions.append({
 	"name": "coap_cache_get_app_data",
@@ -3026,7 +3129,7 @@ library_functions.append({
 library_functions.append({
 	"name": "coap_proxy_forward_request",
 	"args": [
-		(ct.POINTER(coap_session_t), "session"),
+		(ct.POINTER(coap_session_t), "req_session"),
 		(ct.POINTER(coap_pdu_t), "request"),
 		(ct.POINTER(coap_pdu_t), "response"),
 		(ct.POINTER(coap_resource_t), "resource"),
@@ -3038,11 +3141,19 @@ library_functions.append({
 library_functions.append({
 	"name": "coap_proxy_forward_response",
 	"args": [
-		(ct.POINTER(coap_session_t), "session"),
+		(ct.POINTER(coap_session_t), "rsp_session"),
 		(ct.POINTER(coap_pdu_t), "received"),
 		(ct.POINTER(ct.POINTER(coap_cache_key_t)), "cache_key"),
 		],
 	"restype": coap_response_t.get_ctype(),
+	})
+library_functions.append({
+	"name": "coap_new_client_session_proxy",
+	"args": [
+		(ct.POINTER(coap_context_t), "context"),
+		(ct.POINTER(coap_proxy_server_list_t), "server_list"),
+		],
+	"restype": ct.POINTER(coap_session_t),
 	})
 library_functions.append({
 	"name": "coap_memory_init",
