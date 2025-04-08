@@ -1,4 +1,15 @@
 {
+	"project_name": "libcoap",
+	"clibrary_path_env_vars": ["LIBCOAP_PATH", "LIBCOAPY_PATH", "LIBCOAPY_LIB"],
+	"libname_pattern": {
+		"dimensions": {
+			"version": ["", "-3"],
+			"ssl_lib": ["", "-openssl", "-gnutls"],
+			"tag": [".so.3", ".so", ".dll"],
+			},
+		"pattern": "{clibrary}{version}{ssl_lib}{tag}",
+		},
+	
 	"clang_args": ["-DCOAP_API=", "-DCOAP_DEPRECATED=", "-DCOAP_STATIC_INLINE=",],
 	"opaque_types": ["coap_pdu_t", "coap_context_t",
 		"coap_resource_t", "coap_session_t", "coap_oscore_conf_t",
