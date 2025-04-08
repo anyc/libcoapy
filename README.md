@@ -44,6 +44,11 @@ In the examples folder, this repo provides the following general-purpose tools:
 * coap-gui - a small Tkinter-based GUI to interact with a CoAP server
 * coarl - a CLI tool that provides a similar interface as [curl](https://curl.se/)
 
+Documentation
+-------------
+
+API documentation: https://anyc.github.io/libcoapy/
+
 Example: client
 ---------------
 
