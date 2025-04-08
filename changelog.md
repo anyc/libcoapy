@@ -1,3 +1,9 @@
+2025.04.09
+----------
+* add CoapObserverMultiplier to enable multiple observations of the same resource
+* CoapClientSession: call setup_connection late to simplify credentials setup
+* added doxygen documentation
+
 2024.12.17
 ----------
 
