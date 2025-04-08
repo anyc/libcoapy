@@ -3496,7 +3496,7 @@ else:
 			return s
 
 def setup_fct(fdict):
-	ct_fct = getattr(libcoap, fdict["name"])
+	ct_fct = getattr(clibrary, fdict["name"])
 	
 	if "args" in fdict:
 		args = []
@@ -3578,7 +3578,7 @@ def ct_call(fdict, *nargs, **kwargs):
 					raise OSError(res, fdict["name"]+str(newargs)+" failed with: "+str(res)+" (!= "+str(fdict["expect"])+")")
 		elif "res_error" in fdict:
 			if res == fdict["res_error"]:
-				raise OSError(res, fdict["name"]+str(newargs)+" failed with: "+str(res)+" (== "+str(fdict["res_error"])+")")
+				raise OSError(res, fdict["name"]+str(newargs)+" failed with: "+str(res))
 		elif fdict.get("restype", ct.c_int) in [ct.c_long, ct.c_int] and res < 0:
 			raise OSError(res, fdict["name"]+str(newargs)+" failed with: "+os.strerror(-res)+" ("+str(-res)+")")
 		elif isinstance(res, ct._Pointer) and not res:
@@ -3586,40 +3586,29 @@ def ct_call(fdict, *nargs, **kwargs):
 	
 	return res
 
-ssl_libs = [None, "openssl", "gnutls"]
-tags = [".so.3", ".so", ".dll"]
-versions = [None, "3"]
+project_name="libcoap"
 
 libnames = []
-for ssl_lib in ssl_libs:
-	for tag in tags:
-		for version in versions:
-			name = "libcoap"
-			if version:
-				name += "-"+version
-			if ssl_lib:
-				name += "-"+ssl_lib
-			if tag:
-				name += tag
-			
-			libnames.append(name)
+for version in ['', '-3']:
+	for ssl_lib in ['', '-openssl', '-gnutls']:
+		for tag in ['.so.3', '.so', '.dll']:
+			libnames.append(f"libcoap{version}{ssl_lib}{tag}")
 
-if os.environ.get("LIBCOAP_PATH", None):
-	libnames.insert(0, os.environ.get("LIBCOAP_PATH"))
-if os.environ.get("LIBCOAPY_LIB", None):
-	libnames.insert(0, os.environ.get("LIBCOAPY_LIB"))
+for env_var in ['LIBCOAP_PATH', 'LIBCOAPY_PATH']:
+	if os.environ.get(env_var, None):
+		libnames.insert(0, os.environ.get(env_var))
 
-libcoap = None
+clibrary = None
 for libname in libnames:
 	try:
-		libcoap = ct.CDLL(libname)
+		clibrary = ct.CDLL(libname)
 	except:
 		continue
 	else:
 		break
 
-if libcoap is None:
-	raise Exception("could not find libcoap library")
+if clibrary is None:
+	raise Exception(f"could not find {project_name} library")
 
 try:
 	libc = None
@@ -3663,7 +3652,7 @@ except Exception as e:
 resolve_immediately = False
 
 for fdict in library_functions:
-	if getattr(libcoap, fdict["name"], None) is None:
+	if getattr(clibrary, fdict["name"], None) is None:
 		if verbosity > 0:
 			print(fdict["name"], "not found in library")
 		continue
@@ -3677,9 +3666,9 @@ for fdict in library_functions:
 			return ct_call(fdict, *nargs, **kwargs)
 		return dyn_fct
 	
-	if hasattr(sys.modules[__name__], fdict["name"]):
+	if hasattr(locals(), fdict["name"]):
 		print("duplicate function", fdict["name"], file=sys.stderr)
 	
-	setattr(sys.modules[__name__], fdict["name"], function_generator(fdict))
+	locals()[fdict["name"]] = function_generator(fdict)
 
 
