@@ -91,6 +91,7 @@ def allocateToken():
 	return token
 
 class CoapGetTlsLibraryVersion():
+	"""! wrapper class to gather information about the used TLS library """
 	def __init__(self):
 		self.contents = coap_get_tls_library_version().contents
 	
@@ -113,6 +114,10 @@ class CoapGetTlsLibraryVersion():
 		return str(self.as_dict())
 
 class CoapPDU():
+	"""! PDU base class
+	
+	A PDU represents a packet in the CoAP protocol.
+	"""
 	def __init__(self, pdu=None, session=None):
 		self.lcoap_pdu = pdu
 		self.payload_ptr = ct.POINTER(ct.c_uint8)()
@@ -121,6 +126,7 @@ class CoapPDU():
 		self._pdu_type = None
 	
 	def getPayload(self):
+		"""! get the transmitted payload of a PDU """
 		self.size = ct.c_size_t()
 		self.payload_ptr = ct.POINTER(ct.c_uint8)()
 		self.offset = ct.c_size_t()
@@ -148,6 +154,9 @@ class CoapPDU():
 		coap_pdu_set_code(self.lcoap_pdu, value)
 	
 	def make_persistent(self):
+		"""! duplicate the PDU data to ensure it will be available during the
+		lifetime of the Python object
+		"""
 		if not hasattr(self, "payload_copy"):
 			if not self.payload_ptr:
 				self.getPayload()
@@ -166,6 +175,7 @@ class CoapPDU():
 	
 	@property
 	def payload(self):
+		"""! public function to get the PDU payload """
 		if hasattr(self, "payload_copy"):
 			return self.payload_copy
 		
@@ -175,6 +185,7 @@ class CoapPDU():
 	
 	@payload.setter
 	def payload(self, value):
+		"""! public function to add a payload to a PDU """
 		self.addPayload(value)
 	
 	def release_payload_cb(self, lcoap_session, payload):
@@ -182,6 +193,7 @@ class CoapPDU():
 		self.session.ctx.pdu_cache.remove(self)
 	
 	def cancelObservation(self):
+		"""! cancel the observation that was established with this PDU """
 		coap_cancel_observe(self.session.lcoap_session, self.lcoap_token, self.type)
 		if self.token in self.session.token_handlers:
 			self.session.token_handlers[self.token]["observe"] = False
@@ -198,9 +210,11 @@ class CoapPDU():
 	
 	@property
 	def token(self):
+		"""! get the PDU token as integer """
 		return int.from_bytes(self.token_bytes, byteorder=sys.byteorder)
 	
 	def newToken(self):
+		"""! create and add a new token to the PDU """
 		self._token = allocateToken()
 		
 		coap_session_new_token(self.session.lcoap_session, ct.byref(self._token.ctype("length")), self._token.s)
@@ -208,12 +222,16 @@ class CoapPDU():
 	
 	@property
 	def type(self):
+		"""! get the PDU type """
 		if self._pdu_type:
 			return self._pdu_type
 		return coap_pdu_get_type(self.lcoap_pdu)
 
 class CoapPDURequest(CoapPDU):
+	"""! PDU that represents a request  """
+	
 	def addPayload(self, payload):
+		"""! add payload to a request PDU """
 		if not hasattr(self, "release_payload_cb_ct"):
 			self.release_payload_cb_ct = coap_release_large_data_t(self.release_payload_cb)
 		
@@ -239,7 +257,10 @@ class CoapPDURequest(CoapPDU):
 			)
 
 class CoapPDUResponse(CoapPDU):
+	"""! PDU that represents a response """
+		
 	def addPayload(self, payload, query=None, media_type=0, maxage=-1, etag=0):
+		"""! add payload to a response PDU """
 		if not hasattr(self, "release_payload_cb_ct"):
 			self.release_payload_cb_ct = coap_release_large_data_t(self.release_payload_cb)
 		
@@ -269,6 +290,7 @@ class CoapPDUResponse(CoapPDU):
 			)
 
 class CoapResource():
+	"""! a server-side CoAP resource """
 	def __init__(self, ctx, uri, observable=True, lcoap_rs=None):
 		self.ctx = ctx
 		self.handlers = {}
@@ -317,6 +339,7 @@ class CoapResource():
 		coap_register_handler(self.lcoap_rs, code, self.ct_handler)
 
 class CoapUnknownResource(CoapResource):
+	"""! the unknown resource receives all requests that do not match any previously registered resource """
 	def __init__(self, ctx, put_handler, observable=True, handle_wellknown_core=False, flags=0):
 		self.ct_handler = coap_method_handler_t(self._handler)
 		
@@ -330,6 +353,7 @@ class CoapUnknownResource(CoapResource):
 		self.addHandler(put_handler, coap_request_t.COAP_REQUEST_PUT)
 
 class CoapSession():
+	"""! represents a CoAP session or connection between two peers """
 	def __init__(self, ctx, lcoap_session=None):
 		self.ctx = ctx
 		self.lcoap_session = lcoap_session
@@ -449,6 +473,7 @@ class CoapSession():
 		return coap_response_t.COAP_RESPONSE_OK if rv is None else rv
 
 class CoapClientSession(CoapSession):
+	"""! represents a session initiated by a client """
 	def __init__(self, ctx, uri=None, hint=None, key=None, sni=None):
 		super().__init__(ctx)
 		
@@ -603,7 +628,20 @@ class CoapClientSession(CoapSession):
 				response_callback=None,
 				response_callback_data=None
 		):
-		"""create a PDU with given parameters, send and return it"""
+		"""! prepare and send a PDU for this session
+		
+		@param path: the path of the resource
+		@param payload: the payload to send with the PDU
+		@param pdu_type: request confirmation of the request (CON) or not (NON)
+		@param code: the code similar to HTTP (e.g., GET, POST, PUT, ...)
+		@param observe: observe/subscribe the resource
+		@param query: send a query - comparable to path?arg1=val1&arg2=val2 in HTTP
+		@param save_rx_pdu: automatically make the response PDU persistent
+		@param response_callback: function that will be called if a response is received
+		@param response_callback_data: additional data that will be passed to \p response_callback
+	
+		@return the resulting dictionary in token_handler
+		"""
 		
 		if not self.lcoap_session:
 			self.setup_connection()
@@ -674,7 +712,10 @@ class CoapClientSession(CoapSession):
 		return self.token_handlers[token]
 	
 	def request(self, *args, **kwargs):
-		"""send a synchronous request and return the response"""
+		"""! send a synchronous request and return the response
+		
+		accepts same parameters as \link libcoapy.libcoapy.CoapClientSession.sendMessage sendMessage() \endlink
+		"""
 		lkwargs={}
 		for key in ("timeout_ms", "io_timeout_ms"):
 			if key in kwargs:
@@ -694,8 +735,10 @@ class CoapClientSession(CoapSession):
 		observer.addResponse(rx_msg)
 	
 	async def query(self, *args, **kwargs):
-		""" start an asynchronous request and return a generator object if
+		"""! start an asynchronous request and return a generator object if
 		observe=True is set, else return the response pdu
+		
+		accepts same parameters as \link libcoapy.libcoapy.CoapClientSession.sendMessage sendMessage() \endlink
 		"""
 		observer = CoapObserver()
 		
@@ -712,10 +755,11 @@ class CoapClientSession(CoapSession):
 		else:
 			return await observer.__anext__()
 
-# This class is used to handle asynchronous requests. Besides requests with
-# observe flag set, this class also handles non-observe requests as the same
-# mechanisms are used in both cases.
 class CoapObserver():
+	"""! This class is used to handle asynchronous requests. Besides requests with
+	observe flag set, this class also handles non-observe requests as the same
+	mechanisms are used in both cases.
+	"""
 	def __init__(self, tx_pdu=None, multiplier=None):
 		from asyncio import Event
 		
@@ -731,6 +775,7 @@ class CoapObserver():
 		self.stop()
 	
 	async def wait(self):
+		"""! wait on the next response """
 		if self.multiplier:
 			await self.multiplier.process()
 		
@@ -767,6 +812,7 @@ class CoapObserver():
 		return rv
 	
 	def stop(self):
+		"""! stop observation """
 		if self._stop:
 			return
 		
@@ -779,9 +825,10 @@ class CoapObserver():
 		self._stop = True
 		self.ev.set()
 
-# This class enables multiple clients to asynchronously wait on a single subscribed
-# resource.
 class CoapObserverMultiplier():
+	"""! This class enables multiple clients to asynchronously wait on a single subscribed
+	resource.
+	"""
 	def __init__(self, main_observer):
 		self.main_observer = main_observer
 		self.sub_observers = []
@@ -815,6 +862,7 @@ class CoapObserverMultiplier():
 		self.waiting = False
 
 class CoapEndpoint():
+	"""! basically represents a socket """
 	def __init__(self, ctx, uri):
 		self.ctx = ctx
 		
@@ -824,6 +872,7 @@ class CoapEndpoint():
 		self.lcoap_endpoint = coap_new_endpoint(self.ctx.lcoap_ctx, self.addr_info.contents.addr, self.addr_info.contents.proto)
 
 class CoapContext():
+	"""! a context is the main object for CoAP operations """
 	def __init__(self):
 		contexts.append(self)
 		
@@ -883,6 +932,7 @@ class CoapContext():
 			coap_cleanup()
 	
 	def setBlockMode(self, mode):
+		"""! to choose how much libcoap will help while receiving large data """
 		coap_context_set_block_mode(self.lcoap_ctx, mode)
 	
 	def newSession(self, *args, **kwargs):
