@@ -1,16 +1,20 @@
 var searchData=
 [
-  ['genbindgen_5fpre_5fct_5fcall_5fhook_0',['genbindgen_pre_ct_call_hook',['../namespacelibcoapy_1_1llapi.html#ad369d3d22f1af018a6382baf90ee0dc1',1,'libcoapy::llapi']]],
-  ['get_5faddr_5finfo_1',['get_addr_info',['../classlibcoapy_1_1libcoapy_1_1CoapContext.html#a0b78db400907717101dfdc921b878d56',1,'libcoapy::libcoapy::CoapContext']]],
-  ['get_5fasn1_5fspki_2',['get_asn1_spki',['https://libcoap.net/doc/reference/4.3.5/group__asn1.html#gad0d58908b4c2fa51f1a80f323bb49612',1,]]],
-  ['get_5fasn1_5ftag_3',['get_asn1_tag',['https://libcoap.net/doc/reference/4.3.5/group__asn1.html#ga2651414d8dfa01e3dca3ca076730bdfd',1,]]],
-  ['get_5favailable_5finterfaces_4',['get_available_interfaces',['../classlibcoapy_1_1libcoapy_1_1CoapContext.html#a8f073667de1a395c025e7bed41dd06ea',1,'libcoapy::libcoapy::CoapContext']]],
-  ['get_5fctype_5',['get_ctype',['../classlibcoapy_1_1llapi_1_1ctypes__enum__gen.html#aef9b4d01bfdb0e68ab70edbd67d58daa',1,'libcoapy::llapi::ctypes_enum_gen']]],
-  ['get_5fdistinct_5fip_6',['get_distinct_ip',['../classlibcoapy_1_1libcoapy_1_1CoapContext.html#a95b92578f6c052140f389c89996d583f',1,'libcoapy::libcoapy::CoapContext']]],
-  ['get_5fstring_5fby_5fbuffer_5fupdate_7',['get_string_by_buffer_update',['../namespacelibcoapy_1_1libcoapy.html#a2a8cb2f5194bb22d668a94b0d181d0cb',1,'libcoapy::libcoapy']]],
-  ['getarg_8',['getarg',['../namespacelibcoapy_1_1libcoapy.html#a5d8685b030077401a8663df70faf8e77',1,'libcoapy::libcoapy']]],
-  ['getinterfaceindex_9',['getInterfaceIndex',['../classlibcoapy_1_1libcoapy_1_1CoapSession.html#a5e24ee1cbd05d3f3f517c3f2c0b8e11c',1,'libcoapy::libcoapy::CoapSession']]],
-  ['getinterfacename_10',['getInterfaceName',['../classlibcoapy_1_1libcoapy_1_1CoapSession.html#a7c5e4206a0de15958a1d1eb68e7c7b86',1,'libcoapy::libcoapy::CoapSession']]],
-  ['getpayload_11',['getPayload',['../classlibcoapy_1_1libcoapy_1_1CoapPDU.html#a31194cf0920036e11a3150ee8d6fbb8d',1,'libcoapy::libcoapy::CoapPDU']]],
-  ['getsubobserver_12',['getSubObserver',['../classlibcoapy_1_1libcoapy_1_1CoapObserverMultiplier.html#ac8a7c0d55b8479032c5e1aa1154f2a39',1,'libcoapy::libcoapy::CoapObserverMultiplier']]]
+  ['fail_5fcnt_0',['fail_cnt',['https://libcoap.net/doc/reference/4.3.5/structcoap__subscription__t.html#a928517e11395c59c452d0810496bd823',1,'coap_subscription_t']]],
+  ['false_1',['False',['../namespacelibcoapy_1_1libcoapy.html#a313d09f7264cc418194cb090c9ee0ab5',1,'libcoapy::libcoapy']]],
+  ['fd_2',['fd',['https://libcoap.net/doc/reference/4.3.5/structcoap__socket__t.html#a8b3fa70d071fdf5815bc33671b7c4f76',1,'coap_socket_t']]],
+  ['fd_5fcallback_3',['fd_callback',['../classlibcoapy_1_1libcoapy_1_1CoapContext.html#a4f458c12f472fc653f87bed36cfcf630',1,'libcoapy.libcoapy.CoapContext.fd_callback'],['../classlibcoapy_1_1libcoapy_1_1CoapContext.html#ad758b1630507c4c4f826aa9ab84a18dc',1,'libcoapy.libcoapy.CoapContext.fd_callback(self)']]],
+  ['fd_5fset_4',['fd_set',['../classlibcoapy_1_1llapi_1_1fd__set.html',1,'libcoapy::llapi']]],
+  ['fd_5ftimeout_5fcb_5',['fd_timeout_cb',['../classlibcoapy_1_1libcoapy_1_1CoapContext.html#ad2e5290ca5cd367cafd0fec3839afd8f',1,'libcoapy::libcoapy::CoapContext']]],
+  ['fd_5ftimeout_5ffut_6',['fd_timeout_fut',['../classlibcoapy_1_1libcoapy_1_1CoapContext.html#a3c17f6596eb86e7784c5da73883fe856',1,'libcoapy::libcoapy::CoapContext']]],
+  ['file_7',['file',['../namespacelibcoapy_1_1llapi.html#a3df99d9baf28f63a7833878d03bcdc3b',1,'libcoapy::llapi']]],
+  ['filter_8',['filter',['https://libcoap.net/doc/reference/4.3.5/structcoap__opt__iterator__t.html#a40a864c48b367abcaed1afa30621f405',1,'coap_opt_iterator_t']]],
+  ['filtered_9',['filtered',['https://libcoap.net/doc/reference/4.3.5/structcoap__opt__iterator__t.html#a6fed563dd49b61f28a275cd2f8c6f6a8',1,'coap_opt_iterator_t']]],
+  ['filters_10',['Option Filters',['https://libcoap.net/doc/reference/4.3.5/group__opt__filter.html',1,'']]],
+  ['flags_11',['flags',['https://libcoap.net/doc/reference/4.3.5/structcoap__resource__t.html#aea7b315210c6674d4079fa2e0e45ebec',1,'coap_resource_t::flags'],['https://libcoap.net/doc/reference/4.3.5/structcoap__socket__t.html#afc857e7bf0427e0d08e2be5604bc5516',1,'coap_socket_t::flags'],['https://libcoap.net/doc/reference/4.3.5/structcoap__attr__t.html#ae169f2ea32a124079529bfe934d7e0ec',1,'coap_attr_t::flags']]],
+  ['fractional_5fpart_12',['fractional_part',['https://libcoap.net/doc/reference/4.3.5/structcoap__fixed__point__t.html#aa6ed7ff902331d33a73c913dde321c3b',1,'coap_fixed_point_t']]],
+  ['from_5fparam_13',['from_param',['../classlibcoapy_1_1llapi_1_1ctypes__enum__gen.html#a5a47d35e6bf26c4d2a25e901f449ac44',1,'libcoapy::llapi::ctypes_enum_gen']]],
+  ['function_5fgenerator_14',['function_generator',['../namespacelibcoapy_1_1llapi.html#a7ae8280341704933cda85474980d9309',1,'libcoapy::llapi']]],
+  ['functionality_15',['Optional functionality',['https://libcoap.net/doc/reference/4.3.5/group__supported.html',1,'']]],
+  ['functions_16',['URI Parsing Functions',['https://libcoap.net/doc/reference/4.3.5/group__uri__parse.html',1,'']]]
 ];

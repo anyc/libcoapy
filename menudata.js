@@ -51,7 +51,6 @@ var menudata={children:[
 {text:"_",url:"namespacemembers_vars.html#index__5F"},
 {text:"a",url:"namespacemembers_vars_a.html#index_a"},
 {text:"c",url:"namespacemembers_vars_c.html#index_c"},
-{text:"e",url:"namespacemembers_vars_e.html#index_e"},
 {text:"f",url:"namespacemembers_vars_f.html#index_f"},
 {text:"l",url:"namespacemembers_vars_l.html#index_l"},
 {text:"n",url:"namespacemembers_vars_n.html#index_n"},
@@ -128,6 +127,7 @@ var menudata={children:[
 {text:"s",url:"functions_vars_s.html#index_s"},
 {text:"t",url:"functions_vars_t.html#index_t"},
 {text:"u",url:"functions_vars_u.html#index_u"},
+{text:"v",url:"functions_vars_v.html#index_v"},
 {text:"w",url:"functions_vars_w.html#index_w"}]}]}]},
 {text:"Files",url:"files.html",children:[
 {text:"File List",url:"files.html"}]}]}

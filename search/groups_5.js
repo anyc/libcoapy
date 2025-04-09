@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['libcoap_20internal_20api_0',['Libcoap Internal API',['https://libcoap.net/doc/reference/4.3.5/group__internal__api.html',1,'']]],
-  ['logging_20support_1',['Logging Support',['https://libcoap.net/doc/reference/4.3.5/group__logging.html',1,'']]],
-  ['lwip_20specific_20api_2',['LwIP specific API',['https://libcoap.net/doc/reference/4.3.5/group__lwip.html',1,'']]]
+  ['encode_20decode_20api_0',['Encode / Decode API',['https://libcoap.net/doc/reference/4.3.5/group__encode.html',1,'']]],
+  ['event_20handling_1',['Event Handling',['https://libcoap.net/doc/reference/4.3.5/group__events.html',1,'']]]
 ];

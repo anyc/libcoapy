@@ -1,6 +1,9 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" title=" " alt="" coords="5,77,92,102"/>
-<area shape="rect" id="node2" href="$classlibcoapy_1_1libcoapy_1_1CoapUnexpectedError.html" title=" " alt="" coords="140,5,387,45"/>
-<area shape="rect" id="node3" href="$classlibcoapy_1_1libcoapy_1_1UnresolvableAddress.html" title=" " alt="" coords="152,69,375,109"/>
-<area shape="rect" id="node4" href="$classlibcoapy_1_1llapi_1_1NullPointer.html" title=" " alt="" coords="172,134,355,159"/>
+<area shape="rect" id="Node000000" title=" " alt="" coords="5,77,92,102"/>
+<area shape="rect" id="Node000001" href="$classlibcoapy_1_1libcoapy_1_1CoapUnexpectedError.html" title=" " alt="" coords="140,5,387,45"/>
+<area shape="poly" id="edge76_Node000000_Node000001" title=" " alt="" coords="96,69,139,55,181,43,182,48,141,60,97,75"/>
+<area shape="rect" id="Node000002" href="$classlibcoapy_1_1libcoapy_1_1UnresolvableAddress.html" title=" " alt="" coords="152,69,375,109"/>
+<area shape="poly" id="edge77_Node000000_Node000002" title=" " alt="" coords="106,87,152,87,152,92,106,92"/>
+<area shape="rect" id="Node000003" href="$classlibcoapy_1_1llapi_1_1NullPointer.html" title=" " alt="" coords="172,134,355,159"/>
+<area shape="poly" id="edge78_Node000000_Node000003" title=" " alt="" coords="96,104,141,119,193,131,192,137,139,124,94,109"/>
 </map>

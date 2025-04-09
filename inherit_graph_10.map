@@ -1,4 +1,5 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classlibcoapy_1_1libcoapy_1_1CoapResource.html" title="a server&#45;side CoAP resource" alt="" coords="5,13,235,38"/>
-<area shape="rect" id="node2" href="$classlibcoapy_1_1libcoapy_1_1CoapUnknownResource.html" title="the unknown resource receives all requests that do not match any previously registered resource" alt="" coords="283,5,513,45"/>
+<area shape="rect" id="Node000000" href="$classlibcoapy_1_1libcoapy_1_1CoapResource.html" title="a server&#45;side CoAP resource" alt="" coords="5,13,235,38"/>
+<area shape="rect" id="Node000001" href="$classlibcoapy_1_1libcoapy_1_1CoapUnknownResource.html" title="the unknown resource receives all requests that do not match any previously registered resource" alt="" coords="283,5,513,45"/>
+<area shape="poly" id="edge81_Node000000_Node000001" title=" " alt="" coords="249,23,282,23,282,28,249,28"/>
 </map>

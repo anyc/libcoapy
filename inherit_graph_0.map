@@ -1,52 +1,101 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" title=" " alt="" coords="5,1399,103,1425"/>
-<area shape="rect" id="node2" href="$classlibcoapy_1_1llapi_1_1LStructure.html" title=" " alt="" coords="160,1325,337,1350"/>
-<area shape="rect" id="node48" href="$classlibcoapy_1_1llapi_1_1sockaddr.html" title=" " alt="" coords="164,1374,333,1399"/>
-<area shape="rect" id="node49" href="$classlibcoapy_1_1llapi_1_1sockaddr__in.html" title=" " alt="" coords="155,1423,343,1449"/>
-<area shape="rect" id="node50" href="$classlibcoapy_1_1llapi_1_1sockaddr__in6.html" title=" " alt="" coords="151,1473,347,1498"/>
-<area shape="rect" id="node3" href="$classlibcoapy_1_1llapi_1_1coap__addr__info__t.html" title=" " alt="" coords="401,5,543,45"/>
-<area shape="rect" id="node4" href="$classlibcoapy_1_1llapi_1_1coap__addr__tuple__t.html" title=" " alt="" coords="401,69,543,109"/>
-<area shape="rect" id="node5" href="$classlibcoapy_1_1llapi_1_1coap__address__t.html" title=" " alt="" coords="401,133,543,173"/>
-<area shape="rect" id="node6" href="$classlibcoapy_1_1llapi_1_1coap__async__t.html" title=" " alt="" coords="401,197,543,237"/>
-<area shape="rect" id="node7" href="$classlibcoapy_1_1llapi_1_1coap__attr__t.html" title=" " alt="" coords="401,261,543,301"/>
-<area shape="rect" id="node8" href="$classlibcoapy_1_1llapi_1_1coap__block__b__t.html" title=" " alt="" coords="401,325,543,365"/>
-<area shape="rect" id="node9" href="$classlibcoapy_1_1llapi_1_1coap__block__t.html" title=" " alt="" coords="401,389,543,429"/>
-<area shape="rect" id="node10" href="$classlibcoapy_1_1llapi_1_1coap__cache__entry__t.html" title=" " alt="" coords="401,453,543,493"/>
-<area shape="rect" id="node11" href="$classlibcoapy_1_1llapi_1_1coap__cache__key__t.html" title=" " alt="" coords="401,517,543,557"/>
-<area shape="rect" id="node12" href="$classlibcoapy_1_1llapi_1_1coap__context__t.html" title=" " alt="" coords="401,581,543,621"/>
-<area shape="rect" id="node13" href="$classlibcoapy_1_1llapi_1_1coap__dtls__cpsk__info__t.html" title=" " alt="" coords="401,645,543,685"/>
-<area shape="rect" id="node14" href="$classlibcoapy_1_1llapi_1_1coap__dtls__cpsk__t.html" title=" " alt="" coords="401,709,543,749"/>
-<area shape="rect" id="node15" href="$classlibcoapy_1_1llapi_1_1coap__dtls__key__t.html" title=" " alt="" coords="401,773,543,813"/>
-<area shape="rect" id="node16" href="$classlibcoapy_1_1llapi_1_1coap__dtls__pki__t.html" title=" " alt="" coords="401,837,543,877"/>
-<area shape="rect" id="node17" href="$classlibcoapy_1_1llapi_1_1coap__dtls__spsk__info__t.html" title=" " alt="" coords="401,901,543,941"/>
-<area shape="rect" id="node18" href="$classlibcoapy_1_1llapi_1_1coap__dtls__spsk__t.html" title=" " alt="" coords="401,965,543,1005"/>
-<area shape="rect" id="node19" href="$classlibcoapy_1_1llapi_1_1coap__endpoint__t.html" title=" " alt="" coords="401,1029,543,1069"/>
-<area shape="rect" id="node20" href="$classlibcoapy_1_1llapi_1_1coap__fixed__point__t.html" title=" " alt="" coords="401,1093,543,1133"/>
-<area shape="rect" id="node21" href="$classlibcoapy_1_1llapi_1_1coap__opt__filter__t.html" title=" " alt="" coords="401,1157,543,1197"/>
-<area shape="rect" id="node22" href="$classlibcoapy_1_1llapi_1_1coap__opt__iterator__t.html" title=" " alt="" coords="401,1221,543,1261"/>
-<area shape="rect" id="node23" href="$classlibcoapy_1_1llapi_1_1coap__option.html" title=" " alt="" coords="401,1285,543,1325"/>
-<area shape="rect" id="node24" href="$classlibcoapy_1_1llapi_1_1coap__option__t.html" title=" " alt="" coords="401,1349,543,1389"/>
-<area shape="rect" id="node25" href="$classlibcoapy_1_1llapi_1_1coap__optlist__t.html" title=" " alt="" coords="401,1413,543,1453"/>
-<area shape="rect" id="node26" href="$classlibcoapy_1_1llapi_1_1coap__oscore__conf__t.html" title=" " alt="" coords="401,1477,543,1517"/>
-<area shape="rect" id="node27" href="$classlibcoapy_1_1llapi_1_1coap__pdu__t.html" title=" " alt="" coords="401,1541,543,1581"/>
-<area shape="rect" id="node28" href="$classlibcoapy_1_1llapi_1_1coap__pki__key__asn1__t.html" title=" " alt="" coords="401,1605,543,1645"/>
-<area shape="rect" id="node29" href="$classlibcoapy_1_1llapi_1_1coap__pki__key__define__t.html" title=" " alt="" coords="401,1669,543,1709"/>
-<area shape="rect" id="node30" href="$classlibcoapy_1_1llapi_1_1coap__pki__key__pem__buf__t.html" title=" " alt="" coords="395,1733,549,1773"/>
-<area shape="rect" id="node31" href="$classlibcoapy_1_1llapi_1_1coap__pki__key__pem__t.html" title=" " alt="" coords="401,1797,543,1837"/>
-<area shape="rect" id="node32" href="$classlibcoapy_1_1llapi_1_1coap__pki__key__pkcs11__t.html" title=" " alt="" coords="400,1861,544,1901"/>
-<area shape="rect" id="node33" href="$classlibcoapy_1_1llapi_1_1coap__proxy__server__list__t.html" title=" " alt="" coords="395,1925,549,1965"/>
-<area shape="rect" id="node34" href="$classlibcoapy_1_1llapi_1_1coap__proxy__server__t.html" title=" " alt="" coords="401,1989,543,2029"/>
-<area shape="rect" id="node35" href="$classlibcoapy_1_1llapi_1_1coap__resource__t.html" title=" " alt="" coords="401,2053,543,2093"/>
-<area shape="rect" id="node36" href="$classlibcoapy_1_1llapi_1_1coap__session__t.html" title=" " alt="" coords="401,2117,543,2157"/>
-<area shape="rect" id="node37" href="$classlibcoapy_1_1llapi_1_1coap__sockaddr__un.html" title=" " alt="" coords="401,2181,543,2221"/>
-<area shape="rect" id="node38" href="$classlibcoapy_1_1llapi_1_1coap__socket__t.html" title=" " alt="" coords="401,2245,543,2285"/>
-<area shape="rect" id="node39" href="$classlibcoapy_1_1llapi_1_1coap__string__t.html" title=" " alt="" coords="401,2309,543,2349"/>
-<area shape="rect" id="node43" href="$classlibcoapy_1_1llapi_1_1coap__subscription__t.html" title=" " alt="" coords="401,2373,543,2413"/>
-<area shape="rect" id="node44" href="$classlibcoapy_1_1llapi_1_1coap__tls__version__t.html" title=" " alt="" coords="401,2437,543,2477"/>
-<area shape="rect" id="node45" href="$classlibcoapy_1_1llapi_1_1coap__uri__t.html" title=" " alt="" coords="401,2501,543,2541"/>
-<area shape="rect" id="node46" href="$classlibcoapy_1_1llapi_1_1epoll__event.html" title=" " alt="" coords="401,2565,543,2605"/>
-<area shape="rect" id="node47" href="$classlibcoapy_1_1llapi_1_1fd__set.html" title=" " alt="" coords="397,2630,547,2655"/>
-<area shape="rect" id="node40" href="$classlibcoapy_1_1llapi_1_1coap__binary__t.html" title=" " alt="" coords="597,2277,740,2317"/>
-<area shape="rect" id="node42" href="$classlibcoapy_1_1llapi_1_1coap__str__const__t.html" title=" " alt="" coords="597,2341,740,2381"/>
-<area shape="rect" id="node41" href="$classlibcoapy_1_1llapi_1_1coap__bin__const__t.html" title=" " alt="" coords="788,2277,931,2317"/>
+<area shape="rect" id="Node000000" title=" " alt="" coords="5,1399,103,1425"/>
+<area shape="rect" id="Node000001" href="$classlibcoapy_1_1llapi_1_1LStructure.html" title=" " alt="" coords="160,1325,337,1350"/>
+<area shape="poly" id="edge1_Node000000_Node000001" title=" " alt="" coords="86,1390,150,1359,185,1348,187,1353,152,1364,89,1395"/>
+<area shape="rect" id="Node000047" href="$classlibcoapy_1_1llapi_1_1sockaddr.html" title=" " alt="" coords="164,1374,333,1399"/>
+<area shape="poly" id="edge47_Node000000_Node000047" title=" " alt="" coords="116,1401,163,1395,164,1400,117,1407"/>
+<area shape="rect" id="Node000048" href="$classlibcoapy_1_1llapi_1_1sockaddr__in.html" title=" " alt="" coords="155,1423,343,1449"/>
+<area shape="poly" id="edge48_Node000000_Node000048" title=" " alt="" coords="116,1417,155,1422,154,1427,116,1422"/>
+<area shape="rect" id="Node000049" href="$classlibcoapy_1_1llapi_1_1sockaddr__in6.html" title=" " alt="" coords="151,1473,347,1498"/>
+<area shape="poly" id="edge49_Node000000_Node000049" title=" " alt="" coords="91,1429,152,1458,191,1470,190,1475,150,1462,88,1434"/>
+<area shape="rect" id="Node000002" href="$classlibcoapy_1_1llapi_1_1coap__addr__info__t.html" title=" " alt="" coords="401,5,543,45"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="249,1311,264,1057,295,658,315,454,338,273,364,133,378,86,393,56,405,44,409,47,397,59,383,88,369,135,343,273,320,455,300,659,269,1057,254,1311"/>
+<area shape="rect" id="Node000003" href="$classlibcoapy_1_1llapi_1_1coap__addr__tuple__t.html" title=" " alt="" coords="401,69,543,109"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="247,1311,248,1086,253,916,263,730,281,542,307,367,324,290,343,221,366,164,393,120,405,108,409,111,397,123,371,166,348,223,329,291,312,368,286,542,269,730,258,917,253,1086,252,1311"/>
+<area shape="rect" id="Node000004" href="$classlibcoapy_1_1llapi_1_1coap__address__t.html" title=" " alt="" coords="401,133,543,173"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="247,1311,250,1096,256,936,267,760,284,582,310,417,327,344,346,280,368,226,393,184,405,172,409,175,397,187,372,228,351,281,332,345,315,418,290,583,272,760,261,936,255,1096,253,1311"/>
+<area shape="rect" id="Node000005" href="$classlibcoapy_1_1llapi_1_1coap__async__t.html" title=" " alt="" coords="401,197,543,237"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="247,1311,252,1107,258,955,270,789,288,622,313,467,329,398,348,338,369,287,393,248,405,236,409,239,397,251,374,290,353,340,335,400,319,468,293,623,275,790,264,956,257,1107,253,1311"/>
+<area shape="rect" id="Node000006" href="$classlibcoapy_1_1llapi_1_1coap__attr__t.html" title=" " alt="" coords="401,261,543,301"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="248,1311,253,1117,261,975,274,819,292,662,317,517,332,453,350,396,370,349,393,312,405,300,409,303,397,315,375,351,355,398,338,454,322,518,297,663,279,819,267,975,259,1117,253,1311"/>
+<area shape="rect" id="Node000007" href="$classlibcoapy_1_1llapi_1_1coap__block__b__t.html" title=" " alt="" coords="401,325,543,365"/>
+<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="248,1311,255,1127,264,994,277,848,296,702,320,567,352,454,371,410,393,376,405,364,409,368,397,379,376,413,357,456,325,568,301,703,282,849,269,995,261,1128,253,1311"/>
+<area shape="rect" id="Node000008" href="$classlibcoapy_1_1llapi_1_1coap__block__t.html" title=" " alt="" coords="401,389,543,429"/>
+<area shape="poly" id="edge8_Node000001_Node000008" title=" " alt="" coords="248,1311,257,1138,281,879,299,743,324,617,354,513,373,472,393,440,406,427,409,431,397,443,377,474,359,515,329,618,305,744,286,879,263,1139,254,1311"/>
+<area shape="rect" id="Node000009" href="$classlibcoapy_1_1llapi_1_1coap__cache__entry__t.html" title=" " alt="" coords="401,453,543,493"/>
+<area shape="poly" id="edge9_Node000001_Node000009" title=" " alt="" coords="249,1311,259,1149,284,908,303,783,327,667,357,571,374,533,393,504,406,491,409,495,397,507,378,536,362,573,332,669,308,784,289,909,265,1150,254,1311"/>
+<area shape="rect" id="Node000010" href="$classlibcoapy_1_1llapi_1_1coap__cache__key__t.html" title=" " alt="" coords="401,517,543,557"/>
+<area shape="poly" id="edge10_Node000001_Node000010" title=" " alt="" coords="249,1311,261,1160,288,939,307,824,331,718,359,629,375,595,393,568,406,555,409,559,397,571,380,597,364,631,336,719,312,825,293,940,267,1161,254,1311"/>
+<area shape="rect" id="Node000011" href="$classlibcoapy_1_1llapi_1_1coap__context__t.html" title=" " alt="" coords="401,581,543,621"/>
+<area shape="poly" id="edge11_Node000001_Node000011" title=" " alt="" coords="250,1311,264,1172,291,969,311,864,334,768,361,688,376,656,393,632,406,620,410,624,397,635,381,659,366,690,339,769,316,865,297,970,269,1172,255,1311"/>
+<area shape="rect" id="Node000012" href="$classlibcoapy_1_1llapi_1_1coap__dtls__cpsk__info__t.html" title=" " alt="" coords="401,645,543,685"/>
+<area shape="poly" id="edge12_Node000001_Node000012" title=" " alt="" coords="250,1310,266,1182,295,999,315,904,338,818,363,746,378,718,393,696,406,683,410,687,397,699,382,720,368,748,343,819,320,906,300,1000,271,1182,255,1311"/>
+<area shape="rect" id="Node000013" href="$classlibcoapy_1_1llapi_1_1coap__dtls__cpsk__t.html" title=" " alt="" coords="401,709,543,749"/>
+<area shape="poly" id="edge13_Node000001_Node000013" title=" " alt="" coords="251,1311,268,1194,299,1030,319,946,341,868,366,804,393,760,407,747,410,751,397,763,370,807,346,870,324,947,304,1031,274,1195,256,1311"/>
+<area shape="rect" id="Node000014" href="$classlibcoapy_1_1llapi_1_1coap__dtls__key__t.html" title=" " alt="" coords="401,773,543,813"/>
+<area shape="poly" id="edge14_Node000001_Node000014" title=" " alt="" coords="247,1310,252,1220,259,1159,271,1091,289,1021,315,950,349,884,393,824,407,811,411,815,397,827,353,886,320,953,295,1022,277,1093,264,1160,257,1221,253,1311"/>
+<area shape="rect" id="Node000015" href="$classlibcoapy_1_1llapi_1_1coap__dtls__pki__t.html" title=" " alt="" coords="401,837,543,877"/>
+<area shape="poly" id="edge15_Node000001_Node000015" title=" " alt="" coords="248,1311,257,1231,279,1118,297,1057,322,997,353,939,393,887,407,875,411,880,397,891,358,942,326,999,302,1059,284,1120,262,1231,254,1311"/>
+<area shape="rect" id="Node000016" href="$classlibcoapy_1_1llapi_1_1coap__dtls__spsk__info__t.html" title=" " alt="" coords="401,901,543,941"/>
+<area shape="poly" id="edge16_Node000001_Node000016" title=" " alt="" coords="250,1311,262,1241,286,1146,305,1094,328,1043,358,995,393,951,408,939,411,944,397,955,362,998,333,1046,310,1096,291,1147,267,1242,255,1312"/>
+<area shape="rect" id="Node000017" href="$classlibcoapy_1_1llapi_1_1coap__dtls__spsk__t.html" title=" " alt="" coords="401,965,543,1005"/>
+<area shape="poly" id="edge17_Node000001_Node000017" title=" " alt="" coords="252,1311,267,1251,294,1173,335,1090,362,1050,393,1015,409,1003,412,1008,396,1019,366,1054,340,1092,299,1175,272,1253,258,1312"/>
+<area shape="rect" id="Node000018" href="$classlibcoapy_1_1llapi_1_1coap__endpoint__t.html" title=" " alt="" coords="401,1029,543,1069"/>
+<area shape="poly" id="edge18_Node000001_Node000018" title=" " alt="" coords="256,1310,274,1262,303,1200,342,1136,366,1106,393,1079,410,1067,413,1072,396,1083,370,1110,347,1139,308,1203,279,1264,261,1312"/>
+<area shape="rect" id="Node000019" href="$classlibcoapy_1_1llapi_1_1coap__fixed__point__t.html" title=" " alt="" coords="401,1093,543,1133"/>
+<area shape="poly" id="edge19_Node000001_Node000019" title=" " alt="" coords="261,1311,312,1230,350,1184,393,1143,412,1131,415,1136,396,1147,353,1188,317,1233,265,1314"/>
+<area shape="rect" id="Node000020" href="$classlibcoapy_1_1llapi_1_1coap__opt__filter__t.html" title=" " alt="" coords="401,1157,543,1197"/>
+<area shape="poly" id="edge20_Node000001_Node000020" title=" " alt="" coords="269,1313,323,1261,393,1207,416,1195,418,1200,396,1212,326,1265,273,1317"/>
+<area shape="rect" id="Node000021" href="$classlibcoapy_1_1llapi_1_1coap__opt__iterator__t.html" title=" " alt="" coords="401,1221,543,1261"/>
+<area shape="poly" id="edge21_Node000001_Node000021" title=" " alt="" coords="290,1316,394,1271,422,1259,424,1264,396,1276,292,1321"/>
+<area shape="rect" id="Node000022" href="$classlibcoapy_1_1llapi_1_1coap__option.html" title=" " alt="" coords="401,1285,543,1325"/>
+<area shape="poly" id="edge22_Node000001_Node000022" title=" " alt="" coords="351,1320,400,1313,401,1318,352,1325"/>
+<area shape="rect" id="Node000023" href="$classlibcoapy_1_1llapi_1_1coap__option__t.html" title=" " alt="" coords="401,1349,543,1389"/>
+<area shape="poly" id="edge23_Node000001_Node000023" title=" " alt="" coords="352,1349,401,1357,400,1362,351,1355"/>
+<area shape="rect" id="Node000024" href="$classlibcoapy_1_1llapi_1_1coap__optlist__t.html" title=" " alt="" coords="401,1413,543,1453"/>
+<area shape="poly" id="edge24_Node000001_Node000024" title=" " alt="" coords="332,1352,348,1359,363,1369,373,1379,396,1399,419,1411,416,1416,393,1404,369,1383,360,1373,345,1364,330,1357"/>
+<area shape="rect" id="Node000025" href="$classlibcoapy_1_1llapi_1_1coap__oscore__conf__t.html" title=" " alt="" coords="401,1477,543,1517"/>
+<area shape="poly" id="edge25_Node000001_Node000025" title=" " alt="" coords="342,1354,348,1359,361,1372,368,1385,374,1412,380,1438,386,1451,397,1463,412,1475,409,1479,393,1467,381,1453,375,1440,369,1413,363,1387,356,1375,345,1363,339,1359"/>
+<area shape="rect" id="Node000026" href="$classlibcoapy_1_1llapi_1_1coap__pdu__t.html" title=" " alt="" coords="401,1541,543,1581"/>
+<area shape="poly" id="edge26_Node000001_Node000026" title=" " alt="" coords="344,1356,349,1360,365,1380,373,1402,375,1444,376,1486,383,1506,397,1528,411,1539,407,1543,393,1531,378,1509,371,1487,370,1444,368,1403,360,1383,345,1363,341,1360"/>
+<area shape="rect" id="Node000027" href="$classlibcoapy_1_1llapi_1_1coap__pki__key__asn1__t.html" title=" " alt="" coords="401,1605,543,1645"/>
+<area shape="poly" id="edge27_Node000001_Node000027" title=" " alt="" coords="345,1356,349,1360,369,1389,378,1418,379,1447,376,1476,372,1504,372,1533,379,1562,397,1592,410,1603,406,1607,393,1595,374,1564,367,1534,367,1504,370,1475,374,1447,373,1419,365,1391,345,1363,341,1360"/>
+<area shape="rect" id="Node000028" href="$classlibcoapy_1_1llapi_1_1coap__pki__key__define__t.html" title=" " alt="" coords="401,1669,543,1709"/>
+<area shape="poly" id="edge28_Node000001_Node000028" title=" " alt="" coords="345,1356,349,1360,374,1397,383,1434,382,1471,376,1507,370,1544,368,1580,375,1618,397,1656,409,1667,406,1671,393,1659,370,1619,362,1581,364,1543,371,1506,377,1470,378,1435,369,1399,345,1363,342,1360"/>
+<area shape="rect" id="Node000029" href="$classlibcoapy_1_1llapi_1_1coap__pki__key__pem__buf__t.html" title=" " alt="" coords="395,1733,549,1773"/>
+<area shape="poly" id="edge29_Node000001_Node000029" title=" " alt="" coords="345,1356,349,1360,366,1382,378,1405,385,1428,388,1450,386,1495,377,1539,367,1583,364,1628,371,1673,382,1696,397,1720,409,1731,405,1735,393,1723,377,1699,366,1675,358,1628,362,1582,372,1538,381,1494,383,1450,380,1429,373,1407,362,1385,345,1363,342,1360"/>
+<area shape="rect" id="Node000030" href="$classlibcoapy_1_1llapi_1_1coap__pki__key__pem__t.html" title=" " alt="" coords="401,1797,543,1837"/>
+<area shape="poly" id="edge30_Node000001_Node000030" title=" " alt="" coords="346,1357,349,1360,369,1387,382,1413,390,1440,394,1466,389,1519,378,1570,365,1622,359,1675,361,1702,368,1729,379,1756,397,1784,409,1795,405,1799,393,1787,374,1758,363,1730,356,1702,354,1675,360,1622,372,1569,384,1518,388,1466,385,1441,377,1415,364,1389,345,1363,342,1360"/>
+<area shape="rect" id="Node000031" href="$classlibcoapy_1_1llapi_1_1coap__pki__key__pkcs11__t.html" title=" " alt="" coords="400,1861,544,1901"/>
+<area shape="poly" id="edge31_Node000001_Node000031" title=" " alt="" coords="346,1357,349,1360,361,1378,369,1402,378,1460,379,1529,376,1603,373,1678,373,1748,380,1806,387,1829,397,1848,409,1859,405,1863,393,1851,382,1831,374,1807,367,1748,367,1678,370,1603,373,1529,372,1460,364,1403,356,1381,345,1363,342,1360"/>
+<area shape="rect" id="Node000032" href="$classlibcoapy_1_1llapi_1_1coap__proxy__server__list__t.html" title=" " alt="" coords="395,1925,549,1965"/>
+<area shape="poly" id="edge32_Node000001_Node000032" title=" " alt="" coords="346,1357,349,1360,362,1381,371,1407,380,1473,381,1551,376,1635,371,1720,370,1798,378,1864,386,1891,397,1912,409,1923,405,1927,393,1915,381,1893,372,1865,365,1798,366,1720,371,1635,375,1551,375,1473,366,1408,357,1383,345,1363,342,1360"/>
+<area shape="rect" id="Node000033" href="$classlibcoapy_1_1llapi_1_1coap__proxy__server__t.html" title=" " alt="" coords="401,1989,543,2029"/>
+<area shape="poly" id="edge33_Node000001_Node000033" title=" " alt="" coords="346,1357,349,1360,363,1383,374,1413,383,1486,382,1573,376,1667,370,1761,368,1849,376,1923,384,1952,397,1976,408,1987,405,1991,393,1979,379,1954,371,1924,363,1849,365,1761,371,1667,377,1573,378,1486,368,1414,359,1385,345,1363,342,1360"/>
+<area shape="rect" id="Node000034" href="$classlibcoapy_1_1llapi_1_1coap__resource__t.html" title=" " alt="" coords="401,2053,543,2093"/>
+<area shape="poly" id="edge34_Node000001_Node000034" title=" " alt="" coords="346,1357,349,1360,365,1386,376,1418,382,1456,386,1499,384,1595,377,1699,369,1803,366,1899,374,1981,383,2014,397,2040,408,2051,405,2055,393,2043,378,2016,369,1982,361,1900,364,1802,371,1698,379,1595,380,1499,377,1457,371,1419,360,1388,345,1363,342,1360"/>
+<area shape="rect" id="Node000035" href="$classlibcoapy_1_1llapi_1_1coap__session__t.html" title=" " alt="" coords="401,2117,543,2157"/>
+<area shape="poly" id="edge35_Node000001_Node000035" title=" " alt="" coords="347,1357,349,1360,366,1388,378,1424,385,1465,388,1512,386,1617,377,1731,368,1844,364,1950,366,1997,372,2039,382,2075,397,2104,408,2115,405,2119,393,2107,377,2077,367,2040,361,1998,359,1950,363,1844,372,1730,381,1617,383,1512,380,1466,373,1425,361,1390,345,1363,343,1361"/>
+<area shape="rect" id="Node000036" href="$classlibcoapy_1_1llapi_1_1coap__sockaddr__un.html" title=" " alt="" coords="401,2181,543,2221"/>
+<area shape="poly" id="edge36_Node000001_Node000036" title=" " alt="" coords="347,1357,349,1360,367,1390,380,1429,388,1474,391,1525,388,1639,377,1762,367,1886,362,2001,364,2052,370,2098,381,2137,397,2168,408,2179,404,2183,393,2171,376,2139,365,2099,359,2052,357,2001,361,1885,372,1762,382,1639,385,1525,382,1475,375,1430,363,1393,345,1363,343,1361"/>
+<area shape="rect" id="Node000037" href="$classlibcoapy_1_1llapi_1_1coap__socket__t.html" title=" " alt="" coords="401,2245,543,2285"/>
+<area shape="poly" id="edge37_Node000001_Node000037" title=" " alt="" coords="347,1357,349,1360,369,1393,382,1435,390,1483,393,1538,389,1661,378,1794,366,1927,360,2051,362,2107,368,2156,380,2198,397,2232,408,2243,404,2247,393,2235,375,2200,363,2157,357,2107,355,2051,360,1927,372,1794,384,1661,388,1538,385,1484,377,1436,364,1395,345,1363,343,1361"/>
+<area shape="rect" id="Node000038" href="$classlibcoapy_1_1llapi_1_1coap__string__t.html" title=" " alt="" coords="401,2309,543,2349"/>
+<area shape="poly" id="edge38_Node000001_Node000038" title=" " alt="" coords="347,1357,349,1360,370,1395,384,1440,393,1493,396,1551,391,1683,378,1826,365,1969,358,2102,360,2161,366,2214,378,2260,397,2296,408,2307,404,2311,393,2299,373,2261,361,2215,355,2162,353,2102,359,1968,373,1825,386,1683,391,1551,387,1493,379,1441,365,1398,345,1363,343,1361"/>
+<area shape="rect" id="Node000042" href="$classlibcoapy_1_1llapi_1_1coap__subscription__t.html" title=" " alt="" coords="401,2373,543,2413"/>
+<area shape="poly" id="edge42_Node000001_Node000042" title=" " alt="" coords="347,1357,349,1360,361,1385,369,1425,378,1541,379,1691,376,1859,373,2028,373,2179,380,2295,387,2335,397,2360,408,2371,404,2375,392,2363,382,2337,375,2296,368,2179,367,2028,371,1859,373,1691,372,1541,364,1426,356,1387,344,1363,343,1361"/>
+<area shape="rect" id="Node000043" href="$classlibcoapy_1_1llapi_1_1coap__tls__version__t.html" title=" " alt="" coords="401,2437,543,2477"/>
+<area shape="poly" id="edge43_Node000001_Node000043" title=" " alt="" coords="347,1357,349,1360,361,1386,370,1429,379,1552,380,1713,376,1891,372,2070,372,2231,379,2355,386,2398,397,2424,408,2435,404,2439,392,2427,381,2399,374,2356,366,2231,367,2070,371,1891,374,1713,374,1553,365,1430,356,1388,344,1363,343,1361"/>
+<area shape="rect" id="Node000044" href="$classlibcoapy_1_1llapi_1_1coap__uri__t.html" title=" " alt="" coords="401,2501,543,2541"/>
+<area shape="poly" id="edge44_Node000001_Node000044" title=" " alt="" coords="347,1357,349,1360,362,1388,371,1433,380,1564,381,1734,376,1923,372,2113,371,2283,378,2415,386,2460,397,2488,408,2499,404,2503,392,2491,381,2461,373,2416,365,2283,366,2113,371,1923,375,1734,375,1564,366,1434,357,1390,344,1363,343,1361"/>
+<area shape="rect" id="Node000045" href="$classlibcoapy_1_1llapi_1_1epoll__event.html" title=" " alt="" coords="401,2565,543,2605"/>
+<area shape="poly" id="edge45_Node000001_Node000045" title=" " alt="" coords="347,1357,349,1360,363,1390,372,1437,382,1576,381,1755,376,1955,371,2155,370,2336,377,2475,385,2522,397,2552,408,2563,404,2567,392,2555,380,2524,372,2475,364,2336,366,2155,371,1955,376,1755,376,1576,367,1438,358,1391,344,1363,343,1361"/>
+<area shape="rect" id="Node000046" href="$classlibcoapy_1_1llapi_1_1fd__set.html" title=" " alt="" coords="397,2630,547,2655"/>
+<area shape="poly" id="edge46_Node000001_Node000046" title=" " alt="" coords="347,1357,349,1360,363,1391,373,1441,379,1508,382,1588,381,1777,375,1988,369,2199,367,2389,369,2469,375,2535,384,2585,397,2616,411,2628,407,2632,393,2619,379,2587,370,2536,364,2469,362,2389,363,2199,370,1988,376,1777,377,1588,374,1508,368,1442,358,1393,344,1363,343,1361"/>
+<area shape="rect" id="Node000039" href="$classlibcoapy_1_1llapi_1_1coap__binary__t.html" title=" " alt="" coords="597,2277,740,2317"/>
+<area shape="poly" id="edge39_Node000038_Node000039" title=" " alt="" coords="556,2313,596,2306,597,2312,557,2318"/>
+<area shape="rect" id="Node000041" href="$classlibcoapy_1_1llapi_1_1coap__str__const__t.html" title=" " alt="" coords="597,2341,740,2381"/>
+<area shape="poly" id="edge41_Node000038_Node000041" title=" " alt="" coords="557,2340,597,2347,596,2352,556,2346"/>
+<area shape="rect" id="Node000040" href="$classlibcoapy_1_1llapi_1_1coap__bin__const__t.html" title=" " alt="" coords="788,2277,931,2317"/>
+<area shape="poly" id="edge40_Node000039_Node000040" title=" " alt="" coords="753,2295,788,2295,788,2300,753,2300"/>
 </map>

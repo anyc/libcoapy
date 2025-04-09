@@ -1,26 +1,49 @@
 <map id="libcoapy.llapi.ctypes_enum_gen" name="libcoapy.llapi.ctypes_enum_gen">
-<area shape="rect" id="node1" title=" " alt="" coords="175,677,329,717"/>
-<area shape="rect" id="node3" href="$classlibcoapy_1_1llapi_1_1coap__asn1__privatekey__type__t.html" title=" " alt="" coords="377,5,561,45"/>
-<area shape="rect" id="node4" href="$classlibcoapy_1_1llapi_1_1coap__cache__record__pdu__t.html" title=" " alt="" coords="390,69,549,109"/>
-<area shape="rect" id="node5" href="$classlibcoapy_1_1llapi_1_1coap__cache__session__based__t.html" title=" " alt="" coords="379,133,560,173"/>
-<area shape="rect" id="node6" href="$classlibcoapy_1_1llapi_1_1coap__dtls__role__t.html" title=" " alt="" coords="398,197,541,237"/>
-<area shape="rect" id="node7" href="$classlibcoapy_1_1llapi_1_1coap__event__t.html" title=" " alt="" coords="398,261,541,301"/>
-<area shape="rect" id="node8" href="$classlibcoapy_1_1llapi_1_1coap__log__t.html" title=" " alt="" coords="398,325,541,365"/>
-<area shape="rect" id="node9" href="$classlibcoapy_1_1llapi_1_1coap__memory__tag__t.html" title=" " alt="" coords="398,389,541,429"/>
-<area shape="rect" id="node10" href="$classlibcoapy_1_1llapi_1_1coap__nack__reason__t.html" title=" " alt="" coords="398,453,541,493"/>
-<area shape="rect" id="node11" href="$classlibcoapy_1_1llapi_1_1coap__pdu__code__t.html" title=" " alt="" coords="398,517,541,557"/>
-<area shape="rect" id="node12" href="$classlibcoapy_1_1llapi_1_1coap__pdu__signaling__proto__t.html" title=" " alt="" coords="383,581,555,621"/>
-<area shape="rect" id="node13" href="$classlibcoapy_1_1llapi_1_1coap__pdu__type__t.html" title=" " alt="" coords="398,645,541,685"/>
-<area shape="rect" id="node14" href="$classlibcoapy_1_1llapi_1_1coap__pki__define__t.html" title=" " alt="" coords="398,709,541,749"/>
-<area shape="rect" id="node15" href="$classlibcoapy_1_1llapi_1_1coap__pki__key__t.html" title=" " alt="" coords="398,773,541,813"/>
-<area shape="rect" id="node16" href="$classlibcoapy_1_1llapi_1_1coap__proto__t.html" title=" " alt="" coords="398,837,541,877"/>
-<area shape="rect" id="node17" href="$classlibcoapy_1_1llapi_1_1coap__proxy__t.html" title=" " alt="" coords="398,901,541,941"/>
-<area shape="rect" id="node18" href="$classlibcoapy_1_1llapi_1_1coap__request__t.html" title=" " alt="" coords="398,965,541,1005"/>
-<area shape="rect" id="node19" href="$classlibcoapy_1_1llapi_1_1coap__resolve__type__t.html" title=" " alt="" coords="398,1029,541,1069"/>
-<area shape="rect" id="node20" href="$classlibcoapy_1_1llapi_1_1coap__response__t.html" title=" " alt="" coords="398,1093,541,1133"/>
-<area shape="rect" id="node21" href="$classlibcoapy_1_1llapi_1_1coap__session__state__t.html" title=" " alt="" coords="398,1157,541,1197"/>
-<area shape="rect" id="node22" href="$classlibcoapy_1_1llapi_1_1coap__session__type__t.html" title=" " alt="" coords="398,1221,541,1261"/>
-<area shape="rect" id="node23" href="$classlibcoapy_1_1llapi_1_1coap__tls__library__t.html" title=" " alt="" coords="398,1285,541,1325"/>
-<area shape="rect" id="node24" href="$classlibcoapy_1_1llapi_1_1coap__uri__scheme__t.html" title=" " alt="" coords="398,1349,541,1389"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,685,127,710"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="175,677,329,717"/>
+<area shape="rect" id="Node000003" href="$classlibcoapy_1_1llapi_1_1coap__asn1__privatekey__type__t.html" title=" " alt="" coords="377,5,561,45"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="253,663,264,532,287,351,303,258,323,174,347,104,361,77,375,56,389,44,393,48,379,59,365,80,352,106,328,175,308,259,292,351,269,532,258,664"/>
+<area shape="rect" id="Node000004" href="$classlibcoapy_1_1llapi_1_1coap__cache__record__pdu__t.html" title=" " alt="" coords="390,69,549,109"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="254,664,267,544,291,382,307,300,327,225,349,163,375,120,390,107,393,111,379,123,354,165,332,226,312,301,296,383,272,545,259,664"/>
+<area shape="rect" id="Node000005" href="$classlibcoapy_1_1llapi_1_1coap__cache__session__based__t.html" title=" " alt="" coords="379,133,560,173"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="255,663,270,555,295,413,312,341,330,275,352,221,375,184,390,171,393,176,379,187,356,224,335,277,317,342,300,414,275,556,260,664"/>
+<area shape="rect" id="Node000006" href="$classlibcoapy_1_1llapi_1_1coap__dtls__role__t.html" title=" " alt="" coords="398,197,541,237"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="250,663,254,581,271,470,286,411,308,352,338,297,375,247,396,232,399,236,379,251,342,300,313,354,291,412,276,471,259,581,255,664"/>
+<area shape="rect" id="Node000007" href="$classlibcoapy_1_1llapi_1_1coap__event__t.html" title=" " alt="" coords="398,261,541,301"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="252,663,259,591,279,497,295,448,315,399,342,352,375,311,396,296,399,301,379,315,347,356,320,401,300,449,284,499,265,592,257,664"/>
+<area shape="rect" id="Node000008" href="$classlibcoapy_1_1llapi_1_1coap__log__t.html" title=" " alt="" coords="398,325,541,365"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="254,663,265,602,287,526,303,485,323,446,347,408,376,375,396,361,400,365,379,379,351,412,327,448,308,487,292,527,271,604,260,664"/>
+<area shape="rect" id="Node000009" href="$classlibcoapy_1_1llapi_1_1coap__memory__tag__t.html" title=" " alt="" coords="398,389,541,429"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="258,663,273,614,296,554,330,493,351,465,376,439,397,425,399,430,379,443,355,468,334,496,301,556,278,616,263,665"/>
+<area shape="rect" id="Node000010" href="$classlibcoapy_1_1llapi_1_1coap__nack__reason__t.html" title=" " alt="" coords="398,453,541,493"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="264,663,282,626,306,583,338,540,376,503,396,491,399,495,379,507,342,544,311,586,287,629,269,665"/>
+<area shape="rect" id="Node000011" href="$classlibcoapy_1_1llapi_1_1coap__pdu__code__t.html" title=" " alt="" coords="398,517,541,557"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="274,665,318,615,346,590,376,567,399,555,401,560,379,572,349,594,322,619,278,668"/>
+<area shape="rect" id="Node000012" href="$classlibcoapy_1_1llapi_1_1coap__pdu__signaling__proto__t.html" title=" " alt="" coords="383,581,555,621"/>
+<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="300,668,376,631,407,619,409,624,378,636,302,673"/>
+<area shape="rect" id="Node000013" href="$classlibcoapy_1_1llapi_1_1coap__pdu__type__t.html" title=" " alt="" coords="398,645,541,685"/>
+<area shape="poly" id="edge12_Node000001_Node000013" title=" " alt="" coords="343,681,397,673,398,678,344,687"/>
+<area shape="rect" id="Node000014" href="$classlibcoapy_1_1llapi_1_1coap__pki__define__t.html" title=" " alt="" coords="398,709,541,749"/>
+<area shape="poly" id="edge13_Node000001_Node000014" title=" " alt="" coords="344,708,398,716,397,721,343,713"/>
+<area shape="rect" id="Node000015" href="$classlibcoapy_1_1llapi_1_1coap__pki__key__t.html" title=" " alt="" coords="398,773,541,813"/>
+<area shape="poly" id="edge14_Node000001_Node000015" title=" " alt="" coords="302,722,378,759,409,771,407,776,376,764,300,726"/>
+<area shape="rect" id="Node000016" href="$classlibcoapy_1_1llapi_1_1coap__proto__t.html" title=" " alt="" coords="398,837,541,877"/>
+<area shape="poly" id="edge15_Node000001_Node000016" title=" " alt="" coords="278,726,322,776,349,801,379,823,401,835,399,840,376,828,346,805,318,780,274,730"/>
+<area shape="rect" id="Node000017" href="$classlibcoapy_1_1llapi_1_1coap__proxy__t.html" title=" " alt="" coords="398,901,541,941"/>
+<area shape="poly" id="edge16_Node000001_Node000017" title=" " alt="" coords="269,729,287,766,311,808,342,851,379,887,399,900,396,904,376,891,338,854,306,811,282,769,264,732"/>
+<area shape="rect" id="Node000018" href="$classlibcoapy_1_1llapi_1_1coap__request__t.html" title=" " alt="" coords="398,965,541,1005"/>
+<area shape="poly" id="edge17_Node000001_Node000018" title=" " alt="" coords="263,730,278,779,301,838,334,899,355,927,379,951,399,965,397,969,376,955,351,930,330,902,296,841,273,781,258,731"/>
+<area shape="rect" id="Node000019" href="$classlibcoapy_1_1llapi_1_1coap__resolve__type__t.html" title=" " alt="" coords="398,1029,541,1069"/>
+<area shape="poly" id="edge18_Node000001_Node000019" title=" " alt="" coords="260,730,271,791,292,867,308,907,327,946,351,983,379,1015,400,1030,396,1034,376,1019,347,986,323,949,303,910,287,869,265,792,254,731"/>
+<area shape="rect" id="Node000020" href="$classlibcoapy_1_1llapi_1_1coap__response__t.html" title=" " alt="" coords="398,1093,541,1133"/>
+<area shape="poly" id="edge19_Node000001_Node000020" title=" " alt="" coords="257,731,265,803,284,896,300,945,320,994,347,1039,379,1079,399,1094,396,1098,375,1083,342,1042,315,996,295,947,279,897,259,804,252,732"/>
+<area shape="rect" id="Node000021" href="$classlibcoapy_1_1llapi_1_1coap__session__state__t.html" title=" " alt="" coords="398,1157,541,1197"/>
+<area shape="poly" id="edge20_Node000001_Node000021" title=" " alt="" coords="255,731,259,813,276,924,291,982,313,1040,342,1095,379,1143,399,1158,396,1163,375,1147,338,1098,308,1043,286,984,271,925,254,814,250,731"/>
+<area shape="rect" id="Node000022" href="$classlibcoapy_1_1llapi_1_1coap__session__type__t.html" title=" " alt="" coords="398,1221,541,1261"/>
+<area shape="poly" id="edge21_Node000001_Node000022" title=" " alt="" coords="260,731,275,838,300,981,317,1053,335,1118,356,1171,379,1208,399,1223,396,1227,375,1211,352,1174,330,1119,312,1054,295,982,270,839,255,731"/>
+<area shape="rect" id="Node000023" href="$classlibcoapy_1_1llapi_1_1coap__tls__library__t.html" title=" " alt="" coords="398,1285,541,1325"/>
+<area shape="poly" id="edge22_Node000001_Node000023" title=" " alt="" coords="259,731,272,850,296,1012,312,1094,332,1168,354,1230,379,1272,400,1287,396,1291,375,1275,349,1232,327,1170,307,1095,291,1013,267,851,254,731"/>
+<area shape="rect" id="Node000024" href="$classlibcoapy_1_1llapi_1_1coap__uri__scheme__t.html" title=" " alt="" coords="398,1349,541,1389"/>
+<area shape="poly" id="edge23_Node000001_Node000024" title=" " alt="" coords="258,731,269,862,292,1043,308,1135,328,1219,352,1288,365,1315,379,1335,399,1351,396,1355,375,1339,361,1318,347,1290,323,1221,303,1136,287,1044,264,863,253,731"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,685,127,710"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="140,695,174,695,174,700,140,700"/>
 </map>

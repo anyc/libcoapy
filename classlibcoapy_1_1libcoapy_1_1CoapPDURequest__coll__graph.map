@@ -1,4 +1,5 @@
 <map id="libcoapy.libcoapy.CoapPDURequest" name="libcoapy.libcoapy.CoapPDURequest">
-<area shape="rect" id="node1" title="PDU that represents a request" alt="" coords="5,79,256,104"/>
-<area shape="rect" id="node2" href="$classlibcoapy_1_1libcoapy_1_1CoapPDU.html" title="PDU base class." alt="" coords="32,5,229,31"/>
+<area shape="rect" id="Node000001" title="PDU that represents a request" alt="" coords="5,79,256,104"/>
+<area shape="rect" id="Node000002" href="$classlibcoapy_1_1libcoapy_1_1CoapPDU.html" title="PDU base class." alt="" coords="32,5,229,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="133,44,133,79,128,79,128,44"/>
 </map>

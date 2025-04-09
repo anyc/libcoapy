@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['encode_20_2f_20decode_20api_0',['Encode / Decode API',['https://libcoap.net/doc/reference/4.3.5/group__encode.html',1,'']]],
-  ['event_20handling_1',['Event Handling',['https://libcoap.net/doc/reference/4.3.5/group__events.html',1,'']]]
+  ['decode_20api_0',['Encode / Decode API',['https://libcoap.net/doc/reference/4.3.5/group__encode.html',1,'']]],
+  ['dtls_20support_1',['dtls support',['https://libcoap.net/doc/reference/4.3.5/group__dtls.html',1,'DTLS Support'],['https://libcoap.net/doc/reference/4.3.5/group__dtls__internal.html',1,'DTLS Support']]]
 ];

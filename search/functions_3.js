@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['c_5fuint8_5fp_5fto_5fstr_0',['c_uint8_p_to_str',['../namespacelibcoapy_1_1llapi.html#aff445074fa324042c9a9421d8683fce3',1,'libcoapy::llapi']]],
-  ['cancelobservation_1',['cancelObservation',['../classlibcoapy_1_1libcoapy_1_1CoapPDU.html#a50c0cf1ea8167faf62b922aa4829bdf1',1,'libcoapy::libcoapy::CoapPDU']]],
+  ['c_5fuint8_5fp_5fto_5fstr_0',['c_uint8_p_to_str',['../namespacelibcoapy_1_1llapi.html#afeeadd7250a53aadfc5b2151761fc7d5',1,'libcoapy::llapi']]],
+  ['cancelobservation_1',['cancelObservation',['../classlibcoapy_1_1libcoapy_1_1CoapPDU.html#a9637b85decf239f7ccfe889711df0d5e',1,'libcoapy::libcoapy::CoapPDU']]],
   ['coap_5fadd_5fattr_2',['coap_add_attr',['https://libcoap.net/doc/reference/4.3.5/group__coap__resource.html#ga1787fba8c0b0cb7823fb251177c84fcd',1,]]],
   ['coap_5fadd_5fblock_3',['coap_add_block',['https://libcoap.net/doc/reference/4.3.5/group__block.html#ga73094dc713e61b72cec8e37ffaf72a39',1,]]],
   ['coap_5fadd_5fblock_5fb_5fdata_4',['coap_add_block_b_data',['https://libcoap.net/doc/reference/4.3.5/group__block.html#ga5d021b08e7774a54d635cc049aa491f7',1,]]],
@@ -527,10 +527,10 @@ var searchData=
   ['coap_5fws_5fset_5fhost_5frequest_524',['coap_ws_set_host_request',['https://libcoap.net/doc/reference/4.3.5/group__ws.html#gaa0feec8ad82bbe45df9e2ba4f2bdf21c',1,]]],
   ['coap_5fws_5fwrite_525',['coap_ws_write',['https://libcoap.net/doc/reference/4.3.5/group__ws__internal.html#ga9d28e7f216f77b35ce17354001f3cdbb',1,]]],
   ['coap_5fwss_5fis_5fsupported_526',['coap_wss_is_supported',['https://libcoap.net/doc/reference/4.3.5/group__supported.html#gae3150f4272480b18b3771e6b6465624e',1,]]],
-  ['coappackageversion_527',['CoapPackageVersion',['../namespacelibcoapy_1_1libcoapy.html#aab5ca199b2729faf995179ce2fb51aa7',1,'libcoapy::libcoapy']]],
-  ['coapstringtlssupport_528',['CoapStringTlsSupport',['../namespacelibcoapy_1_1libcoapy.html#a64681b937b6ddb6b9346b4656ad8e718',1,'libcoapy::libcoapy']]],
-  ['coapstringtlsversion_529',['CoapStringTlsVersion',['../namespacelibcoapy_1_1libcoapy.html#a86818993e4b918c7bc5e36f6d459778b',1,'libcoapy::libcoapy']]],
-  ['code_530',['code',['../classlibcoapy_1_1libcoapy_1_1CoapPDU.html#a422cfdd7713c79732379a12ba6739616',1,'libcoapy.libcoapy.CoapPDU.code(self)'],['../classlibcoapy_1_1libcoapy_1_1CoapPDU.html#a138a269dd99cdfac20c5cc88a1be2789',1,'libcoapy.libcoapy.CoapPDU.code(self, value)']]],
+  ['coappackageversion_527',['CoapPackageVersion',['../namespacelibcoapy_1_1libcoapy.html#a3118e11158d7578e70c7fe10dc785240',1,'libcoapy::libcoapy']]],
+  ['coapstringtlssupport_528',['CoapStringTlsSupport',['../namespacelibcoapy_1_1libcoapy.html#ab347e32b64526f9df4b9669619c91f31',1,'libcoapy::libcoapy']]],
+  ['coapstringtlsversion_529',['CoapStringTlsVersion',['../namespacelibcoapy_1_1libcoapy.html#a065c40520bb0a81eb4a3291d7d86f90c',1,'libcoapy::libcoapy']]],
+  ['code_530',['code',['../classlibcoapy_1_1libcoapy_1_1CoapPDU.html#aecc8514c1425f8ecacbd5ac883ae0c69',1,'libcoapy.libcoapy.CoapPDU.code(self)'],['../classlibcoapy_1_1libcoapy_1_1CoapPDU.html#a6841b464b1b273fe84330715677c1c79',1,'libcoapy.libcoapy.CoapPDU.code(self, value)']]],
   ['cose_5fencrypt0_5fdecode_531',['cose_encrypt0_decode',['https://libcoap.net/doc/reference/4.3.5/group__oscore__cose__internal.html#gab767d348b7731a6ac78c27f63c7eaa6d',1,]]],
   ['cose_5fencrypt0_5fdecrypt_532',['cose_encrypt0_decrypt',['https://libcoap.net/doc/reference/4.3.5/group__oscore__cose__internal.html#ga98bce18599d06855aef264c581359cfc',1,]]],
   ['cose_5fencrypt0_5fencode_533',['cose_encrypt0_encode',['https://libcoap.net/doc/reference/4.3.5/group__oscore__cose__internal.html#gae342a670968916612e000aaad6f986e7',1,]]],
@@ -560,6 +560,6 @@ var searchData=
   ['cose_5fkey_5flen_557',['cose_key_len',['https://libcoap.net/doc/reference/4.3.5/group__oscore__cose__internal.html#ga5987d08cde40eb463c4229ee59d8a80a',1,]]],
   ['cose_5fnonce_5flen_558',['cose_nonce_len',['https://libcoap.net/doc/reference/4.3.5/group__oscore__cose__internal.html#ga2884f3bd7547aa309d43996b36445ac3',1,]]],
   ['cose_5ftag_5flen_559',['cose_tag_len',['https://libcoap.net/doc/reference/4.3.5/group__oscore__cose__internal.html#ga9fde80556c958b2e2a17b2e0339cbb40',1,]]],
-  ['ct_5fcall_560',['ct_call',['../namespacelibcoapy_1_1llapi.html#a9c199978b6653428c75927c0ae34287e',1,'libcoapy::llapi']]],
-  ['ctype_561',['ctype',['../classlibcoapy_1_1llapi_1_1LStructure.html#a3c85b8b9d53608ca48f8048aab0278e3',1,'libcoapy::llapi::LStructure']]]
+  ['ct_5fcall_560',['ct_call',['../namespacelibcoapy_1_1llapi.html#ae6080f3c19ee0471de49030f2b2da007',1,'libcoapy::llapi']]],
+  ['ctype_561',['ctype',['../classlibcoapy_1_1llapi_1_1LStructure.html#aece67757d8dcada9bdfdf19e02bb4c76',1,'libcoapy::llapi::LStructure']]]
 ];
