@@ -1,0 +1,4 @@
+<map id="libcoapy.libcoapy.CoapUnknownResource" name="libcoapy.libcoapy.CoapUnknownResource">
+<area shape="rect" id="node1" title="the unknown resource receives all requests that do not match any previously registered resource" alt="" coords="5,79,236,119"/>
+<area shape="rect" id="node2" href="$classlibcoapy_1_1libcoapy_1_1CoapResource.html" title="a server&#45;side CoAP resource" alt="" coords="6,5,235,31"/>
+</map>

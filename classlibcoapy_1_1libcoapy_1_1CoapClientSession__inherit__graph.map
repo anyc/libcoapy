@@ -1,0 +1,4 @@
+<map id="libcoapy.libcoapy.CoapClientSession" name="libcoapy.libcoapy.CoapClientSession">
+<area shape="rect" id="node1" title="represents a session initiated by a client" alt="" coords="11,79,218,119"/>
+<area shape="rect" id="node2" href="$classlibcoapy_1_1libcoapy_1_1CoapSession.html" title="represents a CoAP session or connection between two peers" alt="" coords="5,5,224,31"/>
+</map>

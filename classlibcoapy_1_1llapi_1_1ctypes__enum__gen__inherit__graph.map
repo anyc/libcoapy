@@ -1,0 +1,26 @@
+<map id="libcoapy.llapi.ctypes_enum_gen" name="libcoapy.llapi.ctypes_enum_gen">
+<area shape="rect" id="node1" title=" " alt="" coords="175,677,329,717"/>
+<area shape="rect" id="node3" href="$classlibcoapy_1_1llapi_1_1coap__asn1__privatekey__type__t.html" title=" " alt="" coords="377,5,561,45"/>
+<area shape="rect" id="node4" href="$classlibcoapy_1_1llapi_1_1coap__cache__record__pdu__t.html" title=" " alt="" coords="390,69,549,109"/>
+<area shape="rect" id="node5" href="$classlibcoapy_1_1llapi_1_1coap__cache__session__based__t.html" title=" " alt="" coords="379,133,560,173"/>
+<area shape="rect" id="node6" href="$classlibcoapy_1_1llapi_1_1coap__dtls__role__t.html" title=" " alt="" coords="398,197,541,237"/>
+<area shape="rect" id="node7" href="$classlibcoapy_1_1llapi_1_1coap__event__t.html" title=" " alt="" coords="398,261,541,301"/>
+<area shape="rect" id="node8" href="$classlibcoapy_1_1llapi_1_1coap__log__t.html" title=" " alt="" coords="398,325,541,365"/>
+<area shape="rect" id="node9" href="$classlibcoapy_1_1llapi_1_1coap__memory__tag__t.html" title=" " alt="" coords="398,389,541,429"/>
+<area shape="rect" id="node10" href="$classlibcoapy_1_1llapi_1_1coap__nack__reason__t.html" title=" " alt="" coords="398,453,541,493"/>
+<area shape="rect" id="node11" href="$classlibcoapy_1_1llapi_1_1coap__pdu__code__t.html" title=" " alt="" coords="398,517,541,557"/>
+<area shape="rect" id="node12" href="$classlibcoapy_1_1llapi_1_1coap__pdu__signaling__proto__t.html" title=" " alt="" coords="383,581,555,621"/>
+<area shape="rect" id="node13" href="$classlibcoapy_1_1llapi_1_1coap__pdu__type__t.html" title=" " alt="" coords="398,645,541,685"/>
+<area shape="rect" id="node14" href="$classlibcoapy_1_1llapi_1_1coap__pki__define__t.html" title=" " alt="" coords="398,709,541,749"/>
+<area shape="rect" id="node15" href="$classlibcoapy_1_1llapi_1_1coap__pki__key__t.html" title=" " alt="" coords="398,773,541,813"/>
+<area shape="rect" id="node16" href="$classlibcoapy_1_1llapi_1_1coap__proto__t.html" title=" " alt="" coords="398,837,541,877"/>
+<area shape="rect" id="node17" href="$classlibcoapy_1_1llapi_1_1coap__proxy__t.html" title=" " alt="" coords="398,901,541,941"/>
+<area shape="rect" id="node18" href="$classlibcoapy_1_1llapi_1_1coap__request__t.html" title=" " alt="" coords="398,965,541,1005"/>
+<area shape="rect" id="node19" href="$classlibcoapy_1_1llapi_1_1coap__resolve__type__t.html" title=" " alt="" coords="398,1029,541,1069"/>
+<area shape="rect" id="node20" href="$classlibcoapy_1_1llapi_1_1coap__response__t.html" title=" " alt="" coords="398,1093,541,1133"/>
+<area shape="rect" id="node21" href="$classlibcoapy_1_1llapi_1_1coap__session__state__t.html" title=" " alt="" coords="398,1157,541,1197"/>
+<area shape="rect" id="node22" href="$classlibcoapy_1_1llapi_1_1coap__session__type__t.html" title=" " alt="" coords="398,1221,541,1261"/>
+<area shape="rect" id="node23" href="$classlibcoapy_1_1llapi_1_1coap__tls__library__t.html" title=" " alt="" coords="398,1285,541,1325"/>
+<area shape="rect" id="node24" href="$classlibcoapy_1_1llapi_1_1coap__uri__scheme__t.html" title=" " alt="" coords="398,1349,541,1389"/>
+<area shape="rect" id="node2" title=" " alt="" coords="5,685,127,710"/>
+</map>
