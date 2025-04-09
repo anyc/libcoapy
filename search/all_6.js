@@ -21,8 +21,8 @@ var searchData=
   ['event_20handling_18',['Event Handling',['https://libcoap.net/doc/reference/4.3.5/group__events.html',1,'']]],
   ['event_5fhandler_5fobj_19',['event_handler_obj',['../classlibcoapy_1_1libcoapy_1_1CoapContext.html#a3de0fff603cf6d7c25b2da71e7be154a',1,'libcoapy::libcoapy::CoapContext']]],
   ['eventhandler_20',['eventHandler',['../classlibcoapy_1_1libcoapy_1_1CoapContext.html#ae6fc537e777c8e7b535a1c55b82f3f20',1,'libcoapy::libcoapy::CoapContext']]],
-  ['example_3a_20client_21',['Example: client',['../index.html#autotoc_md4',1,'']]],
-  ['example_3a_20server_22',['Example: server',['../index.html#autotoc_md5',1,'']]],
+  ['example_3a_20client_21',['Example: client',['../index.html#autotoc_md5',1,'']]],
+  ['example_3a_20server_22',['Example: server',['../index.html#autotoc_md6',1,'']]],
   ['exceptfds_23',['exceptfds',['https://libcoap.net/doc/reference/4.3.5/structcoap__context__t.html#a5aa927decc19ce21dabb271c7b100401',1,'coap_context_t']]],
   ['expire_5fticks_24',['expire_ticks',['https://libcoap.net/doc/reference/4.3.5/structcoap__cache__entry__t.html#a270cb82bfded45abb1722527bd551464',1,'coap_cache_entry_t']]],
   ['external_5faad_25',['external_aad',['https://libcoap.net/doc/reference/4.3.5/structcose__encrypt0__t.html#a7618b309e1ad4c48cc232f9d735bb462',1,'cose_encrypt0_t']]]

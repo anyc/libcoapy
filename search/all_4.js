@@ -22,7 +22,7 @@ var searchData=
   ['check_5fcommon_5fca_19',['check_common_ca',['https://libcoap.net/doc/reference/4.3.5/structcoap__dtls__pki__t.html#af453501ab87954191ac5bc2cdbc21bef',1,'coap_dtls_pki_t']]],
   ['chunk_5fsize_20',['chunk_size',['https://libcoap.net/doc/reference/4.3.5/structcoap__block__b__t.html#a32dde3b497b1fa8a072da48938093c84',1,'coap_block_b_t']]],
   ['ciphertext_21',['ciphertext',['https://libcoap.net/doc/reference/4.3.5/structcose__encrypt0__t.html#a2c5b8ec549c99298007d95ade1c0d256',1,'cose_encrypt0_t']]],
-  ['client_22',['Example: client',['../index.html#autotoc_md4',1,'']]],
+  ['client_22',['Example: client',['../index.html#autotoc_md5',1,'']]],
   ['client_5fcid_23',['client_cid',['https://libcoap.net/doc/reference/4.3.5/structcoap__session__t.html#a49d86a9b51ee636b8dd3423be8494888',1,'coap_session_t']]],
   ['client_5fsni_24',['client_sni',['https://libcoap.net/doc/reference/4.3.5/structcoap__dtls__pki__t.html#abcd4a892d8823201b52597b702e70348',1,'coap_dtls_pki_t::client_sni'],['https://libcoap.net/doc/reference/4.3.5/structcoap__dtls__cpsk__t.html#a3ff04134cb0542b1e137d84e744b17e8',1,'coap_dtls_cpsk_t::client_sni']]],
   ['clock_20handling_25',['Clock Handling',['https://libcoap.net/doc/reference/4.3.5/group__clock.html',1,'']]],
