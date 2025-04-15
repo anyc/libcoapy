@@ -267,6 +267,7 @@ LIBCOAP_PACKAGE_URL = "https://libcoap.net/";
 LIBCOAP_PACKAGE_VERSION = "4.3.5";
 COAP_OPT_FILTER_SHORT = 6;
 COAP_OPT_FILTER_LONG = 2;
+COAP_OPT_ALL = None;
 COAP_MAX_STR_CONST_FUNC = 2;
 COAP_URI_SCHEME_SECURE_MASK = 0x01;
 COAP_DEFAULT_PORT = 5683;
@@ -3649,6 +3650,9 @@ def ct_call(fdict, *nargs, **kwargs):
 			newargs += (None, )
 		
 		for key, value in kwargs.items():
+			if key == "llapi_check":
+				continue
+			
 			found = False
 			i = 0
 			for arg in fdict["args"]:
@@ -3705,14 +3709,17 @@ for version in ['', '-3']:
 		for tag in ['.so.3', '.so', '.dll']:
 			libnames.append(f"libcoap{version}{ssl_lib}{tag}")
 
-for env_var in ['LIBCOAP_PATH', 'LIBCOAPY_PATH']:
+for env_var in ['LIBCOAP_PATH', 'LIBCOAPY_PATH', 'LIBCOAPY_LIB']:
 	if os.environ.get(env_var, None):
 		libnames.insert(0, os.environ.get(env_var))
 
 clibrary = None
 for libname in libnames:
 	try:
-		clibrary = ct.CDLL(libname)
+		if "cdecl" == "cdecl":
+			clibrary = ct.CDLL(libname)
+		else:
+			clibrary = ct.WinDLL(libname)
 	except:
 		continue
 	else:
