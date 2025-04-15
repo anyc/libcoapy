@@ -226,6 +226,64 @@ class CoapPDU():
 		if self._pdu_type:
 			return self._pdu_type
 		return coap_pdu_get_type(self.lcoap_pdu)
+	
+	def getOptions(self, lookup_names=False):
+		from . import llapi
+		
+		opt_iter = coap_opt_iterator_t()
+		coap_option_iterator_init(self.lcoap_pdu, ct.byref(opt_iter), COAP_OPT_ALL)
+		
+		opt_types = {
+			COAP_OPTION_URI_PATH: str,
+			COAP_OPTION_URI_HOST: str,
+			COAP_OPTION_LOCATION_PATH: str,
+			COAP_OPTION_URI_QUERY: str,
+			COAP_OPTION_LOCATION_QUERY: str,
+			COAP_OPTION_PROXY_URI: str,
+			COAP_OPTION_PROXY_SCHEME: str,
+			COAP_OPTION_RTAG: bytes,
+			}
+		
+		opts = {}
+		while True:
+			option = coap_option_next(ct.byref(opt_iter), llapi_check=False)
+			if not option:
+				break
+			
+			if opt_iter.number in opt_types:
+				typ = opt_types[opt_iter.number]
+				
+				if typ == str:
+					value = ct.string_at(coap_opt_value(option), coap_opt_length(option))
+				elif typ == bytes:
+					value = bytes(ct.cast(coap_opt_value(option), ct.POINTER(ct.c_char * coap_opt_length(option))))
+			elif opt_iter.number == COAP_OPTION_CONTENT_FORMAT:
+				value = coap_decode_var_bytes(coap_opt_value(option), coap_opt_length(option))
+				if lookup_names:
+					for key in dir(llapi):
+						if key.startswith("COAP_MEDIATYPE_"):
+							if getattr(llapi, key, False) == value:
+								value = key[len("COAP_MEDIATYPE_"):].lower()
+								break
+			else:
+				if coap_opt_length(option) <= 4:
+					value = coap_decode_var_bytes(coap_opt_value(option), coap_opt_length(option))
+				elif coap_opt_length(option) <= 8:
+					value = coap_decode_var_bytes8(coap_opt_value(option), coap_opt_length(option))
+				else:
+					value = bytes(ct.cast(coap_opt_value(option), ct.POINTER(ct.c_char * coap_opt_length(option))))
+			
+			if lookup_names:
+				for key in dir(llapi):
+					if key.startswith("COAP_OPTION_"):
+						if getattr(llapi, key, False) == opt_iter.number:
+							if key[len("COAP_OPTION_"):].lower() not in opts:
+								opts[key[len("COAP_OPTION_"):].lower().replace("_","-")] = []
+							opts[key[len("COAP_OPTION_"):].lower().replace("_","-")].append(value)
+			else:
+				opts[opt_iter.number] = value
+		
+		return opts
 
 class CoapPDURequest(CoapPDU):
 	"""! PDU that represents a request  """
