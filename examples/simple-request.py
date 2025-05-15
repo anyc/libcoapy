@@ -23,6 +23,8 @@ print(rx_pdu.payload)
 #
 
 def rx_cb(session, tx_msg, rx_msg, mid):
+	print(rx_msg.getOptions(lookup_names=True))
+	print(tx_msg.getOptions(lookup_names=True))
 	print(rx_msg.payload)
 	session.ctx.stop_loop()
 
