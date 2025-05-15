@@ -346,6 +346,9 @@ class CoapPDUResponse(CoapPDU):
 			self.release_payload_cb_ct,
 			self.ct_payload
 			)
+	
+	def is_error(self):
+		return (((self.code >> 5) & 0xff) != 0)
 
 class CoapResource():
 	"""! a server-side CoAP resource """
@@ -482,9 +485,9 @@ class CoapSession():
 	def responseHandler(self, pdu_sent, pdu_recv, mid):
 		rv = None
 		
-		rx_pdu = CoapPDU(pdu_recv, self)
+		rx_pdu = CoapPDUResponse(pdu_recv, self)
 		if pdu_sent:
-			tx_pdu = CoapPDU(pdu_sent, self)
+			tx_pdu = CoapPDURequest(pdu_sent, self)
 		else:
 			tx_pdu = None
 		
@@ -847,6 +850,9 @@ class CoapObserver():
 		
 		if not self.multiplier:
 			rx_msg.make_persistent()
+			
+			if rx_msg.is_error():
+				self.observing = False
 		
 		self.rx_msgs.append(rx_msg)
 		
