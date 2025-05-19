@@ -92,5 +92,8 @@
 		"coap_pdu_get_type": {
 			"llapi_check": False,
 			},
+		"coap_send": {
+			"res_error": "COAP_INVALID_MID",
+			},
 		}
 }

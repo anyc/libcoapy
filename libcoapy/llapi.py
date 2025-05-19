@@ -296,6 +296,7 @@ COAP_OPTION_HOP_LIMIT = 16;
 COAP_OPTION_ACCEPT = 17;
 COAP_OPTION_Q_BLOCK1 = 19;
 COAP_OPTION_LOCATION_QUERY = 20;
+COAP_OPTION_EDHOC = 21;
 COAP_OPTION_BLOCK2 = 23;
 COAP_OPTION_BLOCK1 = 27;
 COAP_OPTION_SIZE2 = 28;
@@ -876,6 +877,7 @@ coap_proxy_server_list_t._fields_ = [
 	("idle_timeout_secs", ct.c_uint),
 	]
 
+coap_proxy_response_handler_t = ct.CFUNCTYPE(ct.c_void_p, ct.POINTER(coap_session_t), ct.POINTER(coap_pdu_t), ct.POINTER(coap_pdu_t), ct.POINTER(coap_cache_key_t))
 class coap_memory_tag_t(ctypes_enum_gen):
 	COAP_STRING = 0
 	COAP_ATTRIBUTE_NAME = 1
@@ -2177,14 +2179,6 @@ library_functions.append({
 	"restype": None,
 	})
 library_functions.append({
-	"name": "coap_register_proxy_response_handler",
-	"args": [
-		(ct.POINTER(coap_context_t), "context"),
-		(coap_response_handler_t, "handler"),
-		],
-	"restype": None,
-	})
-library_functions.append({
 	"name": "coap_register_nack_handler",
 	"args": [
 		(ct.POINTER(coap_context_t), "context"),
@@ -2211,8 +2205,8 @@ library_functions.append({
 library_functions.append({
 	"name": "coap_register_option",
 	"args": [
-		(ct.POINTER(coap_context_t), "ctx"),
-		(ct.c_ushort, "type"),
+		(ct.POINTER(coap_context_t), "context"),
+		(ct.c_ushort, "number"),
 		],
 	"restype": None,
 	})
@@ -2482,6 +2476,7 @@ library_functions.append({
 		(ct.POINTER(coap_pdu_t), "pdu"),
 		],
 	"restype": ct.c_int,
+	"res_error": COAP_INVALID_MID,
 	})
 library_functions.append({
 	"name": "coap_send_recv",
@@ -3119,6 +3114,14 @@ library_functions.append({
 		(ct.POINTER(coap_bin_const_t), "recipient_id"),
 		],
 	"restype": ct.c_int,
+	})
+library_functions.append({
+	"name": "coap_register_proxy_response_handler",
+	"args": [
+		(ct.POINTER(coap_context_t), "context"),
+		(coap_proxy_response_handler_t, "handler"),
+		],
+	"restype": None,
 	})
 library_functions.append({
 	"name": "coap_verify_proxy_scheme_supported",
