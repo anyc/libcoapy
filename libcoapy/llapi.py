@@ -2516,6 +2516,7 @@ library_functions.append({
 		(ct.c_char_p, "ifname"),
 		],
 	"restype": ct.c_int,
+	"res_error": -1,
 	})
 library_functions.append({
 	"name": "coap_mcast_set_hops",

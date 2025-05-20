@@ -95,5 +95,8 @@
 		"coap_send": {
 			"res_error": "COAP_INVALID_MID",
 			},
+		"coap_join_mcast_group_intf": {
+			"res_error": "-1",
+			},
 		}
 }
