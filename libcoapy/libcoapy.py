@@ -1412,6 +1412,9 @@ class CoapContext():
 	def _enable_multicast(self, multicast_address=COAP_MCAST_ADDR4, interface_name=None):
 		coap_join_mcast_group_intf(self.lcoap_ctx, multicast_address, interface_name)
 
+	def setKeepalive(self, interval_s):
+		coap_context_set_keepalive(self.lcoap_ctx, interval_s)
+
 if __name__ == "__main__":
 	if len(sys.argv) < 2:
 		uri_str = "coap://localhost/.well-known/core"
