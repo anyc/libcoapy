@@ -496,6 +496,7 @@ class CoapSession():
 		if token in self.token_handlers:
 			orig_tx_pdu = self.token_handlers[token]["tx_pdu"]
 			self.token_handlers[token]["ready"] = True
+			rx_pdu.request_pdu = orig_tx_pdu
 			
 			if self.token_handlers[token].get("save_rx_pdu", False):
 				rx_pdu.make_persistent()
