@@ -767,6 +767,7 @@ class coap_event_t(ctypes_enum_gen):
 	COAP_EVENT_XMIT_BLOCK_FAIL = 12290
 	COAP_EVENT_SERVER_SESSION_NEW = 16385
 	COAP_EVENT_SERVER_SESSION_DEL = 16386
+	COAP_EVENT_SERVER_SESSION_CONNECTED = 16387
 	COAP_EVENT_BAD_PACKET = 20481
 	COAP_EVENT_MSG_RETRANSMITTED = 20482
 	COAP_EVENT_OSCORE_DECRYPTION_FAILURE = 24577
@@ -821,6 +822,7 @@ coap_response_handler_t = ct.CFUNCTYPE(coap_response_t.get_ctype(), ct.POINTER(c
 coap_nack_handler_t = ct.CFUNCTYPE(None, ct.POINTER(coap_session_t), ct.POINTER(coap_pdu_t), coap_nack_reason_t.get_ctype(), ct.c_int)
 coap_ping_handler_t = ct.CFUNCTYPE(None, ct.POINTER(coap_session_t), ct.POINTER(coap_pdu_t), ct.c_int)
 coap_pong_handler_t = ct.CFUNCTYPE(None, ct.POINTER(coap_session_t), ct.POINTER(coap_pdu_t), ct.c_int)
+coap_resource_dynamic_create_t = ct.CFUNCTYPE(ct.c_void_p, ct.POINTER(coap_session_t), ct.POINTER(coap_pdu_t))
 coap_io_process_thread_t = ct.CFUNCTYPE(None, ct.py_object)
 coap_block_t._fields_ = [
 	("num", ct.c_uint),
@@ -1706,6 +1708,13 @@ library_functions.append({
 	"restype": coap_session_state_t.get_ctype(),
 	})
 library_functions.append({
+	"name": "coap_session_get_endpoint",
+	"args": [
+		(ct.POINTER(coap_session_t), "session"),
+		],
+	"restype": ct.POINTER(coap_endpoint_t),
+	})
+library_functions.append({
 	"name": "coap_session_get_ifindex",
 	"args": [
 		(ct.POINTER(coap_session_t), "session"),
@@ -1729,6 +1738,13 @@ library_functions.append({
 	})
 library_functions.append({
 	"name": "coap_session_set_type_client",
+	"args": [
+		(ct.POINTER(coap_session_t), "session"),
+		],
+	"restype": ct.c_int,
+	})
+library_functions.append({
+	"name": "coap_session_set_type_server",
 	"args": [
 		(ct.POINTER(coap_session_t), "session"),
 		],
@@ -1863,6 +1879,22 @@ library_functions.append({
 		(ct.POINTER(coap_endpoint_t), "endpoint"),
 		],
 	"restype": None,
+	})
+library_functions.append({
+	"name": "coap_endpoint_get_app_data",
+	"args": [
+		(ct.POINTER(coap_endpoint_t), "endpoint"),
+		],
+	"restype": ct.py_object,
+	})
+library_functions.append({
+	"name": "coap_endpoint_set_app_data",
+	"args": [
+		(ct.POINTER(coap_endpoint_t), "endpoint"),
+		(ct.py_object, "data"),
+		(coap_app_data_free_callback_t, "callback"),
+		],
+	"restype": ct.py_object,
 	})
 library_functions.append({
 	"name": "coap_session_get_by_peer",
@@ -2199,6 +2231,15 @@ library_functions.append({
 	"args": [
 		(ct.POINTER(coap_context_t), "context"),
 		(coap_pong_handler_t, "handler"),
+		],
+	"restype": None,
+	})
+library_functions.append({
+	"name": "coap_register_dynamic_resource_handler",
+	"args": [
+		(ct.POINTER(coap_context_t), "context"),
+		(coap_resource_dynamic_create_t, "create_handler"),
+		(ct.c_uint, "dynamic_max"),
 		],
 	"restype": None,
 	})
