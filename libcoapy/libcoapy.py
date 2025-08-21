@@ -690,7 +690,7 @@ class CoapClientSession(CoapSession):
 				response_callback=None,
 				response_callback_data=None
 		):
-		r"""! prepare and send a PDU for this session
+		"""! prepare and send a PDU for this session
 		
 		@param path: the path of the resource
 		@param payload: the payload to send with the PDU
@@ -774,9 +774,9 @@ class CoapClientSession(CoapSession):
 		return self.token_handlers[token]
 	
 	def request(self, *args, **kwargs):
-		r"""! send a synchronous request and return the response
+		"""! send a synchronous request and return the response
 		
-		accepts same parameters as \\link libcoapy.libcoapy.CoapClientSession.sendMessage sendMessage() \endlink
+		accepts same parameters as \\link libcoapy.libcoapy.CoapClientSession.sendMessage sendMessage() \\endlink
 		"""
 		lkwargs={}
 		for key in ("timeout_ms", "io_timeout_ms"):
