@@ -22,11 +22,6 @@
 	"ignore_structs": ["coap_string_t", "coap_str_const_t", "coap_binary_t", "coap_bin_const_t"],
 	"include": { 2: ["sockaddr", "local"], 7: ["07-default-retval"], },
 	"functions": {
-		"coap_split_uri": {
-			"arg_dirs": {
-				3: ["in", "out"],
-				},
-			},
 		"coap_resolve_address_info": {
 			"arg_dirs": {
 				1: ["in"],
@@ -53,6 +48,7 @@
 			"arg_dirs": {
 				"uri": ["in","out"],
 				},
+			"expect": 0,
 			},
 		"coap_uri_into_optlist": {
 			"arg_dirs": {
@@ -67,9 +63,6 @@
 				"offset": ["in", "out"],
 				"total": ["in", "out"],
 				},
-			},
-		"coap_split_uri": {
-			"expect": 0,
 			},
 		"coap_io_process": {
 			"res_error": -1,
