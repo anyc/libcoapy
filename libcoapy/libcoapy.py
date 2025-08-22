@@ -364,7 +364,7 @@ class CoapResource():
 			# keep URI stored
 			self.uri_bytes = uri.encode()
 			ruri = coap_make_str_const(self.uri_bytes)
-			self.lcoap_rs = coap_resource_init(ruri, 0);
+			self.lcoap_rs = coap_resource_init(ruri, 0)
 		
 		coap_resource_set_userdata(self.lcoap_rs, self)
 		
