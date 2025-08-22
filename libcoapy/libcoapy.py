@@ -1044,6 +1044,13 @@ class CoapContext():
 		
 		coap_add_resource(self.lcoap_ctx, resource.lcoap_rs)
 	
+	def getResource(self, uri):
+		for resource in self.resources:
+			if resource.uri == uri:
+				return resource
+		
+		return None
+	
 	@staticmethod
 	def _verify_psk_sni_callback(sni, session, self):
 		result = coap_dtls_spsk_info_t()
