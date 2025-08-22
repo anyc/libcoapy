@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "libcoapy"
-version = "2025.04.09"
+version = "2025.08.22"
 authors = [
   { name="Mario Kicherer", email="dev@kicherer.org" },
 ]

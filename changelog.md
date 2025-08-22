@@ -1,3 +1,14 @@
+2025.08.22
+----------
+* new CoapPDU.getOptions()
+* new CoapPDUResponse.is_error()
+* new CoapContext.setKeepalive()
+* new CoapContext.getResource()
+* added CoapPDUResonse.request_pdu property
+* llapi: updated from libcoap commit ea01661
+* llapi: improved libcoap loader code
+* llapi: various API fixes
+
 2025.04.09
 ----------
 * add CoapObserverMultiplier to enable multiple observations of the same resource
