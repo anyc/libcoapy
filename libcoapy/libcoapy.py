@@ -533,6 +533,157 @@ class CoapSession():
 				return coap_response_t.COAP_RESPONSE_FAIL
 		
 		return coap_response_t.COAP_RESPONSE_OK if rv is None else rv
+	
+	
+	def sendMessage(self,
+			path=None,
+			payload=None,
+			pdu_type=coap_pdu_type_t.COAP_MESSAGE_CON,
+			code=coap_pdu_code_t.COAP_REQUEST_CODE_GET,
+			observe=False,
+			query=None,
+			options=None,
+			save_rx_pdu=False,
+			response_callback=None,
+			response_callback_data=None
+		):
+		"""! prepare and send a PDU for this session
+		
+		@param path: the path of the resource
+		@param payload: the payload to send with the PDU
+		@param pdu_type: request confirmation of the request (CON) or not (NON)
+		@param code: the code similar to HTTP (e.g., GET, POST, PUT, ...)
+		@param observe: observe/subscribe the resource
+		@param query: send a query - comparable to path?arg1=val1&arg2=val2 in HTTP
+		@param options: set additional options (e.g., COAP_OPTION_CONTENT_FORMAT) using a list of (option_code, value) tuples
+		@param save_rx_pdu: automatically make the response PDU persistent
+		@param response_callback: function that will be called if a response is received
+		@param response_callback_data: additional data that will be passed to \p response_callback
+	
+		@return the resulting dictionary in token_handler
+		"""
+		
+		if not self.lcoap_session:
+			self.setup_connection()
+			if not self.lcoap_session:
+				raise Exception("session not set up")
+		
+		pdu = coap_pdu_init(pdu_type, code, coap_new_message_id(self.lcoap_session), coap_session_max_pdu_size(self.lcoap_session));
+		hl_pdu = CoapPDURequest(pdu, self)
+		
+		hl_pdu.newToken()
+		token = hl_pdu.token
+		
+		optlist = ct.POINTER(coap_optlist_t)()
+		if path:
+			if path[0] == "/":
+				path = path[1:]
+			
+			if isinstance(path, str):
+				path = path.encode()
+			
+			coap_path_into_optlist(ct.cast(ct.c_char_p(path), ct.POINTER(ct.c_uint8)), len(path), COAP_OPTION_URI_PATH, ct.byref(optlist))
+		else:
+			coap_uri_into_optlist(ct.byref(self.uri), ct.byref(self.dest_addr), ct.byref(optlist), 1)
+		
+		hl_pdu.observe = observe
+		if observe:
+			scratch_t = ct.c_uint8 * 100
+			scratch = scratch_t()
+			coap_insert_optlist(ct.byref(optlist),
+				coap_new_optlist(COAP_OPTION_OBSERVE,
+					coap_encode_var_safe(scratch, ct.sizeof(scratch), COAP_OBSERVE_ESTABLISH),
+					scratch)
+				)
+		
+		if query:
+			if isinstance(query, str):
+				query = query.encode()
+			
+			coap_query_into_optlist(ct.cast(ct.c_char_p(query), ct.POINTER(ct.c_uint8)), len(query), COAP_OPTION_URI_QUERY, ct.byref(optlist))
+		
+		if options:
+			scratch_t = ct.c_uint8 * 8
+			scratch = scratch_t()
+			for opt_num, value in options:
+				coap_insert_optlist(ct.byref(optlist),
+					coap_new_optlist(opt_num,
+						coap_encode_var_safe(scratch, ct.sizeof(scratch), value),
+						scratch)
+					)
+		
+		if optlist:
+			rv = coap_add_optlist_pdu(pdu, ct.byref(optlist))
+			coap_delete_optlist(optlist)
+			if rv != 1:
+				raise Exception("coap_add_optlist_pdu() failed\n")
+		
+		if payload is not None:
+			hl_pdu.payload = payload
+		
+		mid = coap_send(self.lcoap_session, pdu)
+		
+		self.token_handlers[token] = {}
+		self.token_handlers[token]["tx_pdu"] = hl_pdu
+		if observe:
+			self.token_handlers[token]["observed"] = True
+		if save_rx_pdu:
+			self.token_handlers[token]["save_rx_pdu"] = True
+		if response_callback:
+			self.token_handlers[token]["handler"] = response_callback
+			if response_callback_data:
+				self.token_handlers[token]["handler_data"] = response_callback_data
+		
+		# libcoap automatically signals an epoll fd that work has to be done, without
+		# epoll we have to do this ourselves.
+		if self.ctx._loop and self.ctx.coap_fd < 0:
+			self.ctx.fd_callback()
+		
+		return self.token_handlers[token]
+	
+	def request(self, *args, **kwargs):
+		"""! send a synchronous request and return the response
+		
+		accepts same parameters as \\link libcoapy.libcoapy.CoapClientSession.sendMessage sendMessage() \\endlink
+		"""
+		lkwargs={}
+		for key in ("timeout_ms", "io_timeout_ms"):
+			if key in kwargs:
+				lkwargs[key] = kwargs.pop(key)
+		
+		token_hdl = self.sendMessage(*args, **kwargs, save_rx_pdu=True)
+		
+		self.ctx.loop(**lkwargs, rx_wait_list=[token_hdl])
+		
+		if token_hdl.get("ready", False):
+			return token_hdl["rx_pdu"]
+		else:
+			raise TimeoutError
+	
+	def async_response_callback(self, session, tx_msg, rx_msg, mid, observer):
+		rx_msg.make_persistent()
+		observer.addResponse(rx_msg)
+	
+	async def query(self, *args, **kwargs):
+		r"""! start an asynchronous request and return a generator object if
+		observe=True is set, else return the response pdu
+		
+		accepts same parameters as \link libcoapy.libcoapy.CoapClientSession.sendMessage sendMessage() \endlink
+		"""
+		observer = CoapObserver()
+		
+		kwargs["response_callback"] = self.async_response_callback
+		kwargs["response_callback_data"] = observer
+		
+		tx_pdu = self.sendMessage(*args, **kwargs)["tx_pdu"]
+		tx_pdu.make_persistent()
+		observer.tx_pdu = tx_pdu
+		
+		if kwargs.get("observe", False):
+			observer.observing = True
+			return observer
+		else:
+			return await observer.__anext__()
 
 class CoapClientSession(CoapSession):
 	"""! represents a session initiated by a client """
@@ -678,156 +829,6 @@ class CoapClientSession(CoapSession):
 			if os.path.exists(self.local_addr_unix_path):
 				os.unlink(self.local_addr_unix_path);
 		self.release()
-	
-	def sendMessage(self,
-				path=None,
-				payload=None,
-				pdu_type=coap_pdu_type_t.COAP_MESSAGE_CON,
-				code=coap_pdu_code_t.COAP_REQUEST_CODE_GET,
-				observe=False,
-				query=None,
-				options=None,
-				save_rx_pdu=False,
-				response_callback=None,
-				response_callback_data=None
-		):
-		"""! prepare and send a PDU for this session
-		
-		@param path: the path of the resource
-		@param payload: the payload to send with the PDU
-		@param pdu_type: request confirmation of the request (CON) or not (NON)
-		@param code: the code similar to HTTP (e.g., GET, POST, PUT, ...)
-		@param observe: observe/subscribe the resource
-		@param query: send a query - comparable to path?arg1=val1&arg2=val2 in HTTP
-		@param options: set additional options (e.g., COAP_OPTION_CONTENT_FORMAT) using a list of (option_code, value) tuples
-		@param save_rx_pdu: automatically make the response PDU persistent
-		@param response_callback: function that will be called if a response is received
-		@param response_callback_data: additional data that will be passed to \p response_callback
-	
-		@return the resulting dictionary in token_handler
-		"""
-		
-		if not self.lcoap_session:
-			self.setup_connection()
-			if not self.lcoap_session:
-				raise Exception("session not set up")
-		
-		pdu = coap_pdu_init(pdu_type, code, coap_new_message_id(self.lcoap_session), coap_session_max_pdu_size(self.lcoap_session));
-		hl_pdu = CoapPDURequest(pdu, self)
-		
-		hl_pdu.newToken()
-		token = hl_pdu.token
-		
-		optlist = ct.POINTER(coap_optlist_t)()
-		if path:
-			if path[0] == "/":
-				path = path[1:]
-			
-			if isinstance(path, str):
-				path = path.encode()
-			
-			coap_path_into_optlist(ct.cast(ct.c_char_p(path), ct.POINTER(ct.c_uint8)), len(path), COAP_OPTION_URI_PATH, ct.byref(optlist))
-		else:
-			coap_uri_into_optlist(ct.byref(self.uri), ct.byref(self.dest_addr), ct.byref(optlist), 1)
-		
-		hl_pdu.observe = observe
-		if observe:
-			scratch_t = ct.c_uint8 * 100
-			scratch = scratch_t()
-			coap_insert_optlist(ct.byref(optlist),
-				coap_new_optlist(COAP_OPTION_OBSERVE,
-					coap_encode_var_safe(scratch, ct.sizeof(scratch), COAP_OBSERVE_ESTABLISH),
-					scratch)
-				)
-		
-		if query:
-			if isinstance(query, str):
-				query = query.encode()
-			
-			coap_query_into_optlist(ct.cast(ct.c_char_p(query), ct.POINTER(ct.c_uint8)), len(query), COAP_OPTION_URI_QUERY, ct.byref(optlist))
-		
-		if options:
-			scratch_t = ct.c_uint8 * 8
-			scratch = scratch_t()
-			for opt_num, value in options:
-				coap_insert_optlist(ct.byref(optlist),
-					coap_new_optlist(opt_num,
-						coap_encode_var_safe(scratch, ct.sizeof(scratch), value),
-						scratch)
-					)
-		
-		if optlist:
-			rv = coap_add_optlist_pdu(pdu, ct.byref(optlist))
-			coap_delete_optlist(optlist)
-			if rv != 1:
-				raise Exception("coap_add_optlist_pdu() failed\n")
-		
-		if payload is not None:
-			hl_pdu.payload = payload
-		
-		mid = coap_send(self.lcoap_session, pdu)
-		
-		self.token_handlers[token] = {}
-		self.token_handlers[token]["tx_pdu"] = hl_pdu
-		if observe:
-			self.token_handlers[token]["observed"] = True
-		if save_rx_pdu:
-			self.token_handlers[token]["save_rx_pdu"] = True
-		if response_callback:
-			self.token_handlers[token]["handler"] = response_callback
-			if response_callback_data:
-				self.token_handlers[token]["handler_data"] = response_callback_data
-		
-		# libcoap automatically signals an epoll fd that work has to be done, without
-		# epoll we have to do this ourselves.
-		if self.ctx._loop and self.ctx.coap_fd < 0:
-			self.ctx.fd_callback()
-		
-		return self.token_handlers[token]
-	
-	def request(self, *args, **kwargs):
-		"""! send a synchronous request and return the response
-		
-		accepts same parameters as \\link libcoapy.libcoapy.CoapClientSession.sendMessage sendMessage() \\endlink
-		"""
-		lkwargs={}
-		for key in ("timeout_ms", "io_timeout_ms"):
-			if key in kwargs:
-				lkwargs[key] = kwargs.pop(key)
-		
-		token_hdl = self.sendMessage(*args, **kwargs, save_rx_pdu=True)
-		
-		self.ctx.loop(**lkwargs, rx_wait_list=[token_hdl])
-		
-		if token_hdl.get("ready", False):
-			return token_hdl["rx_pdu"]
-		else:
-			raise TimeoutError
-	
-	def async_response_callback(self, session, tx_msg, rx_msg, mid, observer):
-		rx_msg.make_persistent()
-		observer.addResponse(rx_msg)
-	
-	async def query(self, *args, **kwargs):
-		r"""! start an asynchronous request and return a generator object if
-		observe=True is set, else return the response pdu
-		
-		accepts same parameters as \link libcoapy.libcoapy.CoapClientSession.sendMessage sendMessage() \endlink
-		"""
-		observer = CoapObserver()
-		
-		kwargs["response_callback"] = self.async_response_callback
-		kwargs["response_callback_data"] = observer
-		
-		tx_pdu = self.sendMessage(*args, **kwargs)["tx_pdu"]
-		tx_pdu.make_persistent()
-		observer.tx_pdu = tx_pdu
-		
-		if kwargs.get("observe", False):
-			observer.observing = True
-			return observer
-		else:
-			return await observer.__anext__()
 
 class CoapObserver():
 	"""! This class is used to handle asynchronous requests. Besides requests with
