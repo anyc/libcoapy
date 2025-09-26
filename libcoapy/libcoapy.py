@@ -686,6 +686,7 @@ class CoapClientSession(CoapSession):
 				code=coap_pdu_code_t.COAP_REQUEST_CODE_GET,
 				observe=False,
 				query=None,
+				options=None,
 				save_rx_pdu=False,
 				response_callback=None,
 				response_callback_data=None
@@ -698,6 +699,7 @@ class CoapClientSession(CoapSession):
 		@param code: the code similar to HTTP (e.g., GET, POST, PUT, ...)
 		@param observe: observe/subscribe the resource
 		@param query: send a query - comparable to path?arg1=val1&arg2=val2 in HTTP
+		@param options: set additional options (e.g., COAP_OPTION_CONTENT_FORMAT) using a list of (option_code, value) tuples
 		@param save_rx_pdu: automatically make the response PDU persistent
 		@param response_callback: function that will be called if a response is received
 		@param response_callback_data: additional data that will be passed to \p response_callback
@@ -743,6 +745,16 @@ class CoapClientSession(CoapSession):
 				query = query.encode()
 			
 			coap_query_into_optlist(ct.cast(ct.c_char_p(query), ct.POINTER(ct.c_uint8)), len(query), COAP_OPTION_URI_QUERY, ct.byref(optlist))
+		
+		if options:
+			scratch_t = ct.c_uint8 * 8
+			scratch = scratch_t()
+			for opt_num, value in options:
+				coap_insert_optlist(ct.byref(optlist),
+					coap_new_optlist(opt_num,
+						coap_encode_var_safe(scratch, ct.sizeof(scratch), value),
+						scratch)
+					)
 		
 		if optlist:
 			rv = coap_add_optlist_pdu(pdu, ct.byref(optlist))
