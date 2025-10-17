@@ -1,4 +1,6 @@
 
+import weakref
+
 from .llapi import *
 
 contexts = []
@@ -972,6 +974,8 @@ class CoapContext():
 		coap_register_nack_handler(self.lcoap_ctx, self.nack_handler_obj)
 		
 		self.setBlockMode(COAP_BLOCK_USE_LIBCOAP | COAP_BLOCK_SINGLE_BODY)
+		
+		weakref.finalize(self, self.cleanup)
 	
 	def eventHandler(self, ll_session, event_type):
 		event_type = coap_event_t(event_type)
@@ -1004,7 +1008,7 @@ class CoapContext():
 		if hasattr(self, "nack_callback"):
 			self.nack_callback(self, session, pdu, nack_type, mid)
 	
-	def __del__(self):
+	def cleanup(self):
 		contexts.remove(self)
 		if not contexts:
 			coap_cleanup()
