@@ -28,9 +28,10 @@ var searchData=
   ['ipi_5fifindex_25',['ipi_ifindex',['https://libcoap.net/doc/reference/4.3.5/structin__pktinfo.html#ac1aa22828a11552e54f53bb3aed1168d',1,'in_pktinfo']]],
   ['ipi_5fspec_5fdst_26',['ipi_spec_dst',['https://libcoap.net/doc/reference/4.3.5/structin__pktinfo.html#a3ed6e057196d3d34d043631453df83c1',1,'in_pktinfo']]],
   ['is_5fdtls13_27',['is_dtls13',['https://libcoap.net/doc/reference/4.3.5/structcoap__session__t.html#a6ebe65d061143e3b7932876d1543d1af',1,'coap_session_t']]],
-  ['is_5fmcast_28',['is_mcast',['https://libcoap.net/doc/reference/4.3.5/structcoap__queue__t.html#a6b78b6d1e866d0f34ed2b69524a113a9',1,'coap_queue_t']]],
-  ['is_5fobserve_29',['is_observe',['https://libcoap.net/doc/reference/4.3.5/structoscore__association__t.html#abea05831d0a7086107595e1ebe6e8549',1,'oscore_association_t']]],
-  ['is_5fproxy_5furi_30',['is_proxy_uri',['https://libcoap.net/doc/reference/4.3.5/structcoap__resource__t.html#a6e505874e1cbad6ca178f73a19dc7c60',1,'coap_resource_t']]],
-  ['is_5frpk_5fnot_5fcert_31',['is_rpk_not_cert',['https://libcoap.net/doc/reference/4.3.5/structcoap__dtls__pki__t.html#ae5373dd9c0db44278a966a3fd07ee472',1,'coap_dtls_pki_t']]],
-  ['is_5funknown_32',['is_unknown',['https://libcoap.net/doc/reference/4.3.5/structcoap__resource__t.html#a7b659252268ebdab8636e98fd5951f01',1,'coap_resource_t']]]
+  ['is_5ferror_28',['is_error',['../classlibcoapy_1_1libcoapy_1_1CoapPDUResponse.html#a9c1327c98d2954027f483a04947e1eb7',1,'libcoapy::libcoapy::CoapPDUResponse']]],
+  ['is_5fmcast_29',['is_mcast',['https://libcoap.net/doc/reference/4.3.5/structcoap__queue__t.html#a6b78b6d1e866d0f34ed2b69524a113a9',1,'coap_queue_t']]],
+  ['is_5fobserve_30',['is_observe',['https://libcoap.net/doc/reference/4.3.5/structoscore__association__t.html#abea05831d0a7086107595e1ebe6e8549',1,'oscore_association_t']]],
+  ['is_5fproxy_5furi_31',['is_proxy_uri',['https://libcoap.net/doc/reference/4.3.5/structcoap__resource__t.html#a6e505874e1cbad6ca178f73a19dc7c60',1,'coap_resource_t']]],
+  ['is_5frpk_5fnot_5fcert_32',['is_rpk_not_cert',['https://libcoap.net/doc/reference/4.3.5/structcoap__dtls__pki__t.html#ae5373dd9c0db44278a966a3fd07ee472',1,'coap_dtls_pki_t']]],
+  ['is_5funknown_33',['is_unknown',['https://libcoap.net/doc/reference/4.3.5/structcoap__resource__t.html#a7b659252268ebdab8636e98fd5951f01',1,'coap_resource_t']]]
 ];

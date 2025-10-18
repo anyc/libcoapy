@@ -41,7 +41,7 @@ var searchData=
   ['asn1_5flen_38',['asn1_len',['https://libcoap.net/doc/reference/4.3.5/group__asn1.html#gab0b2cdf4081790ee762743d5557c2706',1,]]],
   ['asn1_5ftag_5fc_39',['asn1_tag_c',['https://libcoap.net/doc/reference/4.3.5/group__asn1.html#ga3ae904a62e7e1d1326b61a04d1de1333',1,]]],
   ['asn1_5fvalidate_40',['asn1_validate',['https://libcoap.net/doc/reference/4.3.5/group__asn1.html#gad120db234636c7ec88391a8cafe60994',1,]]],
-  ['async_5fresponse_5fcallback_41',['async_response_callback',['../classlibcoapy_1_1libcoapy_1_1CoapClientSession.html#a224295d56b9261853ceee0723288f3f3',1,'libcoapy::libcoapy::CoapClientSession']]],
+  ['async_5fresponse_5fcallback_41',['async_response_callback',['../classlibcoapy_1_1libcoapy_1_1CoapSession.html#acb31a30dffefef44892c177c9f52ce92',1,'libcoapy::libcoapy::CoapSession']]],
   ['asynchronous_20messaging_42',['Asynchronous Messaging',['https://libcoap.net/doc/reference/4.3.5/group__coap__async.html',1,'']]],
   ['aszx_43',['aszx',['https://libcoap.net/doc/reference/4.3.5/structcoap__block__b__t.html#a716cfcf4c160412567e9c5d23047f853',1,'coap_block_b_t']]]
 ];

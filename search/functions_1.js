@@ -11,5 +11,5 @@ var searchData=
   ['as_5fdict_8',['as_dict',['../classlibcoapy_1_1libcoapy_1_1CoapGetTlsLibraryVersion.html#a3113cfb5f118930de573223defd6d9f1',1,'libcoapy::libcoapy::CoapGetTlsLibraryVersion']]],
   ['asn1_5flen_9',['asn1_len',['https://libcoap.net/doc/reference/4.3.5/group__asn1.html#gab0b2cdf4081790ee762743d5557c2706',1,]]],
   ['asn1_5ftag_5fc_10',['asn1_tag_c',['https://libcoap.net/doc/reference/4.3.5/group__asn1.html#ga3ae904a62e7e1d1326b61a04d1de1333',1,]]],
-  ['async_5fresponse_5fcallback_11',['async_response_callback',['../classlibcoapy_1_1libcoapy_1_1CoapClientSession.html#a224295d56b9261853ceee0723288f3f3',1,'libcoapy::libcoapy::CoapClientSession']]]
+  ['async_5fresponse_5fcallback_11',['async_response_callback',['../classlibcoapy_1_1libcoapy_1_1CoapSession.html#acb31a30dffefef44892c177c9f52ce92',1,'libcoapy::libcoapy::CoapSession']]]
 ];

@@ -11,6 +11,8 @@ var searchData=
   ['getarg_8',['getarg',['../namespacelibcoapy_1_1libcoapy.html#a95837307750ed87eb242ea5cabb221b0',1,'libcoapy::libcoapy']]],
   ['getinterfaceindex_9',['getInterfaceIndex',['../classlibcoapy_1_1libcoapy_1_1CoapSession.html#a5da7eb3a0c55385ffc0635fbc51e55ab',1,'libcoapy::libcoapy::CoapSession']]],
   ['getinterfacename_10',['getInterfaceName',['../classlibcoapy_1_1libcoapy_1_1CoapSession.html#ae4ec06537f4c46d72105f2b0085a4130',1,'libcoapy::libcoapy::CoapSession']]],
-  ['getpayload_11',['getPayload',['../classlibcoapy_1_1libcoapy_1_1CoapPDU.html#a37786466d76cc64fc3ef84ad272e3b68',1,'libcoapy::libcoapy::CoapPDU']]],
-  ['getsubobserver_12',['getSubObserver',['../classlibcoapy_1_1libcoapy_1_1CoapObserverMultiplier.html#a446ecb86a6328a483db37aa000d3eb00',1,'libcoapy::libcoapy::CoapObserverMultiplier']]]
+  ['getoptions_11',['getOptions',['../classlibcoapy_1_1libcoapy_1_1CoapPDU.html#a36b5ce16d7d1bac9687fbaec55d74831',1,'libcoapy::libcoapy::CoapPDU']]],
+  ['getpayload_12',['getPayload',['../classlibcoapy_1_1libcoapy_1_1CoapPDU.html#a37786466d76cc64fc3ef84ad272e3b68',1,'libcoapy::libcoapy::CoapPDU']]],
+  ['getresource_13',['getResource',['../classlibcoapy_1_1libcoapy_1_1CoapContext.html#aabd38a15d716b55efe050fcd8aec0a78',1,'libcoapy::libcoapy::CoapContext']]],
+  ['getsubobserver_14',['getSubObserver',['../classlibcoapy_1_1libcoapy_1_1CoapObserverMultiplier.html#a446ecb86a6328a483db37aa000d3eb00',1,'libcoapy::libcoapy::CoapObserverMultiplier']]]
 ];
