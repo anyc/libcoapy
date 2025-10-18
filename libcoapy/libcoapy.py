@@ -422,11 +422,17 @@ class CoapSession():
 		self.lcoap_session = lcoap_session
 		
 		self.token_handlers = {}
+		
+		weakref.finalize(self, self.release)
 	
 	def release(self):
 		if self.lcoap_session!=None:
 			coap_session_release(self.lcoap_session)
 			self.lcoap_session = None
+		if self.ctx:
+			ctx = self.ctx
+			self.ctx = None
+			ctx.removeSession(self)
 	
 	def getInterfaceIndex(self):
 		return coap_session_get_ifindex(self.lcoap_session)
@@ -704,6 +710,11 @@ class CoapClientSession(CoapSession):
 		# from socket import AI_ALL, AI_V4MAPPED
 		# ai_hint_flags=AI_ALL | AI_V4MAPPED)
 		
+		if not self.ctx:
+			if verbosity > 0:
+				print("setup_connection() called but no context set", file=sys.stderr)
+			return
+		
 		self.addr_info = self.ctx.get_addr_info(self.uri)
 		self.local_addr = None
 		self.dest_addr = self.addr_info.contents.addr
@@ -824,13 +835,16 @@ class CoapClientSession(CoapSession):
 		# https://bugs.python.org/issue1574593
 		return ct.cast(self.dtls_psk.cb_data, ct.c_void_p).value
 	
-	def __del__(self):
+	def release(self):
+		super().release()
+		
 		if getattr(self, "addr_info", None):
 			coap_free_address_info(self.addr_info)
+			del self.addr_info
 		if getattr(self, "local_addr_unix_path", None):
 			if os.path.exists(self.local_addr_unix_path):
 				os.unlink(self.local_addr_unix_path);
-		self.release()
+			del self.local_addr_unix_path
 
 class CoapObserver():
 	"""! This class is used to handle asynchronous requests. Besides requests with
@@ -975,7 +989,7 @@ class CoapContext():
 		
 		self.setBlockMode(COAP_BLOCK_USE_LIBCOAP | COAP_BLOCK_SINGLE_BODY)
 		
-		weakref.finalize(self, self.cleanup)
+		weakref.finalize(self, self.release)
 	
 	def eventHandler(self, ll_session, event_type):
 		event_type = coap_event_t(event_type)
@@ -986,11 +1000,11 @@ class CoapContext():
 			
 			coap_session_set_app_data(ll_session, session)
 			
-			self.sessions.append(session)
+			self.addSession(session)
 		elif event_type == coap_event_t.COAP_EVENT_SERVER_SESSION_DEL:
 			coap_session_set_app_data(ll_session, 0)
 			if session:
-				self.sessions.remove(session)
+				self.removeSession(session)
 		
 		if hasattr(self, "event_callback"):
 			ret = self.event_callback(self, session, event_type)
@@ -1008,8 +1022,18 @@ class CoapContext():
 		if hasattr(self, "nack_callback"):
 			self.nack_callback(self, session, pdu, nack_type, mid)
 	
-	def cleanup(self):
-		contexts.remove(self)
+	def release(self):
+		for session in self.sessions.copy():
+			session.release()
+		
+		if self.lcoap_ctx:
+			coap_free_context(self.lcoap_ctx)
+			self.lcoap_ctx = None
+		
+		try:
+			contexts.remove(self)
+		except ValueError:
+			pass
 		if not contexts:
 			coap_cleanup()
 	
@@ -1024,6 +1048,10 @@ class CoapContext():
 	
 	def addSession(self, session):
 		self.sessions.append(session)
+	
+	def removeSession(self, session):
+		self.sessions.remove(session)
+		session.release()
 	
 	def parse_uri(self, uri_str):
 		uri = coap_uri_t()
