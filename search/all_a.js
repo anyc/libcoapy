@@ -33,5 +33,6 @@ var searchData=
   ['is_5fobserve_30',['is_observe',['https://libcoap.net/doc/reference/4.3.5/structoscore__association__t.html#abea05831d0a7086107595e1ebe6e8549',1,'oscore_association_t']]],
   ['is_5fproxy_5furi_31',['is_proxy_uri',['https://libcoap.net/doc/reference/4.3.5/structcoap__resource__t.html#a6e505874e1cbad6ca178f73a19dc7c60',1,'coap_resource_t']]],
   ['is_5frpk_5fnot_5fcert_32',['is_rpk_not_cert',['https://libcoap.net/doc/reference/4.3.5/structcoap__dtls__pki__t.html#ae5373dd9c0db44278a966a3fd07ee472',1,'coap_dtls_pki_t']]],
-  ['is_5funknown_33',['is_unknown',['https://libcoap.net/doc/reference/4.3.5/structcoap__resource__t.html#a7b659252268ebdab8636e98fd5951f01',1,'coap_resource_t']]]
+  ['is_5funknown_33',['is_unknown',['https://libcoap.net/doc/reference/4.3.5/structcoap__resource__t.html#a7b659252268ebdab8636e98fd5951f01',1,'coap_resource_t']]],
+  ['is_5fvalid_34',['is_valid',['../classlibcoapy_1_1libcoapy_1_1CoapSession.html#a56a58c988e04e34aa415374b405de8ce',1,'libcoapy::libcoapy::CoapSession']]]
 ];
