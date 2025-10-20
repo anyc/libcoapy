@@ -1015,19 +1015,23 @@ class CoapContext():
 			coap_session_set_app_data(ll_session, session)
 			
 			self.addSession(session)
-		elif event_type == coap_event_t.COAP_EVENT_SERVER_SESSION_DEL:
-			coap_session_set_app_data(ll_session, 0)
+		
+		if getattr(self, "event_callback", None):
+			ret = self.event_callback(self, session, event_type)
+		else:
+			ret = None
+		
+		if event_type == coap_event_t.COAP_EVENT_SERVER_SESSION_DEL:
+			if session:
+				coap_session_set_app_data(ll_session, None)
+			
 			if session:
 				self.removeSession(session)
 		
-		if hasattr(self, "event_callback"):
-			ret = self.event_callback(self, session, event_type)
-			if ret is None:
-				return 0
-			else:
-				return ret
-		else:
+		if ret is None:
 			return 0
+		else:
+			return int(ret)
 	
 	def nackHandler(self, ll_session, pdu, nack_type, mid):
 		nack_type = coap_nack_reason_t(nack_type)
