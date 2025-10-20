@@ -1072,7 +1072,10 @@ class CoapContext():
 		self.sessions.append(session)
 	
 	def removeSession(self, session):
-		self.sessions.remove(session)
+		try:
+			self.sessions.remove(session)
+		except ValueError:
+			pass
 		session.release()
 	
 	def parse_uri(self, uri_str):
