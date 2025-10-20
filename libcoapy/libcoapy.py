@@ -192,7 +192,8 @@ class CoapPDU():
 	
 	def release_payload_cb(self, lcoap_session, payload):
 		self.ct_payload = None
-		self.session.ctx.pdu_cache.remove(self)
+		if self.session and self.session.ctx:
+			self.session.ctx.pdu_cache.remove(self)
 	
 	def cancelObservation(self):
 		"""! cancel the observation that was established with this PDU """
