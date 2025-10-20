@@ -436,6 +436,9 @@ class CoapSession():
 			self.ctx = None
 			ctx.removeSession(self)
 	
+	def is_valid(self):
+		return not not self.lcoap_session
+	
 	def getInterfaceIndex(self):
 		return coap_session_get_ifindex(self.lcoap_session)
 	
