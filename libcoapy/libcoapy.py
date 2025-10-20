@@ -427,6 +427,8 @@ class CoapSession():
 	
 	def release(self):
 		if self.lcoap_session!=None:
+			# unset app_data in case lcoap_session is referenced by others
+			coap_session_set_app_data(self.lcoap_session, None)
 			coap_session_release(self.lcoap_session)
 			self.lcoap_session = None
 		if self.ctx:
