@@ -863,8 +863,10 @@ class CoapObserver():
 		# if stays false, this observer is used to return only a single response
 		self.observing = False
 		self.multiplier = multiplier
+		
+		weakref.finalize(self, self.release)
 	
-	def __del__(self):
+	def release(self):
 		self.stop()
 	
 	async def wait(self):
@@ -930,6 +932,12 @@ class CoapObserverMultiplier():
 		self.sub_observers = []
 		self.waiting = False
 		self.last_pdu = None
+		
+		weakref.finalize(self, self.release)
+	
+	def release(self):
+		for sub in self.sub_observers:
+			sub.stop()
 	
 	def getSubObserver(self):
 		self.sub_observers.append( CoapObserver(multiplier=self) )
