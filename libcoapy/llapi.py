@@ -377,6 +377,7 @@ COAP_BLOCK_STLESS_FETCH = 0x20;
 COAP_BLOCK_STLESS_BLOCK2 = 0x40;
 COAP_BLOCK_NOT_RANDOM_BLOCK1 = 0x80;
 COAP_BLOCK_CACHE_RESPONSE = 0x100;
+COAP_BLOCK_FORCE_Q_BLOCK = 0x200;
 COAP_RESOURCE_CHECK_TIME = 2;
 COAP_ATTR_FLAGS_RELEASE_NAME = 0x1;
 COAP_ATTR_FLAGS_RELEASE_VALUE = 0x2;
@@ -393,6 +394,7 @@ COAP_RESOURCE_FLAGS_LIB_DIS_MCAST_SUPPRESS_5_XX = 0x100;
 COAP_RESOURCE_FLAGS_FORCE_SINGLE_BODY = 0x200;
 COAP_RESOURCE_FLAGS_OSCORE_ONLY = 0x400;
 COAP_RESOURCE_HANDLE_WELLKNOWN_CORE = 0x800;
+COAP_RESOURCE_USE_BLOCK_DATA_HANDLER = 0x1000;
 COAP_OBSERVE_ESTABLISH = 0;
 COAP_OBSERVE_CANCEL = 1;
 coap_option_num_t = ct.c_ushort
@@ -823,6 +825,7 @@ coap_nack_handler_t = ct.CFUNCTYPE(None, ct.POINTER(coap_session_t), ct.POINTER(
 coap_ping_handler_t = ct.CFUNCTYPE(None, ct.POINTER(coap_session_t), ct.POINTER(coap_pdu_t), ct.c_int)
 coap_pong_handler_t = ct.CFUNCTYPE(None, ct.POINTER(coap_session_t), ct.POINTER(coap_pdu_t), ct.c_int)
 coap_resource_dynamic_create_t = ct.CFUNCTYPE(ct.c_void_p, ct.POINTER(coap_session_t), ct.POINTER(coap_pdu_t))
+coap_block_data_handler_t = ct.CFUNCTYPE(coap_response_t.get_ctype(), ct.POINTER(coap_session_t), ct.POINTER(coap_pdu_t), ct.POINTER(coap_resource_t), ct.POINTER(ct.POINTER(coap_binary_t)), ct.c_ulong, ct.POINTER(ct.c_uint8), ct.c_ulong, ct.c_ulong)
 coap_io_process_thread_t = ct.CFUNCTYPE(None, ct.py_object)
 coap_block_t._fields_ = [
 	("num", ct.c_uint),
@@ -2240,6 +2243,14 @@ library_functions.append({
 		(ct.POINTER(coap_context_t), "context"),
 		(coap_resource_dynamic_create_t, "create_handler"),
 		(ct.c_uint, "dynamic_max"),
+		],
+	"restype": None,
+	})
+library_functions.append({
+	"name": "coap_register_block_data_handler",
+	"args": [
+		(ct.POINTER(coap_context_t), "context"),
+		(coap_block_data_handler_t, "handler"),
 		],
 	"restype": None,
 	})
