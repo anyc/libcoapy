@@ -291,6 +291,10 @@ Variables</h2></td></tr>
 <tr class="separator:a6107a11ac13052a3d5e88907c78c1ed0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a231ddce6ac4bd8b3496abcca53446448" id="r_a231ddce6ac4bd8b3496abcca53446448"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacelibcoapy_1_1llapi.html#a231ddce6ac4bd8b3496abcca53446448">COAP_BLOCK_CACHE_RESPONSE</a> = 0x100;</td></tr>
 <tr class="separator:a231ddce6ac4bd8b3496abcca53446448"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a36975b9ff7766244a0979146585e24f9" id="r_a36975b9ff7766244a0979146585e24f9"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacelibcoapy_1_1llapi.html#a36975b9ff7766244a0979146585e24f9">coap_block_data_handler_t</a> = ct.CFUNCTYPE(coap_response_t.get_ctype(), ct.POINTER(<a class="el" href="classlibcoapy_1_1llapi_1_1coap__session__t.html">coap_session_t</a>), ct.POINTER(<a class="el" href="classlibcoapy_1_1llapi_1_1coap__pdu__t.html">coap_pdu_t</a>), ct.POINTER(<a class="el" href="classlibcoapy_1_1llapi_1_1coap__resource__t.html">coap_resource_t</a>), ct.POINTER(ct.POINTER(<a class="el" href="classlibcoapy_1_1llapi_1_1coap__binary__t.html">coap_binary_t</a>)), ct.c_ulong, ct.POINTER(ct.c_uint8), ct.c_ulong, ct.c_ulong)</td></tr>
+<tr class="separator:a36975b9ff7766244a0979146585e24f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a64a30e0c0ccd5c524502024f1679efe0" id="r_a64a30e0c0ccd5c524502024f1679efe0"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacelibcoapy_1_1llapi.html#a64a30e0c0ccd5c524502024f1679efe0">COAP_BLOCK_FORCE_Q_BLOCK</a> = 0x200;</td></tr>
+<tr class="separator:a64a30e0c0ccd5c524502024f1679efe0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a68bd6bf05b87a9584de3f5644a692611" id="r_a68bd6bf05b87a9584de3f5644a692611"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacelibcoapy_1_1llapi.html#a68bd6bf05b87a9584de3f5644a692611">COAP_BLOCK_NO_PREEMPTIVE_RTAG</a> = 0x10;</td></tr>
 <tr class="separator:a68bd6bf05b87a9584de3f5644a692611"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a93ea7e2324710e33952209eac5248d4d" id="r_a93ea7e2324710e33952209eac5248d4d"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacelibcoapy_1_1llapi.html#a93ea7e2324710e33952209eac5248d4d">COAP_BLOCK_NOT_RANDOM_BLOCK1</a> = 0x80;</td></tr>
@@ -561,6 +565,8 @@ Variables</h2></td></tr>
 <tr class="separator:a8e2efa5a54dac05c9d47e5482cd958cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4ed3dd5a3388f93ae81f4f3f9500db5f" id="r_a4ed3dd5a3388f93ae81f4f3f9500db5f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacelibcoapy_1_1llapi.html#a4ed3dd5a3388f93ae81f4f3f9500db5f">coap_resource_release_userdata_handler_t</a> = ct.CFUNCTYPE(None, ct.py_object)</td></tr>
 <tr class="separator:a4ed3dd5a3388f93ae81f4f3f9500db5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a80d10e151ac7c2e4223ba6a6dc18a445" id="r_a80d10e151ac7c2e4223ba6a6dc18a445"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacelibcoapy_1_1llapi.html#a80d10e151ac7c2e4223ba6a6dc18a445">COAP_RESOURCE_USE_BLOCK_DATA_HANDLER</a> = 0x1000;</td></tr>
+<tr class="separator:a80d10e151ac7c2e4223ba6a6dc18a445"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5f1b95027378622242a16b545f4d9b6d" id="r_a5f1b95027378622242a16b545f4d9b6d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacelibcoapy_1_1llapi.html#a5f1b95027378622242a16b545f4d9b6d">coap_response_handler_t</a> = ct.CFUNCTYPE(coap_response_t.get_ctype(), ct.POINTER(<a class="el" href="classlibcoapy_1_1llapi_1_1coap__session__t.html">coap_session_t</a>), ct.POINTER(<a class="el" href="classlibcoapy_1_1llapi_1_1coap__pdu__t.html">coap_pdu_t</a>), ct.POINTER(<a class="el" href="classlibcoapy_1_1llapi_1_1coap__pdu__t.html">coap_pdu_t</a>), ct.c_int)</td></tr>
 <tr class="separator:a5f1b95027378622242a16b545f4d9b6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a18db942077bdeadaad1fb7c174f91487" id="r_a18db942077bdeadaad1fb7c174f91487"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacelibcoapy_1_1llapi.html#a18db942077bdeadaad1fb7c174f91487">COAP_RXBUFFER_SIZE</a> = 1472;</td></tr>
@@ -723,7 +729,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l03680">3680</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l03691">3691</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
 
 </div>
 </div>
@@ -743,7 +749,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l03783">3783</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l03794">3794</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
 
 </div>
 </div>
@@ -763,7 +769,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l03827">3827</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l03838">3838</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
 
 </div>
 </div>
@@ -819,7 +825,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l03655">3655</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l03666">3666</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
 
 </div>
 </div>
@@ -839,7 +845,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l03646">3646</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l03657">3657</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
 
 </div>
 </div>
@@ -1080,7 +1086,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00400">400</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00402">402</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
 
 </div>
 </div>
@@ -1096,7 +1102,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l03809">3809</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l03820">3820</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
 
 </div>
 </div>
@@ -1112,7 +1118,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l03761">3761</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l03772">3772</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
 
 </div>
 </div>
@@ -1128,7 +1134,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00803">803</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00805">805</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
 
 </div>
 </div>
@@ -1144,7 +1150,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00381">381</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00382">382</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
 
 </div>
 </div>
@@ -1160,7 +1166,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00382">382</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00383">383</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
 
 </div>
 </div>
@@ -1193,6 +1199,38 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00379">379</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
+
+</div>
+</div>
+<a id="a36975b9ff7766244a0979146585e24f9" name="a36975b9ff7766244a0979146585e24f9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a36975b9ff7766244a0979146585e24f9">&#9670;&#160;</a></span>coap_block_data_handler_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">libcoapy.llapi.coap_block_data_handler_t = ct.CFUNCTYPE(coap_response_t.get_ctype(), ct.POINTER(<a class="el" href="classlibcoapy_1_1llapi_1_1coap__session__t.html">coap_session_t</a>), ct.POINTER(<a class="el" href="classlibcoapy_1_1llapi_1_1coap__pdu__t.html">coap_pdu_t</a>), ct.POINTER(<a class="el" href="classlibcoapy_1_1llapi_1_1coap__resource__t.html">coap_resource_t</a>), ct.POINTER(ct.POINTER(<a class="el" href="classlibcoapy_1_1llapi_1_1coap__binary__t.html">coap_binary_t</a>)), ct.c_ulong, ct.POINTER(ct.c_uint8), ct.c_ulong, ct.c_ulong)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00828">828</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
+
+</div>
+</div>
+<a id="a64a30e0c0ccd5c524502024f1679efe0" name="a64a30e0c0ccd5c524502024f1679efe0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a64a30e0c0ccd5c524502024f1679efe0">&#9670;&#160;</a></span>COAP_BLOCK_FORCE_Q_BLOCK</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int libcoapy.llapi.COAP_BLOCK_FORCE_Q_BLOCK = 0x200;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00380">380</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
 
 </div>
 </div>
@@ -1336,7 +1374,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00844">844</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00847">847</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
 
 </div>
 </div>
@@ -1448,7 +1486,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00600">600</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00602">602</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
 
 </div>
 </div>
@@ -1496,7 +1534,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00742">742</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00744">744</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
 
 </div>
 </div>
@@ -1512,7 +1550,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00725">725</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00727">727</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
 
 </div>
 </div>
@@ -1576,7 +1614,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00694">694</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00696">696</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
 
 </div>
 </div>
@@ -1592,7 +1630,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00743">743</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00745">745</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
 
 </div>
 </div>
@@ -1624,7 +1662,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00599">599</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00601">601</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
 
 </div>
 </div>
@@ -1656,7 +1694,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00922">922</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00925">925</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
 
 </div>
 </div>
@@ -1688,7 +1726,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00784">784</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00786">786</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
 
 </div>
 </div>
@@ -1704,7 +1742,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00560">560</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00562">562</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
 
 </div>
 </div>
@@ -1752,7 +1790,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00826">826</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00829">829</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
 
 </div>
 </div>
@@ -1784,7 +1822,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00816">816</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00818">818</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
 
 </div>
 </div>
@@ -2360,7 +2398,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00916">916</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00919">919</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
 
 </div>
 </div>
@@ -2376,7 +2414,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00474">474</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00476">476</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
 
 </div>
 </div>
@@ -2392,7 +2430,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00822">822</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00824">824</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
 
 </div>
 </div>
@@ -2408,7 +2446,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00919">919</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00922">922</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
 
 </div>
 </div>
@@ -2424,7 +2462,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00397">397</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00399">399</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
 
 </div>
 </div>
@@ -2440,7 +2478,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00920">920</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00923">923</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
 
 </div>
 </div>
@@ -2456,7 +2494,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00396">396</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00398">398</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
 
 </div>
 </div>
@@ -2520,7 +2558,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00399">399</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00401">401</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
 
 </div>
 </div>
@@ -2760,7 +2798,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00398">398</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00400">400</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
 
 </div>
 </div>
@@ -2984,7 +3022,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00853">853</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00856">856</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
 
 </div>
 </div>
@@ -3000,7 +3038,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00823">823</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00825">825</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
 
 </div>
 </div>
@@ -3016,7 +3054,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00824">824</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00826">826</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
 
 </div>
 </div>
@@ -3032,7 +3070,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00918">918</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00921">921</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
 
 </div>
 </div>
@@ -3048,7 +3086,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00882">882</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00885">885</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
 
 </div>
 </div>
@@ -3064,7 +3102,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00915">915</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00918">918</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
 
 </div>
 </div>
@@ -3080,7 +3118,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00843">843</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00846">846</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
 
 </div>
 </div>
@@ -3096,7 +3134,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00380">380</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00381">381</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
 
 </div>
 </div>
@@ -3112,7 +3150,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00923">923</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00926">926</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
 
 </div>
 </div>
@@ -3128,7 +3166,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00825">825</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00827">827</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
 
 </div>
 </div>
@@ -3144,7 +3182,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00393">393</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00394">394</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
 
 </div>
 </div>
@@ -3160,7 +3198,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00387">387</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00388">388</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
 
 </div>
 </div>
@@ -3176,7 +3214,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00388">388</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00389">389</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
 
 </div>
 </div>
@@ -3192,7 +3230,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00391">391</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00392">392</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
 
 </div>
 </div>
@@ -3208,7 +3246,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00392">392</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00393">393</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
 
 </div>
 </div>
@@ -3224,7 +3262,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00389">389</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00390">390</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
 
 </div>
 </div>
@@ -3240,7 +3278,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00390">390</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00391">391</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
 
 </div>
 </div>
@@ -3256,7 +3294,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00385">385</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00386">386</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
 
 </div>
 </div>
@@ -3272,7 +3310,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00384">384</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00385">385</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
 
 </div>
 </div>
@@ -3288,7 +3326,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00386">386</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00387">387</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
 
 </div>
 </div>
@@ -3304,7 +3342,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00394">394</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00395">395</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
 
 </div>
 </div>
@@ -3320,7 +3358,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00383">383</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00384">384</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
 
 </div>
 </div>
@@ -3336,7 +3374,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00395">395</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00396">396</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
 
 </div>
 </div>
@@ -3352,7 +3390,23 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00917">917</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00920">920</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
+
+</div>
+</div>
+<a id="a80d10e151ac7c2e4223ba6a6dc18a445" name="a80d10e151ac7c2e4223ba6a6dc18a445"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a80d10e151ac7c2e4223ba6a6dc18a445">&#9670;&#160;</a></span>COAP_RESOURCE_USE_BLOCK_DATA_HANDLER</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int libcoapy.llapi.COAP_RESOURCE_USE_BLOCK_DATA_HANDLER = 0x1000;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00397">397</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
 
 </div>
 </div>
@@ -3368,7 +3422,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00821">821</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00823">823</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
 
 </div>
 </div>
@@ -3512,7 +3566,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00561">561</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00563">563</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
 
 </div>
 </div>
@@ -3528,7 +3582,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00580">580</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00582">582</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
 
 </div>
 </div>
@@ -3544,7 +3598,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00578">578</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00580">580</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
 
 </div>
 </div>
@@ -3560,7 +3614,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00579">579</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00581">581</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
 
 </div>
 </div>
@@ -3608,7 +3662,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00921">921</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l00924">924</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
 
 </div>
 </div>
@@ -3656,7 +3710,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l03806">3806</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l03817">3817</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
 
 </div>
 </div>
@@ -3672,7 +3726,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l03777">3777</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l03788">3788</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
 
 </div>
 </div>
@@ -3784,7 +3838,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l03794">3794</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l03805">3805</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
 
 </div>
 </div>
@@ -3800,7 +3854,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l03751">3751</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l03762">3762</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
 
 </div>
 </div>
@@ -3832,7 +3886,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l03806">3806</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l03817">3817</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
 
 </div>
 </div>
@@ -3848,7 +3902,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l03749">3749</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l03760">3760</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
 
 </div>
 </div>
@@ -3864,7 +3918,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l03815">3815</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l03826">3826</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
 
 </div>
 </div>
@@ -3880,7 +3934,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l03781">3781</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l03792">3792</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
 
 </div>
 </div>
@@ -3896,7 +3950,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l03643">3643</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="llapi_8py_source.html#l03654">3654</a> of file <a class="el" href="llapi_8py_source.html">llapi.py</a>.</p>
 
 </div>
 </div>
