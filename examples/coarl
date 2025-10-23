@@ -2,6 +2,7 @@
 
 # script that mimics the behaviour of the curl tool but uses the CoAP protocol
 
+import sys
 from re import match as re_match
 from argparse import ArgumentParser
 from libcoapy import *
@@ -23,6 +24,9 @@ if args.verbose:
 ctx = CoapContext()
 
 r = re_match("(?P<proto>coap[a-z+]*)://(?:(?P<user>[^:]*)(?::(?P<pass>[^@]*))?@)?(?P<remain>.*)", args.uri_str)
+if not r:
+	print("failed to parse", args.uri_str, file=sys.stderr)
+	sys.exit(1)
 uri_str = r.group("proto")+"://"+r.group("remain")
 uri = ctx.parse_uri(uri_str)
 

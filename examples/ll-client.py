@@ -5,7 +5,8 @@
 # [1] https://github.com/obgm/libcoap-minimal/blob/main/client.cc
 #
 
-from libcoapy import *
+from libcoapy.llapi import *
+import ctypes
 
 coap_startup()
 
@@ -14,6 +15,8 @@ if len(sys.argv) < 2:
 else:
 	uri_str = sys.argv[1].encode()
 uri_t = coap_uri_t()
+
+c_uint8_p = ctypes.POINTER(ctypes.c_uint8)
 
 coap_split_uri(ct.cast(ct.c_char_p(uri_str), c_uint8_p), len(uri_str), ct.byref(uri_t))
 
@@ -69,7 +72,7 @@ def my_resp_handler(session, pdu_sent, pdu_recv, mid):
 handler_obj = coap_response_handler_t(my_resp_handler)
 coap_register_response_handler(ctx, handler_obj)
 
-pdu = coap_pdu_init(COAP_MESSAGE_CON,
+pdu = coap_pdu_init(coap_pdu_type_t.COAP_MESSAGE_CON,
 		coap_pdu_code_t.COAP_REQUEST_CODE_GET,
 		coap_new_message_id(session),
 		coap_session_max_pdu_size(session));
