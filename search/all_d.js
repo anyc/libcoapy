@@ -2,8 +2,8 @@ var searchData=
 [
   ['m_0',['m',['https://libcoap.net/doc/reference/4.3.5/structcoap__block__b__t.html#a8cf34442f078a9298b4b88632bb2828b',1,'coap_block_b_t::m'],['https://libcoap.net/doc/reference/4.3.5/structcoap__block__t.html#ab853b0f192d874e5c0fc5d054348731d',1,'coap_block_t::m']]],
   ['main_2emd_1',['main.md',['https://libcoap.net/doc/reference/4.3.5/main_8md.html',1,'']]],
-  ['main_5fobserver_2',['main_observer',['../classlibcoapy_1_1libcoapy_1_1CoapObserverMultiplier.html#a603c5d369d4f0f4f0f45dce97673e7b9',1,'libcoapy::libcoapy::CoapObserverMultiplier']]],
-  ['make_5fpersistent_3',['make_persistent',['../classlibcoapy_1_1libcoapy_1_1CoapPDU.html#a0d4625377ec3146a90ddb7627b6326d3',1,'libcoapy::libcoapy::CoapPDU']]],
+  ['main_5fobserver_2',['main_observer',['../classlibcoapy_1_1CoapObserver_1_1CoapObserverMultiplier.html#a364d61325db1d9f8dbb5ed8f49662d04',1,'libcoapy::CoapObserver::CoapObserverMultiplier']]],
+  ['make_5fpersistent_3',['make_persistent',['../classlibcoapy_1_1CoapPDU_1_1CoapPDU.html#a3f35fbfd6853a7af8dff393748d33f1e',1,'libcoapy::CoapPDU::CoapPDU']]],
   ['mask_4',['mask',['https://libcoap.net/doc/reference/4.3.5/structcoap__opt__filter__t.html#a47fa546d3464817d948dbda7fe4d7d95',1,'coap_opt_filter_t']]],
   ['mask_5fkey_5',['mask_key',['https://libcoap.net/doc/reference/4.3.5/structcoap__ws__state__t.html#ae0e56741e0da311936037790c2c858ac',1,'coap_ws_state_t']]],
   ['master_5fsalt_6',['master_salt',['https://libcoap.net/doc/reference/4.3.5/structcoap__oscore__conf__t.html#ad4acfe5399616de4db23ba88acf50302',1,'coap_oscore_conf_t::master_salt'],['https://libcoap.net/doc/reference/4.3.5/structoscore__ctx__t.html#aaf518190c1f7560bad8d8b581854bc33',1,'oscore_ctx_t::master_salt']]],
@@ -14,7 +14,7 @@ var searchData=
   ['max_5fopt_11',['max_opt',['https://libcoap.net/doc/reference/4.3.5/structcoap__pdu__t.html#a27d98ea67f960829abb64a442a452dbd',1,'coap_pdu_t']]],
   ['max_5fretransmit_12',['max_retransmit',['https://libcoap.net/doc/reference/4.3.5/structcoap__session__t.html#aa2a82976ffd98280383767bd948d7738',1,'coap_session_t']]],
   ['max_5fsize_13',['max_size',['https://libcoap.net/doc/reference/4.3.5/structcoap__pdu__t.html#a5bd82194d62c90d9243313cbbbe26d47',1,'coap_pdu_t']]],
-  ['max_5fsockets_14',['max_sockets',['../classlibcoapy_1_1libcoapy_1_1CoapContext.html#ace897ca435ee75e4f78cc7ab72d11256',1,'libcoapy::libcoapy::CoapContext']]],
+  ['max_5fsockets_14',['max_sockets',['../classlibcoapy_1_1CoapContext_1_1CoapContext.html#a9d36d127071b97e7948662b5f400e2b9',1,'libcoapy::CoapContext::CoapContext']]],
   ['max_5ftoken_5fchecked_15',['max_token_checked',['https://libcoap.net/doc/reference/4.3.5/structcoap__session__t.html#a077447de0376257e353ef3c0f5dd728a',1,'coap_session_t']]],
   ['max_5ftoken_5fsize_16',['max_token_size',['https://libcoap.net/doc/reference/4.3.5/structcoap__context__t.html#aacb3df33d87cc0a6ea1f68c1c34e0f88',1,'coap_context_t::max_token_size'],['https://libcoap.net/doc/reference/4.3.5/structcoap__session__t.html#a2ffb9f4e4ae9270388fe0bdd36612fc4',1,'coap_session_t::max_token_size']]],
   ['maxage_5fexpire_17',['maxage_expire',['https://libcoap.net/doc/reference/4.3.5/structcoap__l__block2__t.html#aee27a2541a4aed238fee960bd4356927',1,'coap_l_block2_t']]],
@@ -23,12 +23,12 @@ var searchData=
   ['message_5fblock_20',['Message_Block',['https://libcoap.net/doc/reference/4.3.5/structSHA1Context.html#ab9a620b6c84fc2baad67f285a8931623',1,'SHA1Context']]],
   ['message_5fblock_5findex_21',['Message_Block_Index',['https://libcoap.net/doc/reference/4.3.5/structSHA1Context.html#af59a4b732989a1b7c11c03a177a810ba',1,'SHA1Context']]],
   ['messaging_22',['Asynchronous Messaging',['https://libcoap.net/doc/reference/4.3.5/group__coap__async.html',1,'']]],
-  ['method2code_23',['method2code',['../namespacelibcoapy_1_1libcoapy.html#a944c0d43c85b8aef34ca74b6c805a448',1,'libcoapy::libcoapy']]],
+  ['method2code_23',['method2code',['../namespacelibcoapy_1_1common.html#a19b6d693562fc9cd76516b91d012adb8',1,'libcoapy::common']]],
   ['mid_24',['mid',['https://libcoap.net/doc/reference/4.3.5/structcoap__pdu__t.html#aaf96d478490315b2662f1784247cc4ae',1,'coap_pdu_t']]],
   ['mode_25',['mode',['https://libcoap.net/doc/reference/4.3.5/structoscore__ctx__t.html#a5728cbca89118b06e17a008f24538a75',1,'oscore_ctx_t']]],
   ['module_5fapi_5fwrap_2eh_26',['module_api_wrap.h',['https://libcoap.net/doc/reference/4.3.5/module__api__wrap_8h.html',1,'']]],
   ['mtu_27',['mtu',['https://libcoap.net/doc/reference/4.3.5/structcoap__session__t.html#a8c56cba04bd71e9d163926cb09461c1c',1,'coap_session_t']]],
   ['multi_20thread_20support_28',['Multi-thread Support',['https://libcoap.net/doc/reference/4.3.5/group__locking__internal.html',1,'']]],
-  ['multicast_5finterfaces_29',['multicast_interfaces',['../classlibcoapy_1_1libcoapy_1_1CoapContext.html#a50fe3c0eda8bef861e38f0eb662d6254',1,'libcoapy::libcoapy::CoapContext']]],
-  ['multiplier_30',['multiplier',['../classlibcoapy_1_1libcoapy_1_1CoapObserver.html#adba4d3ae51822618a9bad89de3b7eb84',1,'libcoapy::libcoapy::CoapObserver']]]
+  ['multicast_5finterfaces_29',['multicast_interfaces',['../classlibcoapy_1_1CoapContext_1_1CoapContext.html#ae3c16e50dac8b6918b30d8d957f04ba6',1,'libcoapy::CoapContext::CoapContext']]],
+  ['multiplier_30',['multiplier',['../classlibcoapy_1_1CoapObserver_1_1CoapObserver.html#a9c9f16d327a66d08014bf5f3c68c42dc',1,'libcoapy::CoapObserver::CoapObserver']]]
 ];

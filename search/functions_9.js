@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['make_5fpersistent_0',['make_persistent',['../classlibcoapy_1_1libcoapy_1_1CoapPDU.html#a0d4625377ec3146a90ddb7627b6326d3',1,'libcoapy::libcoapy::CoapPDU']]],
-  ['method2code_1',['method2code',['../namespacelibcoapy_1_1libcoapy.html#a944c0d43c85b8aef34ca74b6c805a448',1,'libcoapy::libcoapy']]]
+  ['make_5fpersistent_0',['make_persistent',['../classlibcoapy_1_1CoapPDU_1_1CoapPDU.html#a3f35fbfd6853a7af8dff393748d33f1e',1,'libcoapy::CoapPDU::CoapPDU']]],
+  ['method2code_1',['method2code',['../namespacelibcoapy_1_1common.html#a19b6d693562fc9cd76516b91d012adb8',1,'libcoapy::common']]]
 ];

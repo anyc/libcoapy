@@ -13,7 +13,7 @@ var searchData=
   ['initial_10',['initial',['https://libcoap.net/doc/reference/4.3.5/structcoap__lg__crcv__t.html#a54f8244a64a561e9bba851b0dd1cb637',1,'coap_lg_crcv_t']]],
   ['initial_5fstate_11',['initial_state',['https://libcoap.net/doc/reference/4.3.5/structoscore__recipient__ctx__t.html#ad0361c1ef8a1ee9156654a44ccf9fb84',1,'oscore_recipient_ctx_t']]],
   ['integer_5fpart_12',['integer_part',['https://libcoap.net/doc/reference/4.3.5/structcoap__fixed__point__t.html#af1d2a64146f6ad7f4ad4f5418ae75f44',1,'coap_fixed_point_t']]],
-  ['interfaces_13',['interfaces',['../classlibcoapy_1_1libcoapy_1_1CoapContext.html#a328442027d5e05a8c9f16ca3bb466e58',1,'libcoapy::libcoapy::CoapContext']]],
+  ['interfaces_13',['interfaces',['../classlibcoapy_1_1CoapContext_1_1CoapContext.html#a7cb13aa11fb883670fea302b11a12122',1,'libcoapy::CoapContext::CoapContext']]],
   ['intermediate_5fhash_14',['Intermediate_Hash',['https://libcoap.net/doc/reference/4.3.5/structSHA1Context.html#a6d4330353a57a47afd49c4f1b9d6cb92',1,'SHA1Context']]],
   ['ipi6_5faddr_15',['ipi6_addr',['https://libcoap.net/doc/reference/4.3.5/structin6__pktinfo.html#a87b026872bd4ab42bc948a1951f0922b',1,'in6_pktinfo']]],
   ['ipi6_5fifindex_16',['ipi6_ifindex',['https://libcoap.net/doc/reference/4.3.5/structin6__pktinfo.html#a9ce9353893fc69ca3c177826305e28e7',1,'in6_pktinfo']]],

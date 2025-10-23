@@ -1,7 +1,7 @@
 var searchData=
 [
   ['c_5fuint8_5fp_5fto_5fstr_0',['c_uint8_p_to_str',['../namespacelibcoapy_1_1llapi.html#afeeadd7250a53aadfc5b2151761fc7d5',1,'libcoapy::llapi']]],
-  ['cancelobservation_1',['cancelObservation',['../classlibcoapy_1_1libcoapy_1_1CoapPDU.html#a9637b85decf239f7ccfe889711df0d5e',1,'libcoapy::libcoapy::CoapPDU']]],
+  ['cancelobservation_1',['cancelObservation',['../classlibcoapy_1_1CoapPDU_1_1CoapPDU.html#a68035d3a982144bbe2672e73c8e771fa',1,'libcoapy::CoapPDU::CoapPDU']]],
   ['coap_5fadd_5fattr_2',['coap_add_attr',['https://libcoap.net/doc/reference/4.3.5/group__coap__resource.html#ga1787fba8c0b0cb7823fb251177c84fcd',1,]]],
   ['coap_5fadd_5fblock_3',['coap_add_block',['https://libcoap.net/doc/reference/4.3.5/group__block.html#ga73094dc713e61b72cec8e37ffaf72a39',1,]]],
   ['coap_5fadd_5fblock_5fb_5fdata_4',['coap_add_block_b_data',['https://libcoap.net/doc/reference/4.3.5/group__block.html#ga5d021b08e7774a54d635cc049aa491f7',1,]]],
@@ -530,7 +530,7 @@ var searchData=
   ['coappackageversion_527',['CoapPackageVersion',['../namespacelibcoapy_1_1libcoapy.html#a3118e11158d7578e70c7fe10dc785240',1,'libcoapy::libcoapy']]],
   ['coapstringtlssupport_528',['CoapStringTlsSupport',['../namespacelibcoapy_1_1libcoapy.html#ab347e32b64526f9df4b9669619c91f31',1,'libcoapy::libcoapy']]],
   ['coapstringtlsversion_529',['CoapStringTlsVersion',['../namespacelibcoapy_1_1libcoapy.html#a065c40520bb0a81eb4a3291d7d86f90c',1,'libcoapy::libcoapy']]],
-  ['code_530',['code',['../classlibcoapy_1_1libcoapy_1_1CoapPDU.html#aecc8514c1425f8ecacbd5ac883ae0c69',1,'libcoapy.libcoapy.CoapPDU.code(self)'],['../classlibcoapy_1_1libcoapy_1_1CoapPDU.html#a6841b464b1b273fe84330715677c1c79',1,'libcoapy.libcoapy.CoapPDU.code(self, value)']]],
+  ['code_530',['code',['../classlibcoapy_1_1CoapPDU_1_1CoapPDU.html#ae0f3337fa5a412d5f59324d4558d31e9',1,'libcoapy.CoapPDU.CoapPDU.code(self)'],['../classlibcoapy_1_1CoapPDU_1_1CoapPDU.html#aa0c613a47076ccc1909533e4d4a0ae9b',1,'libcoapy.CoapPDU.CoapPDU.code(self, value)']]],
   ['cose_5fencrypt0_5fdecode_531',['cose_encrypt0_decode',['https://libcoap.net/doc/reference/4.3.5/group__oscore__cose__internal.html#gab767d348b7731a6ac78c27f63c7eaa6d',1,]]],
   ['cose_5fencrypt0_5fdecrypt_532',['cose_encrypt0_decrypt',['https://libcoap.net/doc/reference/4.3.5/group__oscore__cose__internal.html#ga98bce18599d06855aef264c581359cfc',1,]]],
   ['cose_5fencrypt0_5fencode_533',['cose_encrypt0_encode',['https://libcoap.net/doc/reference/4.3.5/group__oscore__cose__internal.html#gae342a670968916612e000aaad6f986e7',1,]]],

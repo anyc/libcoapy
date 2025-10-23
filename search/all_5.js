@@ -12,7 +12,7 @@ var searchData=
   ['delayqueue_9',['delayqueue',['https://libcoap.net/doc/reference/4.3.5/structcoap__session__t.html#ab696107e30d12e557dce16722655c93d',1,'coap_session_t']]],
   ['delta_10',['delta',['https://libcoap.net/doc/reference/4.3.5/structcoap__option__t.html#a8c6a106a9200c0241f14fcfa22a64176',1,'coap_option_t']]],
   ['dependencies_3a_11',['Dependencies:',['../index.html#autotoc_md0',1,'']]],
-  ['dest_5faddr_12',['dest_addr',['../classlibcoapy_1_1libcoapy_1_1CoapSession.html#ae9a32f0eab0cb9f55ae875923fbf4fa5',1,'libcoapy.libcoapy.CoapSession.dest_addr'],['../classlibcoapy_1_1libcoapy_1_1CoapClientSession.html#a78ecced6261f0edf12acd92596c6d38d',1,'libcoapy.libcoapy.CoapClientSession.dest_addr']]],
+  ['dest_5faddr_12',['dest_addr',['../classlibcoapy_1_1CoapSession_1_1CoapSession.html#a153cff8627371c263728cfda91202a4c',1,'libcoapy.CoapSession.CoapSession.dest_addr'],['../classlibcoapy_1_1CoapSession_1_1CoapClientSession.html#aab0e4875e9749394832e619dc2005876',1,'libcoapy.CoapSession.CoapClientSession.dest_addr']]],
   ['dirty_13',['dirty',['https://libcoap.net/doc/reference/4.3.5/structcoap__subscription__t.html#a27ccda5844dc4672345dafebfb1d5f96',1,'coap_subscription_t::dirty'],['https://libcoap.net/doc/reference/4.3.5/structcoap__resource__t.html#a09b8f3b601ad2e2e48f8ebb47a2f3bef',1,'coap_resource_t::dirty']]],
   ['documentation_14',['Documentation',['../index.html#autotoc_md4',1,'']]],
   ['doing_5ffirst_15',['doing_first',['https://libcoap.net/doc/reference/4.3.5/structcoap__session__t.html#a1bf28cf019085307bc483eb26d40ed26',1,'coap_session_t']]],
@@ -21,8 +21,8 @@ var searchData=
   ['dtls_5fcpsk_18',['dtls_cpsk',['https://libcoap.net/doc/reference/4.3.5/structcoap__proxy__server__t.html#aaf8cdf9037a080cb7c1b909a4ae52412',1,'coap_proxy_server_t']]],
   ['dtls_5fevent_19',['dtls_event',['https://libcoap.net/doc/reference/4.3.5/structcoap__session__t.html#a9ddc6f7076a6c6f3781e65d8c7555489',1,'coap_session_t']]],
   ['dtls_5fpki_20',['dtls_pki',['https://libcoap.net/doc/reference/4.3.5/structcoap__proxy__server__t.html#a669ae2260baa9d4dbb72aea85c05fab7',1,'coap_proxy_server_t']]],
-  ['dtls_5fpsk_21',['dtls_psk',['../classlibcoapy_1_1libcoapy_1_1CoapClientSession.html#a62a8437272eade9dca4572c48d960c65',1,'libcoapy::libcoapy::CoapClientSession']]],
-  ['dtls_5fspsk_22',['dtls_spsk',['../classlibcoapy_1_1libcoapy_1_1CoapContext.html#a94cf0c7023b2c41fa37b2da98ef40171',1,'libcoapy::libcoapy::CoapContext']]],
+  ['dtls_5fpsk_21',['dtls_psk',['../classlibcoapy_1_1CoapSession_1_1CoapClientSession.html#aec1673eb8c6a59f3f1fc53793b97cd9f',1,'libcoapy::CoapSession::CoapClientSession']]],
+  ['dtls_5fspsk_22',['dtls_spsk',['../classlibcoapy_1_1CoapContext_1_1CoapContext.html#a4a461b974c69dfd0eb66039f26c442e1',1,'libcoapy::CoapContext::CoapContext']]],
   ['dtls_5ftimeout_5fcount_23',['dtls_timeout_count',['https://libcoap.net/doc/reference/4.3.5/structcoap__session__t.html#a0e449eb256836dcf5932791f53881b6e',1,'coap_session_t']]],
   ['dyn_5fresource_5fadded_24',['dyn_resource_added',['https://libcoap.net/doc/reference/4.3.5/structcoap__context__t.html#a885a3154a9c5af221d91d63289af01d4',1,'coap_context_t']]]
 ];

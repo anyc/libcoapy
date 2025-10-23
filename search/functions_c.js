@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['parse_5furi_0',['parse_uri',['../classlibcoapy_1_1libcoapy_1_1CoapContext.html#a0b8b66af69bdc333440fa79a8f8f9a22',1,'libcoapy::libcoapy::CoapContext']]],
-  ['payload_1',['payload',['../classlibcoapy_1_1libcoapy_1_1CoapPDU.html#ad7368cb40fb298b115f848ec6fb26a01',1,'libcoapy.libcoapy.CoapPDU.payload(self)'],['../classlibcoapy_1_1libcoapy_1_1CoapPDU.html#a3207f9d7d6b983c37e4747003f3c4550',1,'libcoapy.libcoapy.CoapPDU.payload(self, value)']]],
-  ['process_2',['process',['../classlibcoapy_1_1libcoapy_1_1CoapObserverMultiplier.html#ac8795c28beea7fe26ce39fb935311775',1,'libcoapy::libcoapy::CoapObserverMultiplier']]]
+  ['parse_5furi_0',['parse_uri',['../classlibcoapy_1_1CoapContext_1_1CoapContext.html#aac7f513bac9f341adcdc7cd9375beab4',1,'libcoapy::CoapContext::CoapContext']]],
+  ['payload_1',['payload',['../classlibcoapy_1_1CoapPDU_1_1CoapPDU.html#a093b61d2ee92d2de731e48aaebaf929a',1,'libcoapy.CoapPDU.CoapPDU.payload(self)'],['../classlibcoapy_1_1CoapPDU_1_1CoapPDU.html#a6be7ddfe244f8c290080fc63f8c2269b',1,'libcoapy.CoapPDU.CoapPDU.payload(self, value)']]],
+  ['process_2',['process',['../classlibcoapy_1_1CoapObserver_1_1CoapObserverMultiplier.html#a0a5e0f280330769d085929a0952606fc',1,'libcoapy::CoapObserver::CoapObserverMultiplier']]]
 ];

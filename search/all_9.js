@@ -2,7 +2,7 @@ var searchData=
 [
   ['handle_5fevent_0',['handle_event',['https://libcoap.net/doc/reference/4.3.5/structcoap__context__t.html#acaa625e1c87b88a1dc48bd0d895185d9',1,'coap_context_t']]],
   ['handler_1',['handler',['https://libcoap.net/doc/reference/4.3.5/structcoap__resource__t.html#a64e782257dd1931d6082bff001ecf9c9',1,'coap_resource_t']]],
-  ['handlers_2',['handlers',['../classlibcoapy_1_1libcoapy_1_1CoapResource.html#aac2869f964c20af2474bee4e51315267',1,'libcoapy::libcoapy::CoapResource']]],
+  ['handlers_2',['handlers',['../classlibcoapy_1_1CoapResource_1_1CoapResource.html#ae756b7d7cb84d34a9d693a4c4148e162',1,'libcoapy::CoapResource::CoapResource']]],
   ['handling_3',['handling',['https://libcoap.net/doc/reference/4.3.5/group__app__io__internal.html',1,'Application I/O Handling'],['https://libcoap.net/doc/reference/4.3.5/group__app__io.html',1,'Application I/O Handling'],['https://libcoap.net/doc/reference/4.3.5/group__clock.html',1,'Clock Handling'],['https://libcoap.net/doc/reference/4.3.5/group__context__internal.html',1,'Context Handling'],['https://libcoap.net/doc/reference/4.3.5/group__context.html',1,'Context Handling'],['https://libcoap.net/doc/reference/4.3.5/group__events.html',1,'Event Handling']]],
   ['handling_20support_4',['String handling support',['https://libcoap.net/doc/reference/4.3.5/group__string.html',1,'']]],
   ['hdr_5fofs_5',['hdr_ofs',['https://libcoap.net/doc/reference/4.3.5/structcoap__ws__state__t.html#aa3b54fad1f8c4e08d04da537b9cdf5a6',1,'coap_ws_state_t']]],

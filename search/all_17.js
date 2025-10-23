@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['wait_0',['wait',['../classlibcoapy_1_1libcoapy_1_1CoapObserver.html#a974d3da99a5f9ff65c7e1cd75545dfe6',1,'libcoapy::libcoapy::CoapObserver']]],
-  ['waiting_1',['waiting',['../classlibcoapy_1_1libcoapy_1_1CoapObserverMultiplier.html#a704da444aecb536f04c625f49e863b5b',1,'libcoapy::libcoapy::CoapObserverMultiplier']]],
+  ['wait_0',['wait',['../classlibcoapy_1_1CoapObserver_1_1CoapObserver.html#a5a7a4e9012ab53d15134323a60d378cb',1,'libcoapy::CoapObserver::CoapObserver']]],
+  ['waiting_1',['waiting',['../classlibcoapy_1_1CoapObserver_1_1CoapObserverMultiplier.html#a9cf89adf60f296ddf1289d8d1e56f14c',1,'libcoapy::CoapObserver::CoapObserverMultiplier']]],
   ['websockets_20support_2',['websockets support',['https://libcoap.net/doc/reference/4.3.5/group__ws.html',1,'WebSockets Support'],['https://libcoap.net/doc/reference/4.3.5/group__ws__internal.html',1,'WebSockets Support']]],
   ['writefds_3',['writefds',['https://libcoap.net/doc/reference/4.3.5/structcoap__context__t.html#aaf287872a1c5c4171fae69b58b8d978c',1,'coap_context_t']]],
   ['ws_5fop_5fbinary_4',['WS_OP_BINARY',['https://libcoap.net/doc/reference/4.3.5/group__ws__internal.html#gga582505eeb3cc29e76dcb08bc9bfd0c0aada5aba44db6244f0a086f5232a99902f',1,]]],
