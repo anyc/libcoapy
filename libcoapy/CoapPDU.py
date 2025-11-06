@@ -238,4 +238,5 @@ class CoapPDUResponse(CoapPDU):
 			)
 	
 	def is_error(self):
-		return (((self.code >> 5) & 0xff) != 0)
+		code_class = (self.code >> 5) & 0xff
+		return (code_class == 4 or code_class == 5)
