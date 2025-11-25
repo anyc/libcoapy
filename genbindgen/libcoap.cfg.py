@@ -91,5 +91,14 @@
 		"coap_join_mcast_group_intf": {
 			"res_error": "-1",
 			},
+		"coap_io_get_fds": {
+			"arg_dirs":  {
+				"read_fds": ["in", "out"],
+				"have_read_fds": ["in", "out"],
+				"write_fds": ["in", "out"],
+				"have_write_fds": ["in", "out"],
+				"rem_timeout_ms": ["in", "out"],
+				},
+			},
 		}
 }
