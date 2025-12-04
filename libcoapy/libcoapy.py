@@ -1,3 +1,4 @@
+from .llapi import *
 
 def CoapPackageVersion():
 	return coap_package_version().decode()
