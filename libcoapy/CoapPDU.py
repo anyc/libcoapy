@@ -32,6 +32,10 @@ class CoapPDU():
 	
 	@property
 	def uri(self):
+		return self.path
+	
+	@property
+	def path(self):
 		return str(coap_get_uri_path(self.lcoap_pdu).contents)
 	
 	@property
