@@ -81,6 +81,37 @@ class CoapPDU():
 		"""! public function to add a payload to a PDU """
 		self.addPayload(value)
 	
+	def _wrapper_txPayloadCallback(self, lcoap_session, max_size, offset, data_ptr, length, app_ptr):
+		data = self.payload_data_cb(self, max_size, offset, app_ptr)
+		
+		length[0] = len(data)
+		ct.memmove(data_ptr, data, len(data))
+		
+		return 1
+	
+	def _wrapper_txPayloadReleaseCallback(self, lcoap_session, app_ptr):
+		self.payload_release_cb(self, app_ptr)
+	
+	def setTXPayloadCallback(self, payload_data_cb, payload_size, payload_release_cb=None, payload_cb_data=None):
+		self.wrapper_payload_cb = coap_get_large_data_t(self._wrapper_txPayloadCallback)
+		self.payload_data_cb = payload_data_cb
+		
+		if payload_release_cb:
+			self.payload_release_cb = payload_release_cb
+		else:
+			self.payload_release_cb = 0
+		self.wrapper_payload_release_cb = coap_release_large_data_t(self._wrapper_txPayloadReleaseCallback)
+		
+		if not payload_cb_data:
+			payload_cb_data = self
+		
+		coap_add_data_large_request_app(self.session.lcoap_session,
+			self.lcoap_pdu,
+			payload_size,
+			self.wrapper_payload_release_cb,
+			self.wrapper_payload_cb,
+			payload_cb_data)
+	
 	def release_payload_cb(self, lcoap_session, payload):
 		self.ct_payload = None
 		if self.session and self.session.ctx:
