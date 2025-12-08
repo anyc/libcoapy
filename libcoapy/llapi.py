@@ -378,6 +378,8 @@ COAP_BLOCK_STLESS_BLOCK2 = 0x40;
 COAP_BLOCK_NOT_RANDOM_BLOCK1 = 0x80;
 COAP_BLOCK_CACHE_RESPONSE = 0x100;
 COAP_BLOCK_FORCE_Q_BLOCK = 0x200;
+COAP_PROXY_OLD_MASK = 0x07;
+COAP_PROXY_NEW_MASK = 0x38;
 COAP_RESOURCE_CHECK_TIME = 2;
 COAP_ATTR_FLAGS_RELEASE_NAME = 0x1;
 COAP_ATTR_FLAGS_RELEASE_VALUE = 0x2;
@@ -844,6 +846,7 @@ coap_block_b_t._fields_ = [
 	]
 
 coap_release_large_data_t = ct.CFUNCTYPE(None, ct.POINTER(coap_session_t), ct.py_object)
+coap_get_large_data_t = ct.CFUNCTYPE(ct.c_int, ct.POINTER(coap_session_t), ct.c_ulong, ct.c_ulong, ct.POINTER(ct.c_uint8), ct.POINTER(ct.c_ulong), ct.py_object)
 coap_cache_app_data_free_callback_t = ct.CFUNCTYPE(None, ct.py_object)
 class coap_cache_session_based_t(ctypes_enum_gen):
 	COAP_CACHE_NOT_SESSION_BASED = 0
@@ -857,14 +860,17 @@ coap_oscore_save_seq_num_t = ct.CFUNCTYPE(ct.c_int, ct.c_ulong, ct.py_object)
 class coap_proxy_t(ctypes_enum_gen):
 	COAP_PROXY_REVERSE = 0
 	COAP_PROXY_REVERSE_STRIP = 1
-	COAP_PROXY_FORWARD_STATIC = 2
-	COAP_PROXY_FORWARD_STATIC_STRIP = 3
-	COAP_PROXY_FORWARD_DYNAMIC = 4
-	COAP_PROXY_FORWARD_DYNAMIC_STRIP = 5
 	COAP_PROXY_FORWARD = 2
 	COAP_PROXY_FORWARD_STRIP = 3
 	COAP_PROXY_DIRECT = 4
 	COAP_PROXY_DIRECT_STRIP = 5
+	COAP_PROXY_FORWARD_DYNAMIC = 4
+	COAP_PROXY_FORWARD_DYNAMIC_STRIP = 5
+	COAP_PROXY_REV = 8
+	COAP_PROXY_FWD_STATIC = 16
+	COAP_PROXY_FWD_DYNAMIC = 24
+	COAP_PROXY_BIT_STRIP = 64
+	COAP_PROXY_BIT_MCAST = 128
 
 coap_proxy_server_t._fields_ = [
 	("uri", coap_uri_t),
@@ -2950,6 +2956,18 @@ library_functions.append({
 		(ct.c_size_t, "length"),
 		(ct.POINTER(ct.c_uint8), "data"),
 		(coap_release_large_data_t, "release_func"),
+		(ct.py_object, "app_ptr"),
+		],
+	"restype": ct.c_int,
+	})
+library_functions.append({
+	"name": "coap_add_data_large_request_app",
+	"args": [
+		(ct.POINTER(coap_session_t), "session"),
+		(ct.POINTER(coap_pdu_t), "pdu"),
+		(ct.c_size_t, "length"),
+		(coap_release_large_data_t, "release_func"),
+		(coap_get_large_data_t, "get_func"),
 		(ct.py_object, "app_ptr"),
 		],
 	"restype": ct.c_int,
