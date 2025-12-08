@@ -116,6 +116,9 @@ Public Member Functions</h2></td></tr>
 <tr class="inherit_header pub_methods_classlibcoapy_1_1CoapSession_1_1CoapSession"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classlibcoapy_1_1CoapSession_1_1CoapSession')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classlibcoapy_1_1CoapSession_1_1CoapSession.html">libcoapy.CoapSession.CoapSession</a></td></tr>
 <tr class="memitem:a56b475c59213edb4d4b2985f367ba99c inherit pub_methods_classlibcoapy_1_1CoapSession_1_1CoapSession" id="r_a56b475c59213edb4d4b2985f367ba99c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibcoapy_1_1CoapSession_1_1CoapSession.html#a56b475c59213edb4d4b2985f367ba99c">async_response_callback</a> (self, <a class="el" href="namespacelibcoapy_1_1libcoapy.html#a24f831065ad48fd26b1cd99f1bed8fd7">session</a>, tx_msg, rx_msg, mid, observer)</td></tr>
 <tr class="separator:a56b475c59213edb4d4b2985f367ba99c inherit pub_methods_classlibcoapy_1_1CoapSession_1_1CoapSession"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a153138c1cb094048caa285589ffc9e20 inherit pub_methods_classlibcoapy_1_1CoapSession_1_1CoapSession" id="r_a153138c1cb094048caa285589ffc9e20"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibcoapy_1_1CoapSession_1_1CoapSession.html#a153138c1cb094048caa285589ffc9e20">createRequest</a> (self, path=None, <a class="el" href="namespacelibcoapy_1_1libcoapy.html#a2d834af4a132179c48f3060c5a57f758">payload</a>=None, pdu_type=coap_pdu_type_t.COAP_MESSAGE_CON, code=coap_pdu_code_t.COAP_REQUEST_CODE_GET, <a class="el" href="namespacelibcoapy_1_1libcoapy.html#a0bd57c1f4665109adc66051b3e24811d">observe</a>=<a class="el" href="namespacelibcoapy_1_1libcoapy.html#a313d09f7264cc418194cb090c9ee0ab5">False</a>, <a class="el" href="classlibcoapy_1_1CoapSession_1_1CoapSession.html#a56b05c4434230c3cc043a2c97e327e69">query</a>=None, options=None, <a class="el" href="namespacelibcoapy_1_1libcoapy.html#afa65b31378e6f480f9295f2f90d7a9f1">response_callback</a>=None, response_callback_data=None, persistent_rx_pdu=<a class="el" href="namespacelibcoapy_1_1libcoapy.html#a313d09f7264cc418194cb090c9ee0ab5">False</a>, payload_callback=None, payload_release_callback=None, payload_callback_data=None, payload_size=None)</td></tr>
+<tr class="memdesc:a153138c1cb094048caa285589ffc9e20 inherit pub_methods_classlibcoapy_1_1CoapSession_1_1CoapSession"><td class="mdescLeft">&#160;</td><td class="mdescRight">convenience function to prepare and send a PDU for this session  <br /></td></tr>
+<tr class="separator:a153138c1cb094048caa285589ffc9e20 inherit pub_methods_classlibcoapy_1_1CoapSession_1_1CoapSession"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa96762b8e754be6d8838f7a1785b9d72 inherit pub_methods_classlibcoapy_1_1CoapSession_1_1CoapSession" id="r_aa96762b8e754be6d8838f7a1785b9d72"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibcoapy_1_1CoapSession_1_1CoapSession.html#aa96762b8e754be6d8838f7a1785b9d72">getInterfaceIndex</a> (self)</td></tr>
 <tr class="separator:aa96762b8e754be6d8838f7a1785b9d72 inherit pub_methods_classlibcoapy_1_1CoapSession_1_1CoapSession"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aba86cada49a8cc703f194141f82d8905 inherit pub_methods_classlibcoapy_1_1CoapSession_1_1CoapSession" id="r_aba86cada49a8cc703f194141f82d8905"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibcoapy_1_1CoapSession_1_1CoapSession.html#aba86cada49a8cc703f194141f82d8905">getInterfaceName</a> (self)</td></tr>
@@ -190,7 +193,7 @@ Static Protected Member Functions</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>represents a session initiated by a client </p>
 
-<p class="definition">Definition at line <a class="el" href="CoapSession_8py_source.html#l00290">290</a> of file <a class="el" href="CoapSession_8py_source.html">CoapSession.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="CoapSession_8py_source.html#l00342">342</a> of file <a class="el" href="CoapSession_8py_source.html">CoapSession.py</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a5bc4119c8cf0e07d8f5ec847f0839afa" name="a5bc4119c8cf0e07d8f5ec847f0839afa"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a5bc4119c8cf0e07d8f5ec847f0839afa">&#9670;&#160;</a></span>__init__()</h2>
@@ -244,7 +247,7 @@ Static Protected Member Functions</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="classlibcoapy_1_1CoapSession_1_1CoapSession.html#a1120aed5388c250692eb7e62cb5dc3b5">libcoapy.CoapSession.CoapSession</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="CoapSession_8py_source.html#l00292">292</a> of file <a class="el" href="CoapSession_8py_source.html">CoapSession.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="CoapSession_8py_source.html#l00344">344</a> of file <a class="el" href="CoapSession_8py_source.html">CoapSession.py</a>.</p>
 
 </div>
 </div>
@@ -289,7 +292,7 @@ Static Protected Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="CoapSession_8py_source.html#l00402">402</a> of file <a class="el" href="CoapSession_8py_source.html">CoapSession.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="CoapSession_8py_source.html#l00454">454</a> of file <a class="el" href="CoapSession_8py_source.html">CoapSession.py</a>.</p>
 
 </div>
 </div>
@@ -311,7 +314,7 @@ Static Protected Member Functions</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="classlibcoapy_1_1CoapSession_1_1CoapSession.html#a7a93b98cc6cff78eb4ff82534de42f2a">libcoapy.CoapSession.CoapSession</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="CoapSession_8py_source.html#l00432">432</a> of file <a class="el" href="CoapSession_8py_source.html">CoapSession.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="CoapSession_8py_source.html#l00484">484</a> of file <a class="el" href="CoapSession_8py_source.html">CoapSession.py</a>.</p>
 
 </div>
 </div>
@@ -353,7 +356,7 @@ Static Protected Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="CoapSession_8py_source.html#l00303">303</a> of file <a class="el" href="CoapSession_8py_source.html">CoapSession.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="CoapSession_8py_source.html#l00355">355</a> of file <a class="el" href="CoapSession_8py_source.html">CoapSession.py</a>.</p>
 
 </div>
 </div>
@@ -370,7 +373,7 @@ Static Protected Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="CoapSession_8py_source.html#l00312">312</a> of file <a class="el" href="CoapSession_8py_source.html">CoapSession.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="CoapSession_8py_source.html#l00364">364</a> of file <a class="el" href="CoapSession_8py_source.html">CoapSession.py</a>.</p>
 
 </div>
 </div>
@@ -386,7 +389,7 @@ Static Protected Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="CoapSession_8py_source.html#l00314">314</a> of file <a class="el" href="CoapSession_8py_source.html">CoapSession.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="CoapSession_8py_source.html#l00366">366</a> of file <a class="el" href="CoapSession_8py_source.html">CoapSession.py</a>.</p>
 
 </div>
 </div>
@@ -402,7 +405,7 @@ Static Protected Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="CoapSession_8py_source.html#l00349">349</a> of file <a class="el" href="CoapSession_8py_source.html">CoapSession.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="CoapSession_8py_source.html#l00401">401</a> of file <a class="el" href="CoapSession_8py_source.html">CoapSession.py</a>.</p>
 
 </div>
 </div>
@@ -418,7 +421,7 @@ Static Protected Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="CoapSession_8py_source.html#l00387">387</a> of file <a class="el" href="CoapSession_8py_source.html">CoapSession.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="CoapSession_8py_source.html#l00439">439</a> of file <a class="el" href="CoapSession_8py_source.html">CoapSession.py</a>.</p>
 
 </div>
 </div>
@@ -434,7 +437,7 @@ Static Protected Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="CoapSession_8py_source.html#l00313">313</a> of file <a class="el" href="CoapSession_8py_source.html">CoapSession.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="CoapSession_8py_source.html#l00365">365</a> of file <a class="el" href="CoapSession_8py_source.html">CoapSession.py</a>.</p>
 
 </div>
 </div>
@@ -450,7 +453,7 @@ Static Protected Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="CoapSession_8py_source.html#l00342">342</a> of file <a class="el" href="CoapSession_8py_source.html">CoapSession.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="CoapSession_8py_source.html#l00394">394</a> of file <a class="el" href="CoapSession_8py_source.html">CoapSession.py</a>.</p>
 
 </div>
 </div>
@@ -466,7 +469,7 @@ Static Protected Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="CoapSession_8py_source.html#l00330">330</a> of file <a class="el" href="CoapSession_8py_source.html">CoapSession.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="CoapSession_8py_source.html#l00382">382</a> of file <a class="el" href="CoapSession_8py_source.html">CoapSession.py</a>.</p>
 
 </div>
 </div>
@@ -482,7 +485,7 @@ Static Protected Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="CoapSession_8py_source.html#l00341">341</a> of file <a class="el" href="CoapSession_8py_source.html">CoapSession.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="CoapSession_8py_source.html#l00393">393</a> of file <a class="el" href="CoapSession_8py_source.html">CoapSession.py</a>.</p>
 
 </div>
 </div>
@@ -498,7 +501,7 @@ Static Protected Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="CoapSession_8py_source.html#l00364">364</a> of file <a class="el" href="CoapSession_8py_source.html">CoapSession.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="CoapSession_8py_source.html#l00416">416</a> of file <a class="el" href="CoapSession_8py_source.html">CoapSession.py</a>.</p>
 
 </div>
 </div>
@@ -514,7 +517,7 @@ Static Protected Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="CoapSession_8py_source.html#l00368">368</a> of file <a class="el" href="CoapSession_8py_source.html">CoapSession.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="CoapSession_8py_source.html#l00420">420</a> of file <a class="el" href="CoapSession_8py_source.html">CoapSession.py</a>.</p>
 
 </div>
 </div>
@@ -530,7 +533,7 @@ Static Protected Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="CoapSession_8py_source.html#l00299">299</a> of file <a class="el" href="CoapSession_8py_source.html">CoapSession.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="CoapSession_8py_source.html#l00351">351</a> of file <a class="el" href="CoapSession_8py_source.html">CoapSession.py</a>.</p>
 
 </div>
 </div>
@@ -546,7 +549,7 @@ Static Protected Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="CoapSession_8py_source.html#l00298">298</a> of file <a class="el" href="CoapSession_8py_source.html">CoapSession.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="CoapSession_8py_source.html#l00350">350</a> of file <a class="el" href="CoapSession_8py_source.html">CoapSession.py</a>.</p>
 
 </div>
 </div>

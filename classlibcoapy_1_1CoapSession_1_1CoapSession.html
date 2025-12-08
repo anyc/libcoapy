@@ -100,6 +100,9 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a1120aed5388c250692eb7e62cb5dc3b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a56b475c59213edb4d4b2985f367ba99c" id="r_a56b475c59213edb4d4b2985f367ba99c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibcoapy_1_1CoapSession_1_1CoapSession.html#a56b475c59213edb4d4b2985f367ba99c">async_response_callback</a> (self, <a class="el" href="namespacelibcoapy_1_1libcoapy.html#a24f831065ad48fd26b1cd99f1bed8fd7">session</a>, tx_msg, rx_msg, mid, observer)</td></tr>
 <tr class="separator:a56b475c59213edb4d4b2985f367ba99c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a153138c1cb094048caa285589ffc9e20" id="r_a153138c1cb094048caa285589ffc9e20"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibcoapy_1_1CoapSession_1_1CoapSession.html#a153138c1cb094048caa285589ffc9e20">createRequest</a> (self, path=None, <a class="el" href="namespacelibcoapy_1_1libcoapy.html#a2d834af4a132179c48f3060c5a57f758">payload</a>=None, pdu_type=coap_pdu_type_t.COAP_MESSAGE_CON, code=coap_pdu_code_t.COAP_REQUEST_CODE_GET, <a class="el" href="namespacelibcoapy_1_1libcoapy.html#a0bd57c1f4665109adc66051b3e24811d">observe</a>=<a class="el" href="namespacelibcoapy_1_1libcoapy.html#a313d09f7264cc418194cb090c9ee0ab5">False</a>, <a class="el" href="classlibcoapy_1_1CoapSession_1_1CoapSession.html#a56b05c4434230c3cc043a2c97e327e69">query</a>=None, options=None, <a class="el" href="namespacelibcoapy_1_1libcoapy.html#afa65b31378e6f480f9295f2f90d7a9f1">response_callback</a>=None, response_callback_data=None, persistent_rx_pdu=<a class="el" href="namespacelibcoapy_1_1libcoapy.html#a313d09f7264cc418194cb090c9ee0ab5">False</a>, payload_callback=None, payload_release_callback=None, payload_callback_data=None, payload_size=None)</td></tr>
+<tr class="memdesc:a153138c1cb094048caa285589ffc9e20"><td class="mdescLeft">&#160;</td><td class="mdescRight">convenience function to prepare and send a PDU for this session  <br /></td></tr>
+<tr class="separator:a153138c1cb094048caa285589ffc9e20"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa96762b8e754be6d8838f7a1785b9d72" id="r_aa96762b8e754be6d8838f7a1785b9d72"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibcoapy_1_1CoapSession_1_1CoapSession.html#aa96762b8e754be6d8838f7a1785b9d72">getInterfaceIndex</a> (self)</td></tr>
 <tr class="separator:aa96762b8e754be6d8838f7a1785b9d72"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aba86cada49a8cc703f194141f82d8905" id="r_aba86cada49a8cc703f194141f82d8905"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibcoapy_1_1CoapSession_1_1CoapSession.html#aba86cada49a8cc703f194141f82d8905">getInterfaceName</a> (self)</td></tr>
@@ -239,7 +242,137 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="CoapSession_8py_source.html#l00265">265</a> of file <a class="el" href="CoapSession_8py_source.html">CoapSession.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="CoapSession_8py_source.html#l00317">317</a> of file <a class="el" href="CoapSession_8py_source.html">CoapSession.py</a>.</p>
+
+</div>
+</div>
+<a id="a153138c1cb094048caa285589ffc9e20" name="a153138c1cb094048caa285589ffc9e20"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a153138c1cb094048caa285589ffc9e20">&#9670;&#160;</a></span>createRequest()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">libcoapy.CoapSession.CoapSession.createRequest </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>self</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>path</em> = <code>None</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>payload</em> = <code>None</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>pdu_type</em> = <code>coap_pdu_type_t.COAP_MESSAGE_CON</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>code</em> = <code>coap_pdu_code_t.COAP_REQUEST_CODE_GET</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>observe</em> = <code><a class="el" href="namespacelibcoapy_1_1libcoapy.html#a313d09f7264cc418194cb090c9ee0ab5">False</a></code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>query</em> = <code>None</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>options</em> = <code>None</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>response_callback</em> = <code>None</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>response_callback_data</em> = <code>None</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>persistent_rx_pdu</em> = <code><a class="el" href="namespacelibcoapy_1_1libcoapy.html#a313d09f7264cc418194cb090c9ee0ab5">False</a></code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>payload_callback</em> = <code>None</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>payload_release_callback</em> = <code>None</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>payload_callback_data</em> = <code>None</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>payload_size</em> = <code>None</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>convenience function to prepare and send a PDU for this session </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>the path of the resource </td></tr>
+    <tr><td class="paramname">payload</td><td>the payload to send with the PDU </td></tr>
+    <tr><td class="paramname">pdu_type</td><td>request confirmation of the request (CON) or not (NON) </td></tr>
+    <tr><td class="paramname">code</td><td>the code similar to HTTP (e.g., GET, POST, PUT, ...) </td></tr>
+    <tr><td class="paramname">observe</td><td>observe/subscribe the resource </td></tr>
+    <tr><td class="paramname">query</td><td>send a query - comparable to path?arg1=val1&amp;arg2=val2 in HTTP </td></tr>
+    <tr><td class="paramname">options</td><td>set additional options (e.g., COAP_OPTION_CONTENT_FORMAT) using a list of (option_code, value) tuples </td></tr>
+    <tr><td class="paramname">persistent_rx_pdu</td><td>automatically make the response PDU persistent </td></tr>
+    <tr><td class="paramname">response_callback</td><td>function that will be called if a response is received </td></tr>
+    <tr><td class="paramname">response_callback_data</td><td>additional data that will be passed to <code>response_callback</code> </td></tr>
+    <tr><td class="paramname">payload_callback</td><td>function that is called to retrieve the to-be-sent data in blocks, </td></tr>
+    <tr><td class="paramname">payload_size</td><td>the size of the to-be-sent data </td></tr>
+    <tr><td class="paramname">payload_release_callback</td><td>function that is called when all data was transmitted, </td></tr>
+    <tr><td class="paramname">payload_callback_data</td><td>additional data that will be passed to the callback functions</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the resulting dictionary in token_handler </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="CoapSession_8py_source.html#l00246">246</a> of file <a class="el" href="CoapSession_8py_source.html">CoapSession.py</a>.</p>
 
 </div>
 </div>
@@ -378,7 +511,7 @@ Public Attributes</h2></td></tr>
 <p>start an asynchronous request and return a generator object if observe=True is set, else return the response pdu </p>
 <p>accepts same parameters as <a class="el" href="">sendMessage() </a> </p>
 
-<p class="definition">Definition at line <a class="el" href="CoapSession_8py_source.html#l00269">269</a> of file <a class="el" href="CoapSession_8py_source.html">CoapSession.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="CoapSession_8py_source.html#l00321">321</a> of file <a class="el" href="CoapSession_8py_source.html">CoapSession.py</a>.</p>
 
 </div>
 </div>
@@ -479,7 +612,7 @@ Public Attributes</h2></td></tr>
 <p>send a synchronous request and return the response </p>
 <p>accepts same parameters as \link libcoapy.libcoapy.CoapClientSession.sendMessage sendMessage() \endlink </p>
 
-<p class="definition">Definition at line <a class="el" href="CoapSession_8py_source.html#l00246">246</a> of file <a class="el" href="CoapSession_8py_source.html">CoapSession.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="CoapSession_8py_source.html#l00298">298</a> of file <a class="el" href="CoapSession_8py_source.html">CoapSession.py</a>.</p>
 
 </div>
 </div>
