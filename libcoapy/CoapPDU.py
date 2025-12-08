@@ -235,6 +235,105 @@ class CoapPDURequest(CoapPDU):
 	def createFrom(cls, lcoap_pdu, session):
 		return cls(session, lcoap_pdu=lcoap_pdu)
 	
+	def setOptions(self,
+			path=None,
+			observe=False,
+			query=None,
+			options=None
+		):
+		"""! set the options in the right order
+		
+		@param path: the path of the resource
+		@param observe: observe/subscribe the resource
+		@param query: send a query - comparable to path?arg1=val1&arg2=val2 in HTTP
+		@param options: set additional options (e.g., COAP_OPTION_CONTENT_FORMAT) using a list of (option_code, value) tuples
+		"""
+		
+		if self.lcoap_token.length == 0:
+			self.newToken()
+		
+		optlist = ct.POINTER(coap_optlist_t)()
+		
+		if path[0] == "/":
+			path = path[1:]
+		
+		if isinstance(path, str):
+			path = path.encode()
+		
+		coap_path_into_optlist(ct.cast(ct.c_char_p(path), ct.POINTER(ct.c_uint8)), len(path), COAP_OPTION_URI_PATH, ct.byref(optlist))
+		
+		self.observe = observe
+		if observe:
+			scratch_t = ct.c_uint8 * 100
+			scratch = scratch_t()
+			coap_insert_optlist(ct.byref(optlist),
+				coap_new_optlist(COAP_OPTION_OBSERVE,
+					coap_encode_var_safe(scratch, ct.sizeof(scratch), COAP_OBSERVE_ESTABLISH),
+					scratch)
+				)
+		
+		self.query = query
+		if query:
+			if isinstance(query, str):
+				query = query.encode()
+			
+			coap_query_into_optlist(ct.cast(ct.c_char_p(query), ct.POINTER(ct.c_uint8)), len(query), COAP_OPTION_URI_QUERY, ct.byref(optlist))
+		
+		if options:
+			scratch_t = ct.c_uint8 * 8
+			scratch = scratch_t()
+			for opt_num, value in options:
+				coap_insert_optlist(ct.byref(optlist),
+					coap_new_optlist(opt_num,
+						coap_encode_var_safe(scratch, ct.sizeof(scratch), value),
+						scratch)
+					)
+		
+		if optlist:
+			rv = coap_add_optlist_pdu(self.lcoap_pdu, ct.byref(optlist))
+			coap_delete_optlist(optlist)
+			if rv != 1:
+				raise Exception("coap_add_optlist_pdu() failed\n")
+	
+	def setResponseCallback(self,
+			response_callback=None,
+			response_callback_data=None,
+			persistent_rx_pdu=False,
+		):
+		"""! transmit this PDU
+		
+		@param response_callback: function that will be called if a response is received
+		@param response_callback_data: additional data that will be passed to \p response_callback
+		@param persistent_rx_pdu: automatically make the response PDU persistent
+	
+		@return the resulting dictionary in token_handler
+		"""
+		
+		if not hasattr(self, "token_handler"):
+			self.token_handler = {}
+		
+		self.token_handler["tx_pdu"] = self
+		if self.observe:
+			self.token_handler["observed"] = True
+		if persistent_rx_pdu:
+			self.token_handler["save_rx_pdu"] = True
+		if response_callback:
+			self.token_handler["handler"] = response_callback
+			if response_callback_data:
+				self.token_handler["handler_data"] = response_callback_data
+	
+	def send(self):
+		"""! transmit this PDU """
+		
+		self.session.token_handlers[self.token] = self.token_handler
+		
+		mid = coap_send(self.session.lcoap_session, self.lcoap_pdu)
+		
+		# libcoap automatically signals an epoll fd that work has to be done, without
+		# epoll we have to do this ourselves.
+		if self.session.ctx._loop and self.session.ctx.coap_fd < 0:
+			self.session.ctx.fd_callback()
+	
 	def addPayload(self, payload):
 		"""! add payload to a request PDU """
 		if not hasattr(self, "release_payload_cb_ct"):
