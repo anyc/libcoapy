@@ -243,6 +243,58 @@ class CoapSession():
 		
 		return self.token_handlers[token]
 	
+	def createRequest(self,
+			path=None,
+			payload=None,
+			pdu_type=coap_pdu_type_t.COAP_MESSAGE_CON,
+			code=coap_pdu_code_t.COAP_REQUEST_CODE_GET,
+			observe=False,
+			query=None,
+			options=None,
+			response_callback=None,
+			response_callback_data=None,
+			persistent_rx_pdu=False,
+			payload_callback=None,
+			payload_release_callback=None,
+			payload_callback_data=None,
+			payload_size=None
+		):
+		"""! convenience function to prepare and send a PDU for this session
+		
+		@param path: the path of the resource
+		@param payload: the payload to send with the PDU
+		@param pdu_type: request confirmation of the request (CON) or not (NON)
+		@param code: the code similar to HTTP (e.g., GET, POST, PUT, ...)
+		@param observe: observe/subscribe the resource
+		@param query: send a query - comparable to path?arg1=val1&arg2=val2 in HTTP
+		@param options: set additional options (e.g., COAP_OPTION_CONTENT_FORMAT) using a list of (option_code, value) tuples
+		@param persistent_rx_pdu: automatically make the response PDU persistent
+		@param response_callback: function that will be called if a response is received
+		@param response_callback_data: additional data that will be passed to \p response_callback
+		@param payload_callback: function that is called to retrieve the to-be-sent data in blocks,
+		@param payload_size: the size of the to-be-sent data
+		@param payload_release_callback: function that is called when all data was transmitted,
+		@param payload_callback_data: additional data that will be passed to the callback functions
+	
+		@return the resulting dictionary in token_handler
+		"""
+		
+		tx_pdu = CoapPDURequest(self, pdu_type, code)
+		
+		tx_pdu.setOptions(path=path,
+			observe=observe,
+			query=query,
+			options=options)
+		
+		if payload:
+			tx_pdu.addPayload(payload)
+		elif payload_callback and payload_size:
+			tx_pdu.setTXPayloadCallback(payload_callback, payload_size, payload_release_callback, payload_callback_data)
+		
+		tx_pdu.setResponseCallback(response_callback, response_callback_data, persistent_rx_pdu)
+		
+		return tx_pdu
+	
 	def request(self, *args, **kwargs):
 		"""! send a synchronous request and return the response
 		
