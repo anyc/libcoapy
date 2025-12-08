@@ -89,7 +89,7 @@ class CoapSession():
 		
 		rx_pdu = CoapPDUResponse(pdu_recv, self)
 		if pdu_sent:
-			tx_pdu = CoapPDURequest(pdu_sent, self)
+			tx_pdu = CoapPDURequest.createFrom(pdu_sent, self)
 		else:
 			tx_pdu = None
 		
@@ -171,7 +171,7 @@ class CoapSession():
 				raise Exception("session not set up")
 		
 		pdu = coap_pdu_init(pdu_type, code, coap_new_message_id(self.lcoap_session), coap_session_max_pdu_size(self.lcoap_session));
-		hl_pdu = CoapPDURequest(pdu, self)
+		hl_pdu = CoapPDURequest.createFrom(pdu, self)
 		
 		hl_pdu.newToken()
 		token = hl_pdu.token

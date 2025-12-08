@@ -213,6 +213,28 @@ class CoapPDU():
 class CoapPDURequest(CoapPDU):
 	"""! PDU that represents a request  """
 	
+	def __init__(self,
+			session,
+			pdu_type=coap_pdu_type_t.COAP_MESSAGE_CON,
+			code=coap_pdu_code_t.COAP_REQUEST_CODE_GET,
+			lcoap_pdu=None
+			):
+		"""! prepare a request PDU
+		
+		@param session: the corresponding session
+		@param pdu_type: request confirmation of the request (CON) or not (NON)
+		@param code: the code similar to HTTP (e.g., GET, POST, PUT, ...)
+		"""
+		
+		if lcoap_pdu is None:
+			lcoap_pdu = coap_pdu_init(pdu_type, code, coap_new_message_id(session.lcoap_session), coap_session_max_pdu_size(session.lcoap_session));
+		
+		super().__init__(pdu=lcoap_pdu, session=session)
+	
+	@classmethod
+	def createFrom(cls, lcoap_pdu, session):
+		return cls(session, lcoap_pdu=lcoap_pdu)
+	
 	def addPayload(self, payload):
 		"""! add payload to a request PDU """
 		if not hasattr(self, "release_payload_cb_ct"):
