@@ -87,7 +87,7 @@ class CoapSession():
 	def responseHandler(self, pdu_sent, pdu_recv, mid):
 		rv = None
 		
-		rx_pdu = CoapPDUResponse(pdu_recv, self)
+		rx_pdu = CoapPDUResponse.createFrom(pdu_recv, self)
 		if pdu_sent:
 			tx_pdu = CoapPDURequest.createFrom(pdu_sent, self)
 		else:

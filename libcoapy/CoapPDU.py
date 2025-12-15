@@ -7,12 +7,16 @@ class CoapPDU():
 	
 	A PDU represents a packet in the CoAP protocol.
 	"""
-	def __init__(self, pdu=None, session=None):
-		self.lcoap_pdu = pdu
+	def __init__(self, lcoap_pdu=None, session=None):
+		self.lcoap_pdu = lcoap_pdu
 		self.payload_ptr = ct.POINTER(ct.c_uint8)()
 		self.session = session
 		self._token = None
 		self._pdu_type = None
+	
+	@classmethod
+	def createFrom(cls, lcoap_pdu, session):
+		return cls(session=session, lcoap_pdu=lcoap_pdu)
 	
 	def getPayload(self):
 		"""! get the transmitted payload of a PDU """
@@ -229,11 +233,7 @@ class CoapPDURequest(CoapPDU):
 		if lcoap_pdu is None:
 			lcoap_pdu = coap_pdu_init(pdu_type, code, coap_new_message_id(session.lcoap_session), coap_session_max_pdu_size(session.lcoap_session));
 		
-		super().__init__(pdu=lcoap_pdu, session=session)
-	
-	@classmethod
-	def createFrom(cls, lcoap_pdu, session):
-		return cls(session, lcoap_pdu=lcoap_pdu)
+		super().__init__(lcoap_pdu=lcoap_pdu, session=session)
 	
 	def setOptions(self,
 			path=None,
@@ -362,7 +362,7 @@ class CoapPDURequest(CoapPDU):
 
 class CoapPDUResponse(CoapPDU):
 	"""! PDU that represents a response """
-		
+	
 	def addPayload(self, payload, query=None, media_type=0, maxage=-1, etag=0):
 		"""! add payload to a response PDU """
 		if not hasattr(self, "release_payload_cb_ct"):

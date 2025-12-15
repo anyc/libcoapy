@@ -33,9 +33,9 @@ class CoapResource():
 	def _handler(self, lcoap_resource, lcoap_session, lcoap_request, lcoap_query, lcoap_response):
 		session = coap_session_get_app_data(lcoap_session)
 		
-		req_pdu = CoapPDURequest(lcoap_request, session)
+		req_pdu = CoapPDURequest.createFrom(lcoap_request, session)
 		req_pdu.rs = self
-		resp_pdu = CoapPDUResponse(lcoap_response, session)
+		resp_pdu = CoapPDUResponse.createFrom(lcoap_response, session)
 		resp_pdu.rs = self
 		resp_pdu.request_pdu = req_pdu
 		
