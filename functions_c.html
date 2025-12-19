@@ -110,6 +110,7 @@ $(function() {
 <li>COAP_EVENT_DTLS_CONNECTED&#160;:&#160;<a class="el" href="classlibcoapy_1_1llapi_1_1coap__event__t.html#a51f41071bd2fa4a7c8cb2f1c6edf701a">libcoapy.llapi.coap_event_t</a></li>
 <li>COAP_EVENT_DTLS_ERROR&#160;:&#160;<a class="el" href="classlibcoapy_1_1llapi_1_1coap__event__t.html#a8683e74909aa914add957c83a1861486">libcoapy.llapi.coap_event_t</a></li>
 <li>COAP_EVENT_DTLS_RENEGOTIATE&#160;:&#160;<a class="el" href="classlibcoapy_1_1llapi_1_1coap__event__t.html#aa94c3bdd78fc9754cf7076d8fdfe511e">libcoapy.llapi.coap_event_t</a></li>
+<li>COAP_EVENT_FIRST_PDU_FAIL&#160;:&#160;<a class="el" href="classlibcoapy_1_1llapi_1_1coap__event__t.html#a377b7e78f7ef6eeb36bd1e329be01a27">libcoapy.llapi.coap_event_t</a></li>
 <li>COAP_EVENT_KEEPALIVE_FAILURE&#160;:&#160;<a class="el" href="classlibcoapy_1_1llapi_1_1coap__event__t.html#aeb1aa8dccb07b6822630d28a0a6660a2">libcoapy.llapi.coap_event_t</a></li>
 <li>COAP_EVENT_MSG_RETRANSMITTED&#160;:&#160;<a class="el" href="classlibcoapy_1_1llapi_1_1coap__event__t.html#a160d3c6cf43784cafca06210130bc05a">libcoapy.llapi.coap_event_t</a></li>
 <li>COAP_EVENT_OSCORE_DECODE_ERROR&#160;:&#160;<a class="el" href="classlibcoapy_1_1llapi_1_1coap__event__t.html#ac3058f74cf88815dbe9f18da46532cda">libcoapy.llapi.coap_event_t</a></li>
@@ -119,6 +120,10 @@ $(function() {
 <li>COAP_EVENT_OSCORE_NO_SECURITY&#160;:&#160;<a class="el" href="classlibcoapy_1_1llapi_1_1coap__event__t.html#ab52a50ebf45bc8a00520df1f787037e6">libcoapy.llapi.coap_event_t</a></li>
 <li>COAP_EVENT_OSCORE_NOT_ENABLED&#160;:&#160;<a class="el" href="classlibcoapy_1_1llapi_1_1coap__event__t.html#abc7c5f5d9f0d97e6ecfc7d77b1347369">libcoapy.llapi.coap_event_t</a></li>
 <li>COAP_EVENT_PARTIAL_BLOCK&#160;:&#160;<a class="el" href="classlibcoapy_1_1llapi_1_1coap__event__t.html#aab8c6bfe481de262992a79ef9ccb4b14">libcoapy.llapi.coap_event_t</a></li>
+<li>COAP_EVENT_RECONNECT_FAILED&#160;:&#160;<a class="el" href="classlibcoapy_1_1llapi_1_1coap__event__t.html#a89bbb730dad56a4f4d11a2ef644c8535">libcoapy.llapi.coap_event_t</a></li>
+<li>COAP_EVENT_RECONNECT_NO_MORE&#160;:&#160;<a class="el" href="classlibcoapy_1_1llapi_1_1coap__event__t.html#ae5b4d5eacbc922708686da039ec5cb20">libcoapy.llapi.coap_event_t</a></li>
+<li>COAP_EVENT_RECONNECT_STARTED&#160;:&#160;<a class="el" href="classlibcoapy_1_1llapi_1_1coap__event__t.html#a77e00889b7daab9272677b90b8753f97">libcoapy.llapi.coap_event_t</a></li>
+<li>COAP_EVENT_RECONNECT_SUCCESS&#160;:&#160;<a class="el" href="classlibcoapy_1_1llapi_1_1coap__event__t.html#abb764860bd4e3536314db846c81db849">libcoapy.llapi.coap_event_t</a></li>
 <li>COAP_EVENT_SERVER_SESSION_CONNECTED&#160;:&#160;<a class="el" href="classlibcoapy_1_1llapi_1_1coap__event__t.html#a6ba21566585164a03689dbef6f1ecbe9">libcoapy.llapi.coap_event_t</a></li>
 <li>COAP_EVENT_SERVER_SESSION_DEL&#160;:&#160;<a class="el" href="classlibcoapy_1_1llapi_1_1coap__event__t.html#a15cb9b02f445e40952df29f4dc5ff6da">libcoapy.llapi.coap_event_t</a></li>
 <li>COAP_EVENT_SERVER_SESSION_NEW&#160;:&#160;<a class="el" href="classlibcoapy_1_1llapi_1_1coap__event__t.html#a41988ec3cc104b3b31c5792f308ef5cb">libcoapy.llapi.coap_event_t</a></li>
@@ -291,7 +296,7 @@ $(function() {
 <li>COAP_URI_SCHEME_LAST&#160;:&#160;<a class="el" href="classlibcoapy_1_1llapi_1_1coap__uri__scheme__t.html#a64440610cf2a885d857d443871ddee51">libcoapy.llapi.coap_uri_scheme_t</a></li>
 <li>code()&#160;:&#160;<a class="el" href="classlibcoapy_1_1CoapPDU_1_1CoapPDU.html#aa0c613a47076ccc1909533e4d4a0ae9b">libcoapy.CoapPDU.CoapPDU</a></li>
 <li>contents&#160;:&#160;<a class="el" href="classlibcoapy_1_1libcoapy_1_1CoapGetTlsLibraryVersion.html#a6ba33fed3970860a6601457142864bd2">libcoapy.libcoapy.CoapGetTlsLibraryVersion</a></li>
-<li>createFrom()&#160;:&#160;<a class="el" href="classlibcoapy_1_1CoapPDU_1_1CoapPDURequest.html#a09e1a4bb5f1914c11ae976bc3b6fd13c">libcoapy.CoapPDU.CoapPDURequest</a></li>
+<li>createFrom()&#160;:&#160;<a class="el" href="classlibcoapy_1_1CoapPDU_1_1CoapPDU.html#a8adb98b550aad0dd3b78d6a536b70a40">libcoapy.CoapPDU.CoapPDU</a></li>
 <li>createRequest()&#160;:&#160;<a class="el" href="classlibcoapy_1_1CoapSession_1_1CoapSession.html#a153138c1cb094048caa285589ffc9e20">libcoapy.CoapSession.CoapSession</a></li>
 <li>ct_handler&#160;:&#160;<a class="el" href="classlibcoapy_1_1CoapResource_1_1CoapResource.html#a5f6f1d28b00e10228eea4172237673bb">libcoapy.CoapResource.CoapResource</a>, <a class="el" href="classlibcoapy_1_1CoapResource_1_1CoapUnknownResource.html#adeb462f7833c29e998e75c07f74e319e">libcoapy.CoapResource.CoapUnknownResource</a></li>
 <li>ct_payload&#160;:&#160;<a class="el" href="classlibcoapy_1_1CoapPDU_1_1CoapPDU.html#a758ce5b3455b1bc2dc6347f81e153bfc">libcoapy.CoapPDU.CoapPDU</a>, <a class="el" href="classlibcoapy_1_1CoapPDU_1_1CoapPDURequest.html#ab2504dc28f162f4de0cbe47a262a7f2b">libcoapy.CoapPDU.CoapPDURequest</a>, <a class="el" href="classlibcoapy_1_1CoapPDU_1_1CoapPDUResponse.html#aa94c597b33d1293fd506e7801ea5c04f">libcoapy.CoapPDU.CoapPDUResponse</a></li>
