@@ -774,6 +774,7 @@ class coap_event_t(ctypes_enum_gen):
 	COAP_EVENT_SERVER_SESSION_CONNECTED = 16387
 	COAP_EVENT_BAD_PACKET = 20481
 	COAP_EVENT_MSG_RETRANSMITTED = 20482
+	COAP_EVENT_FIRST_PDU_FAIL = 20483
 	COAP_EVENT_OSCORE_DECRYPTION_FAILURE = 24577
 	COAP_EVENT_OSCORE_NOT_ENABLED = 24578
 	COAP_EVENT_OSCORE_NO_PROTECTED_PAYLOAD = 24579
@@ -784,6 +785,10 @@ class coap_event_t(ctypes_enum_gen):
 	COAP_EVENT_WS_CONNECTED = 28674
 	COAP_EVENT_WS_CLOSED = 28675
 	COAP_EVENT_KEEPALIVE_FAILURE = 32769
+	COAP_EVENT_RECONNECT_FAILED = 36865
+	COAP_EVENT_RECONNECT_SUCCESS = 36866
+	COAP_EVENT_RECONNECT_NO_MORE = 36867
+	COAP_EVENT_RECONNECT_STARTED = 36868
 
 coap_event_handler_t = ct.CFUNCTYPE(ct.c_int, ct.POINTER(coap_session_t), coap_event_t.get_ctype())
 coap_fixed_point_t._fields_ = [
@@ -2086,6 +2091,13 @@ library_functions.append({
 	"restype": None,
 	})
 library_functions.append({
+	"name": "coap_call_home_stop_reconnecting",
+	"args": [
+		(ct.POINTER(coap_session_t), "session"),
+		],
+	"restype": None,
+	})
+library_functions.append({
 	"name": "coap_get_log_level",
 	"restype": coap_log_t.get_ctype(),
 	})
@@ -2377,6 +2389,15 @@ library_functions.append({
 	"args": [
 		(ct.POINTER(coap_context_t), "context"),
 		(ct.c_uint, "reconnect_time"),
+		],
+	"restype": None,
+	})
+library_functions.append({
+	"name": "coap_context_set_session_reconnect_time2",
+	"args": [
+		(ct.POINTER(coap_context_t), "context"),
+		(ct.c_uint, "reconnect_time"),
+		(ct.c_uint8, "retry_count"),
 		],
 	"restype": None,
 	})
