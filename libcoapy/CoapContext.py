@@ -516,6 +516,45 @@ class CoapContext():
 
 	def setKeepalive(self, interval_s):
 		coap_context_set_keepalive(self.lcoap_ctx, interval_s)
+	
+	def get_single_fd(self):
+		return coap_context_get_coap_fd(self.lcoap_ctx)
+	
+	def get_fds(self, fd_obj=None):
+		if fd_obj is None:
+			fd_obj = lambda: None
+			# just an estimated initial value
+			fd_obj.max_sockets = 8 + 2 * len(getattr(self, "interfaces", []))
+			
+			read_fds_t = coap_fd_t * fd_obj.max_sockets
+			write_fds_t = coap_fd_t * fd_obj.max_sockets
+			
+			fd_obj._read_fds = read_fds_t()
+			fd_obj._write_fds = write_fds_t()
+			fd_obj.have_read_fds = ct.c_uint()
+			fd_obj.have_write_fds = ct.c_uint()
+			fd_obj._rem_timeout_ms = ct.c_uint()
+		
+		# repeat until our fd list is large enough to hold all active fds
+		while True:
+			coap_io_get_fds(self.lcoap_ctx, 
+				fd_obj._read_fds, ct.byref(fd_obj.have_read_fds), fd_obj.max_sockets,
+				fd_obj._write_fds, ct.byref(fd_obj.have_write_fds), fd_obj.max_sockets,
+				ct.byref(fd_obj._rem_timeout_ms))
+			
+			timeout_ms = fd_obj._rem_timeout_ms.value
+			
+			if fd_obj.have_read_fds.value >= fd_obj.max_sockets or fd_obj.have_write_fds.value >= fd_obj.max_sockets:
+				fd_obj.max_sockets *= 2
+				continue
+			
+			break
+		
+		fd_obj.read_fds = fd_obj._read_fds[:fd_obj.have_read_fds.value]
+		fd_obj.write_fds = fd_obj._write_fds[:fd_obj.have_write_fds.value]
+		fd_obj.rem_timeout_ms = fd_obj._rem_timeout_ms.value
+		
+		return fd_obj
 
 class CoapEndpoint():
 	"""! basically represents a socket """
