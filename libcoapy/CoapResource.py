@@ -44,7 +44,7 @@ class CoapResource():
 		
 		self.handlers[req_pdu.code](self, session, req_pdu, lcoap_query.contents if lcoap_query else None, resp_pdu)
 		
-		if resp_pdu.code == coap_pdu_code_t.COAP_EMPTY_CODE:
+		if resp_pdu.code == coap_pdu_code_t.COAP_EMPTY_CODE and getattr(resp_pdu, "payload_copy", None):
 			resp_pdu.code = coap_pdu_code_t.COAP_RESPONSE_CODE_CONTENT
 	
 	def addHandler(self, handler, code=coap_request_t.COAP_REQUEST_GET):
