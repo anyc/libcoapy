@@ -2805,6 +2805,7 @@ library_functions.append({
 		(coap_bin_const_t, "token"),
 		],
 	"restype": ct.POINTER(coap_async_t),
+	"llapi_check": False,
 	})
 library_functions.append({
 	"name": "coap_async_set_app_data",
