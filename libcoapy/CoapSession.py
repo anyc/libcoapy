@@ -11,6 +11,7 @@ class CoapSession():
 		self.lcoap_session = lcoap_session
 		
 		self.token_handlers = {}
+		self.pyobj_cache = []
 		
 		weakref.finalize(self, self.release)
 	
@@ -338,6 +339,12 @@ class CoapSession():
 			return observer
 		else:
 			return await observer.__anext__()
+	
+	def findAsyncResponse(self, request_pdu):
+		async_handle = coap_find_async(self.lcoap_session, request_pdu.lcoap_token)
+		
+		if async_handle:
+			return coap_async_get_app_data(async_handle)
 
 class CoapClientSession(CoapSession):
 	"""! represents a session initiated by a client """

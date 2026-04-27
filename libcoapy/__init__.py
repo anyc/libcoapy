@@ -7,3 +7,4 @@ from .CoapObserver import *
 from .CoapPDU import *
 from .CoapResource import *
 from .CoapSession import *
+from .CoapAsync import *
