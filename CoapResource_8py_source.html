@@ -133,7 +133,7 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>        </div>
 <div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>        self.<a class="code hl_variable" href="classlibcoapy_1_1CoapResource_1_1CoapResource.html#ae756b7d7cb84d34a9d693a4c4148e162">handlers</a>[req_pdu.code](self, session, req_pdu, lcoap_query.contents <span class="keywordflow">if</span> lcoap_query <span class="keywordflow">else</span> <span class="keywordtype">None</span>, resp_pdu)</div>
 <div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>        </div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>        <span class="keywordflow">if</span> resp_pdu.code == coap_pdu_code_t.COAP_EMPTY_CODE:</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>        <span class="keywordflow">if</span> resp_pdu.code == coap_pdu_code_t.COAP_EMPTY_CODE <span class="keywordflow">and</span> getattr(resp_pdu, <span class="stringliteral">&quot;payload_copy&quot;</span>, <span class="keywordtype">None</span>):</div>
 <div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>            resp_pdu.code = coap_pdu_code_t.COAP_RESPONSE_CODE_CONTENT</div>
 <div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    </div>
 </div>

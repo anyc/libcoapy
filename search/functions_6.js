@@ -16,5 +16,6 @@ var searchData=
   ['getoptions_13',['getOptions',['../classlibcoapy_1_1CoapPDU_1_1CoapPDU.html#a9cd2df238692d3a3e435941bb5edd9cc',1,'libcoapy::CoapPDU::CoapPDU']]],
   ['getpayload_14',['getPayload',['../classlibcoapy_1_1CoapPDU_1_1CoapPDU.html#aca90bd6109f33fa2d555320b0f3435df',1,'libcoapy::CoapPDU::CoapPDU']]],
   ['getresource_15',['getResource',['../classlibcoapy_1_1CoapContext_1_1CoapContext.html#a326a8ba6f5e09759f1d309efd87f7ae3',1,'libcoapy::CoapContext::CoapContext']]],
-  ['getsubobserver_16',['getSubObserver',['../classlibcoapy_1_1CoapObserver_1_1CoapObserverMultiplier.html#a9e3db3cedbf46ff862a852f871de164a',1,'libcoapy::CoapObserver::CoapObserverMultiplier']]]
+  ['getresponse_16',['getResponse',['../classlibcoapy_1_1CoapAsync_1_1CoapAsync.html#aa0e3af2ea2e19bc330f6478258568ab5',1,'libcoapy::CoapAsync::CoapAsync']]],
+  ['getsubobserver_17',['getSubObserver',['../classlibcoapy_1_1CoapObserver_1_1CoapObserverMultiplier.html#a9e3db3cedbf46ff862a852f871de164a',1,'libcoapy::CoapObserver::CoapObserverMultiplier']]]
 ];

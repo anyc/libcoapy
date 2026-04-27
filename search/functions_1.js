@@ -8,8 +8,10 @@ var searchData=
   ['addresponse_5',['addResponse',['../classlibcoapy_1_1CoapObserver_1_1CoapObserver.html#a1a96267fbac226a0bec8571b426dfc4b',1,'libcoapy::CoapObserver::CoapObserver']]],
   ['addsession_6',['addSession',['../classlibcoapy_1_1CoapContext_1_1CoapContext.html#abf420aa7205e0a27a43c7d89da980688',1,'libcoapy::CoapContext::CoapContext']]],
   ['allocatetoken_7',['allocateToken',['../namespacelibcoapy_1_1common.html#afe5cab0df6030b8fcec97386dbbad551',1,'libcoapy::common']]],
-  ['as_5fdict_8',['as_dict',['../classlibcoapy_1_1libcoapy_1_1CoapGetTlsLibraryVersion.html#a3113cfb5f118930de573223defd6d9f1',1,'libcoapy::libcoapy::CoapGetTlsLibraryVersion']]],
-  ['asn1_5flen_9',['asn1_len',['https://libcoap.net/doc/reference/4.3.5/group__asn1.html#gab0b2cdf4081790ee762743d5557c2706',1,]]],
-  ['asn1_5ftag_5fc_10',['asn1_tag_c',['https://libcoap.net/doc/reference/4.3.5/group__asn1.html#ga3ae904a62e7e1d1326b61a04d1de1333',1,]]],
-  ['async_5fresponse_5fcallback_11',['async_response_callback',['../classlibcoapy_1_1CoapSession_1_1CoapSession.html#a56b475c59213edb4d4b2985f367ba99c',1,'libcoapy::CoapSession::CoapSession']]]
+  ['app_5fdata_5frelease_8',['app_data_release',['../classlibcoapy_1_1CoapAsync_1_1CoapAsync.html#a51891c04eb49261fdef40baae504704a',1,'libcoapy::CoapAsync::CoapAsync']]],
+  ['as_5fdict_9',['as_dict',['../classlibcoapy_1_1libcoapy_1_1CoapGetTlsLibraryVersion.html#a3113cfb5f118930de573223defd6d9f1',1,'libcoapy::libcoapy::CoapGetTlsLibraryVersion']]],
+  ['asn1_5flen_10',['asn1_len',['https://libcoap.net/doc/reference/4.3.5/group__asn1.html#gab0b2cdf4081790ee762743d5557c2706',1,]]],
+  ['asn1_5ftag_5fc_11',['asn1_tag_c',['https://libcoap.net/doc/reference/4.3.5/group__asn1.html#ga3ae904a62e7e1d1326b61a04d1de1333',1,]]],
+  ['async_5fresponse_5fcallback_12',['async_response_callback',['../classlibcoapy_1_1CoapSession_1_1CoapSession.html#a56b475c59213edb4d4b2985f367ba99c',1,'libcoapy::CoapSession::CoapSession']]],
+  ['asyncresponse_5fhandler_13',['asyncResponse_handler',['../classlibcoapy_1_1CoapAsync_1_1CoapAsync.html#a51c366da862e1f868420b6c613989784',1,'libcoapy::CoapAsync::CoapAsync']]]
 ];
