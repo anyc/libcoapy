@@ -3780,7 +3780,7 @@ def ct_call(fdict, *nargs, **kwargs):
 	if verbosity > 1:
 		print("=", res)
 	
-	if kwargs.get("llapi_check", True):
+	if fdict.get("llapi_check", True):
 		if fdict.get("expect", False):
 			if res != fdict["expect"]:
 				if fdict.get("restype", ct.c_int) in [ct.c_long, ct.c_int] and res < 0:
