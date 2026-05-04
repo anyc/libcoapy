@@ -67,6 +67,7 @@ class CoapObserver():
 		"""! stop observation """
 		if self._stop:
 			return
+		self._stop = True
 		
 		if not self.multiplier:
 			if self.observing:
@@ -74,7 +75,6 @@ class CoapObserver():
 		else:
 			self.multiplier.removeSub(self)
 		
-		self._stop = True
 		self.ev.set()
 
 class CoapObserverMultiplier():
