@@ -12,19 +12,27 @@ class CoapSession():
 		
 		self.token_handlers = {}
 		self.pyobj_cache = []
+		self.session_referenced = False
 		
-		weakref.finalize(self, self.release)
+		self.weakref = weakref.finalize(self, self.release)
 	
 	def release(self):
-		if self.lcoap_session!=None:
+		if self.lcoap_session != None and self.session_referenced:
 			# unset app_data in case lcoap_session is referenced by others
-			coap_session_set_app_data(self.lcoap_session, None)
 			coap_session_release(self.lcoap_session)
-			self.lcoap_session = None
+			self.session_referenced = False
+		
 		if self.ctx:
 			ctx = self.ctx
 			self.ctx = None
 			ctx.removeSession(self)
+		
+		if self.weakref:
+			self.weakref.detach()
+			self.weakref = None
+	
+	def release_callback(self, _self):
+		self.lcoap_session = None
 	
 	def is_valid(self):
 		return not not self.lcoap_session
@@ -449,13 +457,15 @@ class CoapClientSession(CoapSession):
 				self.addr_info.contents.proto,
 				self.dtls_psk
 				)
-			coap_session_set_app_data(self.lcoap_session, self)
 		else:
 			self.lcoap_session = coap_new_client_session(self.ctx.lcoap_ctx,
 				ct.byref(self.local_addr) if self.local_addr else None,
 				ct.byref(self.dest_addr),
 				self.addr_info.contents.proto)
-			coap_session_set_app_data(self.lcoap_session, self)
+		
+		self.release_callback_obj = coap_app_data_free_callback_t(self.release_callback)
+		coap_session_set_app_data2(self.lcoap_session, self, self.release_callback_obj)
+		self.session_referenced = True
 	
 	@staticmethod
 	def _validate_ih_call_back(server_hint, ll_session, self):
@@ -498,3 +508,16 @@ class CoapClientSession(CoapSession):
 			if os.path.exists(self.local_addr_unix_path):
 				os.unlink(self.local_addr_unix_path);
 			del self.local_addr_unix_path
+
+class CoapServerSession(CoapSession):
+	def __init__(self, ctx, lcoap_session):
+		super().__init__(ctx, lcoap_session)
+		
+		# If we did not create the session, we have to increase the reference
+		# counter as we call coap_session_release when releasing our session
+		# object.
+		coap_session_reference(lcoap_session)
+		self.session_referenced = True
+		
+		self.release_callback_obj = coap_app_data_free_callback_t(self.release_callback)
+		coap_session_set_app_data2(self.lcoap_session, self, self.release_callback_obj)

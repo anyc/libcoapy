@@ -34,14 +34,7 @@ class CoapContext():
 		session = coap_session_get_app_data(ll_session)
 		
 		if event_type == coap_event_t.COAP_EVENT_SERVER_SESSION_NEW:
-			session = CoapSession(self, ll_session)
-			
-			# If we did not create the session, we have to increase the reference
-			# counter as we call coap_session_release when releasing our session
-			# object.
-			coap_session_reference(ll_session);
-			coap_session_set_app_data(ll_session, session)
-			
+			session = CoapServerSession(self, ll_session)
 			self.addSession(session)
 		
 		if getattr(self, "event_callback", None):
