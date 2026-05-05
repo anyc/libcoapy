@@ -27,7 +27,7 @@ class CoapContext():
 		
 		self.setBlockMode(COAP_BLOCK_USE_LIBCOAP | COAP_BLOCK_SINGLE_BODY)
 		
-		weakref.finalize(self, self.release)
+		self.weakref = weakref.finalize(self, self.release)
 	
 	def eventHandler(self, ll_session, event_type):
 		event_type = coap_event_t(event_type)
@@ -62,6 +62,10 @@ class CoapContext():
 			self.nack_callback(self, session, pdu, nack_type, mid)
 	
 	def release(self):
+		if self.weakref:
+			self.weakref.detach()
+			self.weakref = None
+		
 		for session in self.sessions.copy():
 			session.release()
 		

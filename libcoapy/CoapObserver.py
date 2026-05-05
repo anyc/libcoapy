@@ -18,9 +18,13 @@ class CoapObserver():
 		self.observing = False
 		self.multiplier = multiplier
 		
-		weakref.finalize(self, self.release)
+		self.weakref = weakref.finalize(self, self.release)
 	
 	def release(self):
+		if self.weakref:
+			self.weakref.detach()
+			self.weakref = None
+		
 		self.stop()
 	
 	async def wait(self):
@@ -87,9 +91,13 @@ class CoapObserverMultiplier():
 		self.waiting = False
 		self.last_pdu = None
 		
-		weakref.finalize(self, self.release)
+		self.weakref = weakref.finalize(self, self.release)
 	
 	def release(self):
+		if self.weakref:
+			self.weakref.detach()
+			self.weakref = None
+		
 		for sub in self.sub_observers:
 			sub.stop()
 	
