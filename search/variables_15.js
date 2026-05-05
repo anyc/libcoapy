@@ -1,7 +1,7 @@
 var searchData=
 [
   ['waiting_0',['waiting',['../classlibcoapy_1_1CoapObserver_1_1CoapObserverMultiplier.html#a9cf89adf60f296ddf1289d8d1e56f14c',1,'libcoapy::CoapObserver::CoapObserverMultiplier']]],
-  ['weakref_1',['weakref',['../classlibcoapy_1_1CoapSession_1_1CoapSession.html#aa11266575aed4eae00d966ec1e062508',1,'libcoapy::CoapSession::CoapSession']]],
+  ['weakref_1',['weakref',['../classlibcoapy_1_1CoapContext_1_1CoapContext.html#ab638de69460e7ab1706316b6718a9f09',1,'libcoapy.CoapContext.CoapContext.weakref'],['../classlibcoapy_1_1CoapObserver_1_1CoapObserver.html#a3ce4c3a710a4285734ff23586bbded29',1,'libcoapy.CoapObserver.CoapObserver.weakref'],['../classlibcoapy_1_1CoapObserver_1_1CoapObserverMultiplier.html#a4d2f949ff62f86761820c1e49e26f91f',1,'libcoapy.CoapObserver.CoapObserverMultiplier.weakref'],['../classlibcoapy_1_1CoapSession_1_1CoapSession.html#aa11266575aed4eae00d966ec1e062508',1,'libcoapy.CoapSession.CoapSession.weakref']]],
   ['wrapper_5fpayload_5fcb_2',['wrapper_payload_cb',['../classlibcoapy_1_1CoapPDU_1_1CoapPDU.html#a27270804ca74db1c11dca7025e532542',1,'libcoapy::CoapPDU::CoapPDU']]],
   ['wrapper_5fpayload_5frelease_5fcb_3',['wrapper_payload_release_cb',['../classlibcoapy_1_1CoapPDU_1_1CoapPDU.html#aeb59d3b3891e756e7d0e4fbcbf2a8475',1,'libcoapy::CoapPDU::CoapPDU']]],
   ['writefds_4',['writefds',['https://libcoap.net/doc/reference/4.3.5/structcoap__context__t.html#aaf287872a1c5c4171fae69b58b8d978c',1,'coap_context_t']]],
