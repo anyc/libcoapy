@@ -1,3 +1,13 @@
+2026.05.06
+----------
+* sendMessage(): add options parameter
+* use weakref to cleanup
+* generally improved shutdown behaviour
+* split libcoapy.py into several source files
+* improved CoapPDU
+* CoapContext: add get_single_fd() and get_fds()
+* add CoapAsync class to simplify delayed responses
+
 2025.08.22
 ----------
 * new CoapPDU.getOptions()
