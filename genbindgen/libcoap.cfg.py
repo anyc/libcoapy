@@ -15,7 +15,7 @@
 		"coap_resource_t", "coap_session_t", "coap_oscore_conf_t",
 		"coap_subscription_t", "coap_endpoint_t", "coap_socket_t",
 		"coap_async_t", "coap_cache_key_t", "coap_cache_entry_t", "coap_attr_t",
-		
+		"coap_proxy_entry_t",
 		
 		"fd_set", "epoll_event",
 		],

@@ -80,6 +80,9 @@ class coap_cache_entry_t(LStructure):
 class coap_attr_t(LStructure):
 	pass
 
+class coap_proxy_entry_t(LStructure):
+	pass
+
 class fd_set(LStructure):
 	pass
 
@@ -182,10 +185,16 @@ class coap_opt_iterator_t(LStructure):
 class coap_optlist_t(LStructure):
 	pass
 
+class coap_str_bin_union_t(ct.Union):
+	pass
+
 class coap_const_char_ptr_t(ct.Union):
 	pass
 
 class coap_uri_t(LStructure):
+	pass
+
+class coap_upa_abbrev_t(LStructure):
 	pass
 
 class coap_option(LStructure):
@@ -265,6 +274,7 @@ LIBCOAP_PACKAGE_NAME = "libcoap";
 LIBCOAP_PACKAGE_STRING = "libcoap 4.3.5";
 LIBCOAP_PACKAGE_URL = "https://libcoap.net/";
 LIBCOAP_PACKAGE_VERSION = "4.3.5";
+NULL = 0;
 COAP_OPT_FILTER_SHORT = 6;
 COAP_OPT_FILTER_LONG = 2;
 COAP_OPT_ALL = None;
@@ -290,6 +300,7 @@ COAP_OPTION_LOCATION_PATH = 8;
 COAP_OPTION_OSCORE = 9;
 COAP_OPTION_URI_PATH = 11;
 COAP_OPTION_CONTENT_FORMAT = 12;
+COAP_OPTION_URI_PATH_ABB = 13;
 COAP_OPTION_MAXAGE = 14;
 COAP_OPTION_URI_QUERY = 15;
 COAP_OPTION_HOP_LIMIT = 16;
@@ -397,6 +408,8 @@ COAP_RESOURCE_FLAGS_FORCE_SINGLE_BODY = 0x200;
 COAP_RESOURCE_FLAGS_OSCORE_ONLY = 0x400;
 COAP_RESOURCE_HANDLE_WELLKNOWN_CORE = 0x800;
 COAP_RESOURCE_USE_BLOCK_DATA_HANDLER = 0x1000;
+COAP_RESOURCE_HIDE_WELLKNOWN_CORE = 0x2000;
+COAP_RESOURCE_SAFE_REQUEST_HANDLER = 0x4000;
 COAP_OBSERVE_ESTABLISH = 0;
 COAP_OBSERVE_CANCEL = 1;
 coap_option_num_t = ct.c_ushort
@@ -429,6 +442,13 @@ coap_optlist_t._fields_ = [
 	("data", ct.POINTER(ct.c_uint8)),
 	]
 
+coap_str_bin_union_t._fields_ = [
+	("st", coap_string_t),
+	("sc", coap_str_const_t),
+	("bt", coap_binary_t),
+	("bc", coap_bin_const_t),
+	]
+
 coap_const_char_ptr_t._fields_ = [
 	("s_byte", ct.c_char_p),
 	("u_byte", ct.POINTER(ct.c_uint8)),
@@ -451,6 +471,11 @@ coap_uri_t._fields_ = [
 	("path", coap_str_const_t),
 	("query", coap_str_const_t),
 	("scheme", coap_uri_scheme_t.get_ctype()),
+	]
+
+coap_upa_abbrev_t._fields_ = [
+	("upa_value", ct.c_uint),
+	("upa_path", ct.c_char_p),
 	]
 
 class coap_pdu_type_t(ctypes_enum_gen):
@@ -532,6 +557,10 @@ class coap_pdu_code_t(ctypes_enum_gen):
 	COAP_SIGNALING_CODE_PONG = 227
 	COAP_SIGNALING_CODE_RELEASE = 228
 	COAP_SIGNALING_CODE_ABORT = 229
+
+class coap_bool_t(ctypes_enum_gen):
+	COAP_BOOL_FALSE = 0
+	COAP_BOOL_TRUE = 1
 
 coap_sockaddr_un._fields_ = [
 	("sun_family", ct.c_ushort),
@@ -769,6 +798,7 @@ class coap_event_t(ctypes_enum_gen):
 	COAP_EVENT_SESSION_FAILED = 8195
 	COAP_EVENT_PARTIAL_BLOCK = 12289
 	COAP_EVENT_XMIT_BLOCK_FAIL = 12290
+	COAP_EVENT_BLOCK_ISSUE = 12291
 	COAP_EVENT_SERVER_SESSION_NEW = 16385
 	COAP_EVENT_SERVER_SESSION_DEL = 16386
 	COAP_EVENT_SERVER_SESSION_CONNECTED = 16387
@@ -876,6 +906,7 @@ class coap_proxy_t(ctypes_enum_gen):
 	COAP_PROXY_FWD_DYNAMIC = 24
 	COAP_PROXY_BIT_STRIP = 64
 	COAP_PROXY_BIT_MCAST = 128
+	COAP_PROXY_DYN_DEFINED = 256
 
 coap_proxy_server_t._fields_ = [
 	("uri", coap_uri_t),
@@ -1076,6 +1107,13 @@ library_functions.append({
 	"restype": ct.c_int,
 	})
 library_functions.append({
+	"name": "coap_sort_optlist",
+	"args": [
+		(ct.POINTER(ct.POINTER(coap_optlist_t)), "options"),
+		],
+	"restype": ct.c_int,
+	})
+library_functions.append({
 	"name": "coap_insert_optlist",
 	"args": [
 		(ct.POINTER(ct.POINTER(coap_optlist_t)), "optlist_chain"),
@@ -1171,6 +1209,13 @@ library_functions.append({
 	"restype": ct.c_int,
 	})
 library_functions.append({
+	"name": "coap_host_is_llc",
+	"args": [
+		(ct.POINTER(coap_str_const_t), "host"),
+		],
+	"restype": ct.c_int,
+	})
+library_functions.append({
 	"name": "coap_new_uri",
 	"args": [
 		(ct.POINTER(ct.c_uint8), "uri"),
@@ -1234,6 +1279,18 @@ library_functions.append({
 	"restype": ct.c_int,
 	})
 library_functions.append({
+	"name": "coap_uri_into_optlist_abbrev",
+	"args": [
+		(ct.POINTER(coap_uri_t), "uri"),
+		(ct.POINTER(coap_address_t), "dst"),
+		(ct.POINTER(ct.POINTER(coap_optlist_t)), "optlist_chain"),
+		(ct.c_int, "create_port_host_opt"),
+		(ct.POINTER(coap_upa_abbrev_t), "mapping"),
+		(ct.c_uint, "count"),
+		],
+	"restype": ct.c_int,
+	})
+library_functions.append({
 	"name": "coap_split_path",
 	"args": [
 		(ct.POINTER(ct.c_uint8), "path"),
@@ -1250,6 +1307,18 @@ library_functions.append({
 		(ct.c_size_t, "length"),
 		(ct.c_ushort, "optnum"),
 		(ct.POINTER(ct.POINTER(coap_optlist_t)), "optlist_chain"),
+		],
+	"restype": ct.c_int,
+	})
+library_functions.append({
+	"name": "coap_path_into_optlist_abbrev",
+	"args": [
+		(ct.POINTER(ct.c_uint8), "path"),
+		(ct.c_size_t, "length"),
+		(ct.c_ushort, "optnum"),
+		(ct.POINTER(ct.POINTER(coap_optlist_t)), "optlist_chain"),
+		(ct.POINTER(coap_upa_abbrev_t), "mapping"),
+		(ct.c_uint, "count"),
 		],
 	"restype": ct.c_int,
 	})
@@ -1286,6 +1355,22 @@ library_functions.append({
 		(ct.POINTER(coap_pdu_t), "request"),
 		],
 	"restype": ct.POINTER(coap_string_t),
+	})
+library_functions.append({
+	"name": "coap_upa_client_fallback",
+	"args": [
+		(ct.POINTER(coap_upa_abbrev_t), "mapping"),
+		(ct.c_uint, "count"),
+		],
+	"restype": None,
+	})
+library_functions.append({
+	"name": "coap_upa_server_mapping",
+	"args": [
+		(ct.POINTER(coap_upa_abbrev_t), "mapping"),
+		(ct.c_uint, "count"),
+		],
+	"restype": None,
 	})
 library_functions.append({
 	"name": "coap_response_phrase",
@@ -1467,6 +1552,13 @@ library_functions.append({
 	"restype": None,
 	})
 library_functions.append({
+	"name": "coap_address_clr_addr",
+	"args": [
+		(ct.POINTER(coap_address_t), "addr"),
+		],
+	"restype": None,
+	})
+library_functions.append({
 	"name": "coap_address_equals",
 	"args": [
 		(ct.POINTER(coap_address_t), "a"),
@@ -1486,7 +1578,7 @@ library_functions.append({
 	"args": [
 		(ct.c_int, "have_pki_psk"),
 		(ct.c_int, "ws_check"),
-		(coap_proto_t.get_ctype(), "use_unix_proto"),
+		(coap_proto_t.get_ctype(), "use_proto"),
 		],
 	"restype": ct.c_uint,
 	})
@@ -1528,6 +1620,15 @@ library_functions.append({
 	"restype": ct.c_int,
 	})
 library_functions.append({
+	"name": "coap_address_set_llc",
+	"args": [
+		(ct.POINTER(coap_address_t), "addr"),
+		(ct.POINTER(ct.c_uint8), "host"),
+		(ct.c_size_t, "host_len"),
+		],
+	"restype": ct.c_int,
+	})
+library_functions.append({
 	"name": "coap_address_copy",
 	"args": [
 		(ct.POINTER(coap_address_t), "dst"),
@@ -1558,6 +1659,13 @@ library_functions.append({
 		],
 	"restype": ct.c_int,
 	"llapi_check": False,
+	})
+library_functions.append({
+	"name": "coap_is_af_llc",
+	"args": [
+		(ct.POINTER(coap_address_t), "a"),
+		],
+	"restype": ct.c_int,
 	})
 library_functions.append({
 	"name": "coap_socket_strerror",
@@ -1715,6 +1823,13 @@ library_functions.append({
 	"restype": coap_session_type_t.get_ctype(),
 	})
 library_functions.append({
+	"name": "coap_session_is_oscore",
+	"args": [
+		(ct.POINTER(coap_session_t), "session"),
+		],
+	"restype": ct.c_int,
+	})
+library_functions.append({
 	"name": "coap_session_get_state",
 	"args": [
 		(ct.POINTER(coap_session_t), "session"),
@@ -1790,6 +1905,19 @@ library_functions.append({
 	"restype": ct.POINTER(coap_session_t),
 	})
 library_functions.append({
+	"name": "coap_new_client_session3",
+	"args": [
+		(ct.POINTER(coap_context_t), "ctx"),
+		(ct.POINTER(coap_address_t), "local_if"),
+		(ct.POINTER(coap_address_t), "server"),
+		(coap_proto_t.get_ctype(), "proto"),
+		(ct.py_object, "app_data"),
+		(coap_app_data_free_callback_t, "callback"),
+		(ct.POINTER(coap_str_const_t), "ws_host"),
+		],
+	"restype": ct.POINTER(coap_session_t),
+	})
+library_functions.append({
 	"name": "coap_new_client_session_psk",
 	"args": [
 		(ct.POINTER(coap_context_t), "ctx"),
@@ -1810,6 +1938,20 @@ library_functions.append({
 		(ct.POINTER(coap_address_t), "server"),
 		(coap_proto_t.get_ctype(), "proto"),
 		(ct.POINTER(coap_dtls_cpsk_t), "setup_data"),
+		],
+	"restype": ct.POINTER(coap_session_t),
+	})
+library_functions.append({
+	"name": "coap_new_client_session_psk3",
+	"args": [
+		(ct.POINTER(coap_context_t), "ctx"),
+		(ct.POINTER(coap_address_t), "local_if"),
+		(ct.POINTER(coap_address_t), "server"),
+		(coap_proto_t.get_ctype(), "proto"),
+		(ct.POINTER(coap_dtls_cpsk_t), "setup_data"),
+		(ct.py_object, "app_data"),
+		(coap_app_data_free_callback_t, "callback"),
+		(ct.POINTER(coap_str_const_t), "ws_host"),
 		],
 	"restype": ct.POINTER(coap_session_t),
 	})
@@ -1842,6 +1984,20 @@ library_functions.append({
 		(ct.POINTER(coap_address_t), "server"),
 		(coap_proto_t.get_ctype(), "proto"),
 		(ct.POINTER(coap_dtls_pki_t), "setup_data"),
+		],
+	"restype": ct.POINTER(coap_session_t),
+	})
+library_functions.append({
+	"name": "coap_new_client_session_pki3",
+	"args": [
+		(ct.POINTER(coap_context_t), "ctx"),
+		(ct.POINTER(coap_address_t), "local_if"),
+		(ct.POINTER(coap_address_t), "server"),
+		(coap_proto_t.get_ctype(), "proto"),
+		(ct.POINTER(coap_dtls_pki_t), "setup_data"),
+		(ct.py_object, "app_data"),
+		(coap_app_data_free_callback_t, "callback"),
+		(ct.POINTER(coap_str_const_t), "ws_host"),
 		],
 	"restype": ct.POINTER(coap_session_t),
 	})
@@ -2224,6 +2380,13 @@ library_functions.append({
 	"restype": ct.c_int,
 	})
 library_functions.append({
+	"name": "coap_debug_set_packet_fail",
+	"args": [
+		(ct.c_char_p, "fail_level"),
+		],
+	"restype": ct.c_int,
+	})
+library_functions.append({
 	"name": "coap_register_response_handler",
 	"args": [
 		(ct.POINTER(coap_context_t), "context"),
@@ -2344,6 +2507,22 @@ library_functions.append({
 		(ct.c_uint8, "every"),
 		],
 	"restype": ct.c_int,
+	})
+library_functions.append({
+	"name": "coap_context_rate_limit_ppm",
+	"args": [
+		(ct.POINTER(coap_context_t), "context"),
+		(ct.c_ulong, "rate_limit_ppm"),
+		],
+	"restype": None,
+	})
+library_functions.append({
+	"name": "coap_context_set_max_body_size",
+	"args": [
+		(ct.POINTER(coap_context_t), "context"),
+		(ct.c_uint, "max_body_size"),
+		],
+	"restype": None,
 	})
 library_functions.append({
 	"name": "coap_context_set_max_token_size",
@@ -3144,6 +3323,20 @@ library_functions.append({
 	"restype": ct.POINTER(coap_session_t),
 	})
 library_functions.append({
+	"name": "coap_new_client_session_oscore3",
+	"args": [
+		(ct.POINTER(coap_context_t), "ctx"),
+		(ct.POINTER(coap_address_t), "local_if"),
+		(ct.POINTER(coap_address_t), "server"),
+		(coap_proto_t.get_ctype(), "proto"),
+		(ct.POINTER(coap_oscore_conf_t), "oscore_conf"),
+		(ct.py_object, "app_data"),
+		(coap_app_data_free_callback_t, "callback"),
+		(ct.POINTER(coap_str_const_t), "ws_host"),
+		],
+	"restype": ct.POINTER(coap_session_t),
+	})
+library_functions.append({
 	"name": "coap_new_client_session_oscore_psk",
 	"args": [
 		(ct.POINTER(coap_context_t), "ctx"),
@@ -3156,6 +3349,21 @@ library_functions.append({
 	"restype": ct.POINTER(coap_session_t),
 	})
 library_functions.append({
+	"name": "coap_new_client_session_oscore_psk3",
+	"args": [
+		(ct.POINTER(coap_context_t), "ctx"),
+		(ct.POINTER(coap_address_t), "local_if"),
+		(ct.POINTER(coap_address_t), "server"),
+		(coap_proto_t.get_ctype(), "proto"),
+		(ct.POINTER(coap_dtls_cpsk_t), "psk_data"),
+		(ct.POINTER(coap_oscore_conf_t), "oscore_conf"),
+		(ct.py_object, "app_data"),
+		(coap_app_data_free_callback_t, "callback"),
+		(ct.POINTER(coap_str_const_t), "ws_host"),
+		],
+	"restype": ct.POINTER(coap_session_t),
+	})
+library_functions.append({
 	"name": "coap_new_client_session_oscore_pki",
 	"args": [
 		(ct.POINTER(coap_context_t), "ctx"),
@@ -3164,6 +3372,21 @@ library_functions.append({
 		(coap_proto_t.get_ctype(), "proto"),
 		(ct.POINTER(coap_dtls_pki_t), "pki_data"),
 		(ct.POINTER(coap_oscore_conf_t), "oscore_conf"),
+		],
+	"restype": ct.POINTER(coap_session_t),
+	})
+library_functions.append({
+	"name": "coap_new_client_session_oscore_pki3",
+	"args": [
+		(ct.POINTER(coap_context_t), "ctx"),
+		(ct.POINTER(coap_address_t), "local_if"),
+		(ct.POINTER(coap_address_t), "server"),
+		(coap_proto_t.get_ctype(), "proto"),
+		(ct.POINTER(coap_dtls_pki_t), "pki_data"),
+		(ct.POINTER(coap_oscore_conf_t), "oscore_conf"),
+		(ct.py_object, "app_data"),
+		(coap_app_data_free_callback_t, "callback"),
+		(ct.POINTER(coap_str_const_t), "ws_host"),
 		],
 	"restype": ct.POINTER(coap_session_t),
 	})
@@ -3251,6 +3474,16 @@ library_functions.append({
 		(ct.POINTER(coap_proxy_server_list_t), "server_list"),
 		],
 	"restype": ct.POINTER(coap_session_t),
+	})
+library_functions.append({
+	"name": "coap_proxy_fwd_add_client_session",
+	"args": [
+		(ct.POINTER(coap_session_t), "session"),
+		(ct.c_char_p, "use_ip"),
+		(ct.c_ushort, "use_port"),
+		(ct.POINTER(coap_proxy_server_list_t), "server_list"),
+		],
+	"restype": ct.POINTER(coap_proxy_entry_t),
 	})
 library_functions.append({
 	"name": "coap_memory_init",
@@ -3780,7 +4013,13 @@ def ct_call(fdict, *nargs, **kwargs):
 	if verbosity > 1:
 		print("=", res)
 	
-	if fdict.get("llapi_check", True):
+	if (
+		("llapi_check" in kwargs and kwargs["llapi_check"])
+		or (
+			"llapi_check" not in kwargs
+			and fdict.get("llapi_check", True)
+			)
+		):
 		if fdict.get("expect", False):
 			if res != fdict["expect"]:
 				if fdict.get("restype", ct.c_int) in [ct.c_long, ct.c_int] and res < 0:
