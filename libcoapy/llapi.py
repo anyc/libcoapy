@@ -4049,19 +4049,26 @@ for env_var in ['LIBCOAP_PATH', 'LIBCOAPY_PATH', 'LIBCOAPY_LIB']:
 		libnames.insert(0, os.environ.get(env_var))
 
 clibrary = None
-for libname in libnames:
-	try:
-		if "cdecl" == "cdecl":
-			clibrary = ct.CDLL(libname)
+for show_msg in [False, True]:
+	for libname in libnames:
+		try:
+			if "cdecl" == "cdecl":
+				clibrary = ct.CDLL(libname, use_errno=True)
+			else:
+				clibrary = ct.WinDLL(libname)
+		except OSError as e:
+			if show_msg:
+				print(type(e), e, e.errno)
+		except Exception as e:
+			print(type(e), e)
+			continue
 		else:
-			clibrary = ct.WinDLL(libname)
-	except:
-		continue
-	else:
+			break
+	if show_msg:
 		break
 
 if clibrary is None:
-	raise Exception(f"could not find {project_name} library")
+	raise Exception(f"could not find usable {project_name} library")
 
 try:
 	libc = None
