@@ -4322,86 +4322,93 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l04049" name="l04049"></a><span class="lineno"> 4049</span>        libnames.insert(0, os.environ.get(env_var))</div>
 <div class="line"><a id="l04050" name="l04050"></a><span class="lineno"> 4050</span> </div>
 <div class="line"><a id="l04051" name="l04051"></a><span class="lineno"><a class="line" href="namespacelibcoapy_1_1llapi.html#a2632aea377e4ca919b8e3fcf4145a9b1"> 4051</a></span>clibrary = <span class="keywordtype">None</span></div>
-<div class="line"><a id="l04052" name="l04052"></a><span class="lineno"> 4052</span><span class="keywordflow">for</span> libname <span class="keywordflow">in</span> libnames:</div>
-<div class="line"><a id="l04053" name="l04053"></a><span class="lineno"> 4053</span>    <span class="keywordflow">try</span>:</div>
-<div class="line"><a id="l04054" name="l04054"></a><span class="lineno"> 4054</span>        <span class="keywordflow">if</span> <span class="stringliteral">&quot;cdecl&quot;</span> == <span class="stringliteral">&quot;cdecl&quot;</span>:</div>
-<div class="line"><a id="l04055" name="l04055"></a><span class="lineno"> 4055</span>            clibrary = ct.CDLL(libname)</div>
-<div class="line"><a id="l04056" name="l04056"></a><span class="lineno"> 4056</span>        <span class="keywordflow">else</span>:</div>
-<div class="line"><a id="l04057" name="l04057"></a><span class="lineno"> 4057</span>            clibrary = ct.WinDLL(libname)</div>
-<div class="line"><a id="l04058" name="l04058"></a><span class="lineno"> 4058</span>    <span class="keywordflow">except</span>:</div>
-<div class="line"><a id="l04059" name="l04059"></a><span class="lineno"> 4059</span>        <span class="keywordflow">continue</span></div>
-<div class="line"><a id="l04060" name="l04060"></a><span class="lineno"> 4060</span>    <span class="keywordflow">else</span>:</div>
-<div class="line"><a id="l04061" name="l04061"></a><span class="lineno"> 4061</span>        <span class="keywordflow">break</span></div>
-<div class="line"><a id="l04062" name="l04062"></a><span class="lineno"> 4062</span> </div>
-<div class="line"><a id="l04063" name="l04063"></a><span class="lineno"> 4063</span><span class="keywordflow">if</span> clibrary <span class="keywordflow">is</span> <span class="keywordtype">None</span>:</div>
-<div class="line"><a id="l04064" name="l04064"></a><span class="lineno"> 4064</span>    <span class="keywordflow">raise</span> Exception(f<span class="stringliteral">&quot;could not find {project_name} library&quot;</span>)</div>
-<div class="line"><a id="l04065" name="l04065"></a><span class="lineno"> 4065</span> </div>
-<div class="line"><a id="l04066" name="l04066"></a><span class="lineno"> 4066</span><span class="keywordflow">try</span>:</div>
-<div class="line"><a id="l04067" name="l04067"></a><span class="lineno"><a class="line" href="namespacelibcoapy_1_1llapi.html#a9b34c13a9b9c7b8803bc00052cf9b952"> 4067</a></span>    libc = <span class="keywordtype">None</span></div>
-<div class="line"><a id="l04068" name="l04068"></a><span class="lineno"> 4068</span>    <span class="keywordflow">if</span> os.name == <span class="stringliteral">&quot;posix&quot;</span>:</div>
-<div class="line"><a id="l04069" name="l04069"></a><span class="lineno"> 4069</span>        libc = ct.CDLL(<span class="stringliteral">&#39;libc.so.6&#39;</span>)</div>
-<div class="line"><a id="l04070" name="l04070"></a><span class="lineno"> 4070</span>        </div>
-<div class="line"><a id="l04071" name="l04071"></a><span class="lineno"><a class="line" href="namespacelibcoapy_1_1llapi.html#adc5c42b16b7c0773038e323489da5083"> 4071</a></span>        libc.__errno_location.restype = ct.POINTER(ct.c_int)</div>
-<div class="line"><a id="l04072" name="l04072"></a><span class="lineno"> 4072</span>        </div>
-<div class="foldopen" id="foldopen04073" data-start="" data-end="">
-<div class="line"><a id="l04073" name="l04073"></a><span class="lineno"><a class="line" href="namespacelibcoapy_1_1llapi.html#ae60af1692d57c230ccea125f0e880688"> 4073</a></span>        <span class="keyword">def </span><a class="code hl_function" href="namespacelibcoapy_1_1llapi.html#ae60af1692d57c230ccea125f0e880688">errno</a>(value=None):</div>
-<div class="line"><a id="l04074" name="l04074"></a><span class="lineno"> 4074</span>            <span class="keywordflow">if</span> value <span class="keywordflow">is</span> <span class="keywordtype">None</span>:</div>
-<div class="line"><a id="l04075" name="l04075"></a><span class="lineno"> 4075</span>                <span class="keywordflow">return</span> libc.__errno_location()[0]</div>
-<div class="line"><a id="l04076" name="l04076"></a><span class="lineno"> 4076</span>            <span class="keywordflow">else</span>:</div>
-<div class="line"><a id="l04077" name="l04077"></a><span class="lineno"> 4077</span>                libc.__errno_location()[0] = value</div>
+<div class="line"><a id="l04052" name="l04052"></a><span class="lineno"> 4052</span><span class="keywordflow">for</span> show_msg <span class="keywordflow">in</span> [<span class="keyword">False</span>, <span class="keyword">True</span>]:</div>
+<div class="line"><a id="l04053" name="l04053"></a><span class="lineno"> 4053</span>    <span class="keywordflow">for</span> libname <span class="keywordflow">in</span> libnames:</div>
+<div class="line"><a id="l04054" name="l04054"></a><span class="lineno"> 4054</span>        <span class="keywordflow">try</span>:</div>
+<div class="line"><a id="l04055" name="l04055"></a><span class="lineno"> 4055</span>            <span class="keywordflow">if</span> <span class="stringliteral">&quot;cdecl&quot;</span> == <span class="stringliteral">&quot;cdecl&quot;</span>:</div>
+<div class="line"><a id="l04056" name="l04056"></a><span class="lineno"> 4056</span>                clibrary = ct.CDLL(libname, use_errno=<span class="keyword">True</span>)</div>
+<div class="line"><a id="l04057" name="l04057"></a><span class="lineno"> 4057</span>            <span class="keywordflow">else</span>:</div>
+<div class="line"><a id="l04058" name="l04058"></a><span class="lineno"> 4058</span>                clibrary = ct.WinDLL(libname)</div>
+<div class="line"><a id="l04059" name="l04059"></a><span class="lineno"> 4059</span>        <span class="keywordflow">except</span> OSError <span class="keyword">as</span> e:</div>
+<div class="line"><a id="l04060" name="l04060"></a><span class="lineno"> 4060</span>            <span class="keywordflow">if</span> show_msg:</div>
+<div class="line"><a id="l04061" name="l04061"></a><span class="lineno"> 4061</span>                print(type(e), e, e.errno)</div>
+<div class="line"><a id="l04062" name="l04062"></a><span class="lineno"> 4062</span>        <span class="keywordflow">except</span> Exception <span class="keyword">as</span> e:</div>
+<div class="line"><a id="l04063" name="l04063"></a><span class="lineno"> 4063</span>            print(type(e), e)</div>
+<div class="line"><a id="l04064" name="l04064"></a><span class="lineno"> 4064</span>            <span class="keywordflow">continue</span></div>
+<div class="line"><a id="l04065" name="l04065"></a><span class="lineno"> 4065</span>        <span class="keywordflow">else</span>:</div>
+<div class="line"><a id="l04066" name="l04066"></a><span class="lineno"> 4066</span>            <span class="keywordflow">break</span></div>
+<div class="line"><a id="l04067" name="l04067"></a><span class="lineno"> 4067</span>    <span class="keywordflow">if</span> show_msg:</div>
+<div class="line"><a id="l04068" name="l04068"></a><span class="lineno"> 4068</span>        <span class="keywordflow">break</span></div>
+<div class="line"><a id="l04069" name="l04069"></a><span class="lineno"> 4069</span> </div>
+<div class="line"><a id="l04070" name="l04070"></a><span class="lineno"> 4070</span><span class="keywordflow">if</span> clibrary <span class="keywordflow">is</span> <span class="keywordtype">None</span>:</div>
+<div class="line"><a id="l04071" name="l04071"></a><span class="lineno"> 4071</span>    <span class="keywordflow">raise</span> Exception(f<span class="stringliteral">&quot;could not find usable {project_name} library&quot;</span>)</div>
+<div class="line"><a id="l04072" name="l04072"></a><span class="lineno"> 4072</span> </div>
+<div class="line"><a id="l04073" name="l04073"></a><span class="lineno"> 4073</span><span class="keywordflow">try</span>:</div>
+<div class="line"><a id="l04074" name="l04074"></a><span class="lineno"><a class="line" href="namespacelibcoapy_1_1llapi.html#a9b34c13a9b9c7b8803bc00052cf9b952"> 4074</a></span>    libc = <span class="keywordtype">None</span></div>
+<div class="line"><a id="l04075" name="l04075"></a><span class="lineno"> 4075</span>    <span class="keywordflow">if</span> os.name == <span class="stringliteral">&quot;posix&quot;</span>:</div>
+<div class="line"><a id="l04076" name="l04076"></a><span class="lineno"> 4076</span>        libc = ct.CDLL(<span class="stringliteral">&#39;libc.so.6&#39;</span>)</div>
+<div class="line"><a id="l04077" name="l04077"></a><span class="lineno"> 4077</span>        </div>
+<div class="line"><a id="l04078" name="l04078"></a><span class="lineno"><a class="line" href="namespacelibcoapy_1_1llapi.html#adc5c42b16b7c0773038e323489da5083"> 4078</a></span>        libc.__errno_location.restype = ct.POINTER(ct.c_int)</div>
+<div class="line"><a id="l04079" name="l04079"></a><span class="lineno"> 4079</span>        </div>
+<div class="foldopen" id="foldopen04080" data-start="" data-end="">
+<div class="line"><a id="l04080" name="l04080"></a><span class="lineno"><a class="line" href="namespacelibcoapy_1_1llapi.html#ae60af1692d57c230ccea125f0e880688"> 4080</a></span>        <span class="keyword">def </span><a class="code hl_function" href="namespacelibcoapy_1_1llapi.html#ae60af1692d57c230ccea125f0e880688">errno</a>(value=None):</div>
+<div class="line"><a id="l04081" name="l04081"></a><span class="lineno"> 4081</span>            <span class="keywordflow">if</span> value <span class="keywordflow">is</span> <span class="keywordtype">None</span>:</div>
+<div class="line"><a id="l04082" name="l04082"></a><span class="lineno"> 4082</span>                <span class="keywordflow">return</span> libc.__errno_location()[0]</div>
+<div class="line"><a id="l04083" name="l04083"></a><span class="lineno"> 4083</span>            <span class="keywordflow">else</span>:</div>
+<div class="line"><a id="l04084" name="l04084"></a><span class="lineno"> 4084</span>                libc.__errno_location()[0] = value</div>
 </div>
-<div class="line"><a id="l04078" name="l04078"></a><span class="lineno"> 4078</span>    <span class="keywordflow">elif</span> os.name == <span class="stringliteral">&quot;nt&quot;</span>:</div>
-<div class="line"><a id="l04079" name="l04079"></a><span class="lineno"> 4079</span>        libc = ct.cdll.msvcrt</div>
-<div class="line"><a id="l04080" name="l04080"></a><span class="lineno"> 4080</span>        </div>
-<div class="line"><a id="l04081" name="l04081"></a><span class="lineno"> 4081</span>        <span class="keywordflow">if</span> <span class="keywordflow">not</span> libc:</div>
-<div class="line"><a id="l04082" name="l04082"></a><span class="lineno"> 4082</span>            <span class="comment"># TODO testing</span></div>
-<div class="line"><a id="l04083" name="l04083"></a><span class="lineno"> 4083</span>            <span class="keyword">import</span> ctypes.util <span class="keyword">as</span> ct_util</div>
-<div class="line"><a id="l04084" name="l04084"></a><span class="lineno"><a class="line" href="namespacelibcoapy_1_1llapi.html#a148eac733cebba1ee8a3c2da7b062198"> 4084</a></span>            libname = ct_util.find_msvcrt()</div>
-<div class="line"><a id="l04085" name="l04085"></a><span class="lineno"> 4085</span>            libc = ct.WinDLL(libname)</div>
-<div class="line"><a id="l04086" name="l04086"></a><span class="lineno"> 4086</span>        </div>
-<div class="line"><a id="l04087" name="l04087"></a><span class="lineno"> 4087</span>        libc._errno.restype = ct.POINTER(ct.c_int)</div>
-<div class="line"><a id="l04088" name="l04088"></a><span class="lineno"> 4088</span>        </div>
-<div class="line"><a id="l04089" name="l04089"></a><span class="lineno"> 4089</span>        <span class="keyword">def </span><a class="code hl_function" href="namespacelibcoapy_1_1llapi.html#ae60af1692d57c230ccea125f0e880688">errno</a>(value=None):</div>
-<div class="line"><a id="l04090" name="l04090"></a><span class="lineno"> 4090</span>            <span class="keywordflow">if</span> value <span class="keywordflow">is</span> <span class="keywordtype">None</span>:</div>
-<div class="line"><a id="l04091" name="l04091"></a><span class="lineno"> 4091</span>                <span class="keywordflow">return</span> libc._errno()[0]</div>
-<div class="line"><a id="l04092" name="l04092"></a><span class="lineno"> 4092</span>            <span class="keywordflow">else</span>:</div>
-<div class="line"><a id="l04093" name="l04093"></a><span class="lineno"> 4093</span>                libc._set_errno(value)</div>
-<div class="line"><a id="l04094" name="l04094"></a><span class="lineno"> 4094</span>    <span class="keywordflow">else</span>:</div>
-<div class="line"><a id="l04095" name="l04095"></a><span class="lineno"> 4095</span>        <span class="keywordflow">if</span> verbosity &gt; 0:</div>
-<div class="line"><a id="l04096" name="l04096"></a><span class="lineno"><a class="line" href="namespacelibcoapy_1_1llapi.html#a3df99d9baf28f63a7833878d03bcdc3b"> 4096</a></span>            print(<span class="stringliteral">&quot;unexpected os&quot;</span>, os.name, file=sys.stderr)</div>
-<div class="line"><a id="l04097" name="l04097"></a><span class="lineno"> 4097</span>    </div>
-<div class="line"><a id="l04098" name="l04098"></a><span class="lineno"> 4098</span>    <span class="keywordflow">if</span> libc:</div>
-<div class="line"><a id="l04099" name="l04099"></a><span class="lineno"><a class="line" href="namespacelibcoapy_1_1llapi.html#a9308e33022d20cb02760a5e0e805e534"> 4099</a></span>        libc.free.args = [ct.c_void_p]</div>
-<div class="line"><a id="l04100" name="l04100"></a><span class="lineno"> 4100</span><span class="keywordflow">except</span> Exception <span class="keyword">as</span> e:</div>
-<div class="line"><a id="l04101" name="l04101"></a><span class="lineno"> 4101</span>    <span class="keywordflow">if</span> verbosity &gt; 0:</div>
-<div class="line"><a id="l04102" name="l04102"></a><span class="lineno"> 4102</span>        print(<span class="stringliteral">&quot;loading libc functions failed&quot;</span>, str(e), file=sys.stderr)</div>
-<div class="line"><a id="l04103" name="l04103"></a><span class="lineno"> 4103</span>    <span class="keywordflow">pass</span></div>
-<div class="line"><a id="l04104" name="l04104"></a><span class="lineno"> 4104</span> </div>
-<div class="line"><a id="l04105" name="l04105"></a><span class="lineno"><a class="line" href="namespacelibcoapy_1_1llapi.html#a67baca953e63ce0b379f080295ac4194"> 4105</a></span>resolve_immediately = <span class="keyword">False</span></div>
-<div class="line"><a id="l04106" name="l04106"></a><span class="lineno"> 4106</span> </div>
-<div class="line"><a id="l04107" name="l04107"></a><span class="lineno"> 4107</span><span class="keywordflow">for</span> fdict <span class="keywordflow">in</span> library_functions:</div>
-<div class="line"><a id="l04108" name="l04108"></a><span class="lineno"> 4108</span>    <span class="keywordflow">if</span> getattr(clibrary, fdict[<span class="stringliteral">&quot;name&quot;</span>], <span class="keywordtype">None</span>) <span class="keywordflow">is</span> <span class="keywordtype">None</span>:</div>
-<div class="line"><a id="l04109" name="l04109"></a><span class="lineno"> 4109</span>        <span class="keywordflow">if</span> verbosity &gt; 0:</div>
-<div class="line"><a id="l04110" name="l04110"></a><span class="lineno"> 4110</span>            print(fdict[<span class="stringliteral">&quot;name&quot;</span>], <span class="stringliteral">&quot;not found in library&quot;</span>)</div>
-<div class="line"><a id="l04111" name="l04111"></a><span class="lineno"> 4111</span>        <span class="keywordflow">continue</span></div>
-<div class="line"><a id="l04112" name="l04112"></a><span class="lineno"> 4112</span>    </div>
-<div class="line"><a id="l04113" name="l04113"></a><span class="lineno"> 4113</span>    <span class="keywordflow">if</span> resolve_immediately:</div>
-<div class="line"><a id="l04114" name="l04114"></a><span class="lineno"> 4114</span>        <a class="code hl_function" href="namespacelibcoapy_1_1llapi.html#ad85f54a9e9bf945886db40a46fb0bb7b">setup_fct</a>(fdict)</div>
-<div class="line"><a id="l04115" name="l04115"></a><span class="lineno"> 4115</span>    </div>
-<div class="line"><a id="l04116" name="l04116"></a><span class="lineno"> 4116</span>    <span class="comment"># we need the function generator to avoid issues due to late binding</span></div>
-<div class="foldopen" id="foldopen04117" data-start="" data-end="">
-<div class="line"><a id="l04117" name="l04117"></a><span class="lineno"><a class="line" href="namespacelibcoapy_1_1llapi.html#a7ae8280341704933cda85474980d9309"> 4117</a></span>    <span class="keyword">def </span><a class="code hl_function" href="namespacelibcoapy_1_1llapi.html#a7ae8280341704933cda85474980d9309">function_generator</a>(fdict=fdict):</div>
-<div class="line"><a id="l04118" name="l04118"></a><span class="lineno"> 4118</span>        <span class="keyword">def </span>dyn_fct(*nargs, **kwargs):</div>
-<div class="line"><a id="l04119" name="l04119"></a><span class="lineno"> 4119</span>            <span class="keywordflow">return</span> <a class="code hl_function" href="namespacelibcoapy_1_1llapi.html#ae6080f3c19ee0471de49030f2b2da007">ct_call</a>(fdict, *nargs, **kwargs)</div>
-<div class="line"><a id="l04120" name="l04120"></a><span class="lineno"> 4120</span>        <span class="keywordflow">return</span> dyn_fct</div>
-<div class="line"><a id="l04121" name="l04121"></a><span class="lineno"> 4121</span>    </div>
+<div class="line"><a id="l04085" name="l04085"></a><span class="lineno"> 4085</span>    <span class="keywordflow">elif</span> os.name == <span class="stringliteral">&quot;nt&quot;</span>:</div>
+<div class="line"><a id="l04086" name="l04086"></a><span class="lineno"> 4086</span>        libc = ct.cdll.msvcrt</div>
+<div class="line"><a id="l04087" name="l04087"></a><span class="lineno"> 4087</span>        </div>
+<div class="line"><a id="l04088" name="l04088"></a><span class="lineno"> 4088</span>        <span class="keywordflow">if</span> <span class="keywordflow">not</span> libc:</div>
+<div class="line"><a id="l04089" name="l04089"></a><span class="lineno"> 4089</span>            <span class="comment"># TODO testing</span></div>
+<div class="line"><a id="l04090" name="l04090"></a><span class="lineno"> 4090</span>            <span class="keyword">import</span> ctypes.util <span class="keyword">as</span> ct_util</div>
+<div class="line"><a id="l04091" name="l04091"></a><span class="lineno"><a class="line" href="namespacelibcoapy_1_1llapi.html#a148eac733cebba1ee8a3c2da7b062198"> 4091</a></span>            libname = ct_util.find_msvcrt()</div>
+<div class="line"><a id="l04092" name="l04092"></a><span class="lineno"> 4092</span>            libc = ct.WinDLL(libname)</div>
+<div class="line"><a id="l04093" name="l04093"></a><span class="lineno"> 4093</span>        </div>
+<div class="line"><a id="l04094" name="l04094"></a><span class="lineno"> 4094</span>        libc._errno.restype = ct.POINTER(ct.c_int)</div>
+<div class="line"><a id="l04095" name="l04095"></a><span class="lineno"> 4095</span>        </div>
+<div class="line"><a id="l04096" name="l04096"></a><span class="lineno"> 4096</span>        <span class="keyword">def </span><a class="code hl_function" href="namespacelibcoapy_1_1llapi.html#ae60af1692d57c230ccea125f0e880688">errno</a>(value=None):</div>
+<div class="line"><a id="l04097" name="l04097"></a><span class="lineno"> 4097</span>            <span class="keywordflow">if</span> value <span class="keywordflow">is</span> <span class="keywordtype">None</span>:</div>
+<div class="line"><a id="l04098" name="l04098"></a><span class="lineno"> 4098</span>                <span class="keywordflow">return</span> libc._errno()[0]</div>
+<div class="line"><a id="l04099" name="l04099"></a><span class="lineno"> 4099</span>            <span class="keywordflow">else</span>:</div>
+<div class="line"><a id="l04100" name="l04100"></a><span class="lineno"> 4100</span>                libc._set_errno(value)</div>
+<div class="line"><a id="l04101" name="l04101"></a><span class="lineno"> 4101</span>    <span class="keywordflow">else</span>:</div>
+<div class="line"><a id="l04102" name="l04102"></a><span class="lineno"> 4102</span>        <span class="keywordflow">if</span> verbosity &gt; 0:</div>
+<div class="line"><a id="l04103" name="l04103"></a><span class="lineno"><a class="line" href="namespacelibcoapy_1_1llapi.html#a3df99d9baf28f63a7833878d03bcdc3b"> 4103</a></span>            print(<span class="stringliteral">&quot;unexpected os&quot;</span>, os.name, file=sys.stderr)</div>
+<div class="line"><a id="l04104" name="l04104"></a><span class="lineno"> 4104</span>    </div>
+<div class="line"><a id="l04105" name="l04105"></a><span class="lineno"> 4105</span>    <span class="keywordflow">if</span> libc:</div>
+<div class="line"><a id="l04106" name="l04106"></a><span class="lineno"><a class="line" href="namespacelibcoapy_1_1llapi.html#a9308e33022d20cb02760a5e0e805e534"> 4106</a></span>        libc.free.args = [ct.c_void_p]</div>
+<div class="line"><a id="l04107" name="l04107"></a><span class="lineno"> 4107</span><span class="keywordflow">except</span> Exception <span class="keyword">as</span> e:</div>
+<div class="line"><a id="l04108" name="l04108"></a><span class="lineno"> 4108</span>    <span class="keywordflow">if</span> verbosity &gt; 0:</div>
+<div class="line"><a id="l04109" name="l04109"></a><span class="lineno"> 4109</span>        print(<span class="stringliteral">&quot;loading libc functions failed&quot;</span>, str(e), file=sys.stderr)</div>
+<div class="line"><a id="l04110" name="l04110"></a><span class="lineno"> 4110</span>    <span class="keywordflow">pass</span></div>
+<div class="line"><a id="l04111" name="l04111"></a><span class="lineno"> 4111</span> </div>
+<div class="line"><a id="l04112" name="l04112"></a><span class="lineno"><a class="line" href="namespacelibcoapy_1_1llapi.html#a67baca953e63ce0b379f080295ac4194"> 4112</a></span>resolve_immediately = <span class="keyword">False</span></div>
+<div class="line"><a id="l04113" name="l04113"></a><span class="lineno"> 4113</span> </div>
+<div class="line"><a id="l04114" name="l04114"></a><span class="lineno"> 4114</span><span class="keywordflow">for</span> fdict <span class="keywordflow">in</span> library_functions:</div>
+<div class="line"><a id="l04115" name="l04115"></a><span class="lineno"> 4115</span>    <span class="keywordflow">if</span> getattr(clibrary, fdict[<span class="stringliteral">&quot;name&quot;</span>], <span class="keywordtype">None</span>) <span class="keywordflow">is</span> <span class="keywordtype">None</span>:</div>
+<div class="line"><a id="l04116" name="l04116"></a><span class="lineno"> 4116</span>        <span class="keywordflow">if</span> verbosity &gt; 0:</div>
+<div class="line"><a id="l04117" name="l04117"></a><span class="lineno"> 4117</span>            print(fdict[<span class="stringliteral">&quot;name&quot;</span>], <span class="stringliteral">&quot;not found in library&quot;</span>)</div>
+<div class="line"><a id="l04118" name="l04118"></a><span class="lineno"> 4118</span>        <span class="keywordflow">continue</span></div>
+<div class="line"><a id="l04119" name="l04119"></a><span class="lineno"> 4119</span>    </div>
+<div class="line"><a id="l04120" name="l04120"></a><span class="lineno"> 4120</span>    <span class="keywordflow">if</span> resolve_immediately:</div>
+<div class="line"><a id="l04121" name="l04121"></a><span class="lineno"> 4121</span>        <a class="code hl_function" href="namespacelibcoapy_1_1llapi.html#ad85f54a9e9bf945886db40a46fb0bb7b">setup_fct</a>(fdict)</div>
+<div class="line"><a id="l04122" name="l04122"></a><span class="lineno"> 4122</span>    </div>
+<div class="line"><a id="l04123" name="l04123"></a><span class="lineno"> 4123</span>    <span class="comment"># we need the function generator to avoid issues due to late binding</span></div>
+<div class="foldopen" id="foldopen04124" data-start="" data-end="">
+<div class="line"><a id="l04124" name="l04124"></a><span class="lineno"><a class="line" href="namespacelibcoapy_1_1llapi.html#a7ae8280341704933cda85474980d9309"> 4124</a></span>    <span class="keyword">def </span><a class="code hl_function" href="namespacelibcoapy_1_1llapi.html#a7ae8280341704933cda85474980d9309">function_generator</a>(fdict=fdict):</div>
+<div class="line"><a id="l04125" name="l04125"></a><span class="lineno"> 4125</span>        <span class="keyword">def </span>dyn_fct(*nargs, **kwargs):</div>
+<div class="line"><a id="l04126" name="l04126"></a><span class="lineno"> 4126</span>            <span class="keywordflow">return</span> <a class="code hl_function" href="namespacelibcoapy_1_1llapi.html#ae6080f3c19ee0471de49030f2b2da007">ct_call</a>(fdict, *nargs, **kwargs)</div>
+<div class="line"><a id="l04127" name="l04127"></a><span class="lineno"> 4127</span>        <span class="keywordflow">return</span> dyn_fct</div>
+<div class="line"><a id="l04128" name="l04128"></a><span class="lineno"> 4128</span>    </div>
 </div>
-<div class="line"><a id="l04122" name="l04122"></a><span class="lineno"> 4122</span>    <span class="keywordflow">if</span> hasattr(locals(), fdict[<span class="stringliteral">&quot;name&quot;</span>]):</div>
-<div class="line"><a id="l04123" name="l04123"></a><span class="lineno"> 4123</span>        print(<span class="stringliteral">&quot;duplicate function&quot;</span>, fdict[<span class="stringliteral">&quot;name&quot;</span>], file=sys.stderr)</div>
-<div class="line"><a id="l04124" name="l04124"></a><span class="lineno"> 4124</span>    </div>
-<div class="line"><a id="l04125" name="l04125"></a><span class="lineno"> 4125</span>    locals()[fdict[<span class="stringliteral">&quot;name&quot;</span>]] = <a class="code hl_function" href="namespacelibcoapy_1_1llapi.html#a7ae8280341704933cda85474980d9309">function_generator</a>(fdict)</div>
-<div class="line"><a id="l04126" name="l04126"></a><span class="lineno"> 4126</span> </div>
-<div class="line"><a id="l04127" name="l04127"></a><span class="lineno"> 4127</span> </div>
+<div class="line"><a id="l04129" name="l04129"></a><span class="lineno"> 4129</span>    <span class="keywordflow">if</span> hasattr(locals(), fdict[<span class="stringliteral">&quot;name&quot;</span>]):</div>
+<div class="line"><a id="l04130" name="l04130"></a><span class="lineno"> 4130</span>        print(<span class="stringliteral">&quot;duplicate function&quot;</span>, fdict[<span class="stringliteral">&quot;name&quot;</span>], file=sys.stderr)</div>
+<div class="line"><a id="l04131" name="l04131"></a><span class="lineno"> 4131</span>    </div>
+<div class="line"><a id="l04132" name="l04132"></a><span class="lineno"> 4132</span>    locals()[fdict[<span class="stringliteral">&quot;name&quot;</span>]] = <a class="code hl_function" href="namespacelibcoapy_1_1llapi.html#a7ae8280341704933cda85474980d9309">function_generator</a>(fdict)</div>
+<div class="line"><a id="l04133" name="l04133"></a><span class="lineno"> 4133</span> </div>
+<div class="line"><a id="l04134" name="l04134"></a><span class="lineno"> 4134</span> </div>
 <div class="ttc" id="aclasslibcoapy_1_1llapi_1_1LStructure_html"><div class="ttname"><a href="classlibcoapy_1_1llapi_1_1LStructure.html">libcoapy.llapi.LStructure</a></div><div class="ttdef"><b>Definition</b> <a href="llapi_8py_source.html#l00009">llapi.py:9</a></div></div>
 <div class="ttc" id="aclasslibcoapy_1_1llapi_1_1LStructure_html_a045a7f30f61d6f372280ad14ac2d1a4f"><div class="ttname"><a href="classlibcoapy_1_1llapi_1_1LStructure.html#a045a7f30f61d6f372280ad14ac2d1a4f">libcoapy.llapi.LStructure.__class__</a></div><div class="ttdeci">__class__</div><div class="ttdef"><b>Definition</b> <a href="llapi_8py_source.html#l00029">llapi.py:29</a></div></div>
 <div class="ttc" id="aclasslibcoapy_1_1llapi_1_1LStructure_html_a38983d59ba38dd8290eac22add6b17e7"><div class="ttname"><a href="classlibcoapy_1_1llapi_1_1LStructure.html#a38983d59ba38dd8290eac22add6b17e7">libcoapy.llapi.LStructure.set_fields</a></div><div class="ttdeci">set_fields(cls, fields)</div><div class="ttdef"><b>Definition</b> <a href="llapi_8py_source.html#l00032">llapi.py:32</a></div></div>
@@ -4496,10 +4503,10 @@ $(document).ready(function() { init_codefold(0); });
 <div class="ttc" id="aclasslibcoapy_1_1llapi_1_1sockaddr_html"><div class="ttname"><a href="classlibcoapy_1_1llapi_1_1sockaddr.html">libcoapy.llapi.sockaddr</a></div><div class="ttdef"><b>Definition</b> <a href="llapi_8py_source.html#l00098">llapi.py:98</a></div></div>
 <div class="ttc" id="anamespacelibcoapy_1_1llapi_html_a3cde32872c0f7e5119b1a18e8cfb6ca0"><div class="ttname"><a href="namespacelibcoapy_1_1llapi.html#a3cde32872c0f7e5119b1a18e8cfb6ca0">libcoapy.llapi.to_bytes</a></div><div class="ttdeci">to_bytes(x)</div><div class="ttdef"><b>Definition</b> <a href="llapi_8py_source.html#l03930">llapi.py:3930</a></div></div>
 <div class="ttc" id="anamespacelibcoapy_1_1llapi_html_a6e7d6a3d388f54bdfa0212e8a424acdd"><div class="ttname"><a href="namespacelibcoapy_1_1llapi.html#a6e7d6a3d388f54bdfa0212e8a424acdd">libcoapy.llapi.genbindgen_pre_ct_call_hook</a></div><div class="ttdeci">genbindgen_pre_ct_call_hook(fdict, nargs, kwargs)</div><div class="ttdef"><b>Definition</b> <a href="llapi_8py_source.html#l00128">llapi.py:128</a></div></div>
-<div class="ttc" id="anamespacelibcoapy_1_1llapi_html_a7ae8280341704933cda85474980d9309"><div class="ttname"><a href="namespacelibcoapy_1_1llapi.html#a7ae8280341704933cda85474980d9309">libcoapy.llapi.function_generator</a></div><div class="ttdeci">function_generator(fdict=fdict)</div><div class="ttdef"><b>Definition</b> <a href="llapi_8py_source.html#l04117">llapi.py:4117</a></div></div>
+<div class="ttc" id="anamespacelibcoapy_1_1llapi_html_a7ae8280341704933cda85474980d9309"><div class="ttname"><a href="namespacelibcoapy_1_1llapi.html#a7ae8280341704933cda85474980d9309">libcoapy.llapi.function_generator</a></div><div class="ttdeci">function_generator(fdict=fdict)</div><div class="ttdef"><b>Definition</b> <a href="llapi_8py_source.html#l04124">llapi.py:4124</a></div></div>
 <div class="ttc" id="anamespacelibcoapy_1_1llapi_html_ad85f54a9e9bf945886db40a46fb0bb7b"><div class="ttname"><a href="namespacelibcoapy_1_1llapi.html#ad85f54a9e9bf945886db40a46fb0bb7b">libcoapy.llapi.setup_fct</a></div><div class="ttdeci">setup_fct(fdict)</div><div class="ttdef"><b>Definition</b> <a href="llapi_8py_source.html#l03939">llapi.py:3939</a></div></div>
 <div class="ttc" id="anamespacelibcoapy_1_1llapi_html_ae6080f3c19ee0471de49030f2b2da007"><div class="ttname"><a href="namespacelibcoapy_1_1llapi.html#ae6080f3c19ee0471de49030f2b2da007">libcoapy.llapi.ct_call</a></div><div class="ttdeci">ct_call(fdict, *nargs, **kwargs)</div><div class="ttdef"><b>Definition</b> <a href="llapi_8py_source.html#l03964">llapi.py:3964</a></div></div>
-<div class="ttc" id="anamespacelibcoapy_1_1llapi_html_ae60af1692d57c230ccea125f0e880688"><div class="ttname"><a href="namespacelibcoapy_1_1llapi.html#ae60af1692d57c230ccea125f0e880688">libcoapy.llapi.errno</a></div><div class="ttdeci">errno(value=None)</div><div class="ttdef"><b>Definition</b> <a href="llapi_8py_source.html#l04073">llapi.py:4073</a></div></div>
+<div class="ttc" id="anamespacelibcoapy_1_1llapi_html_ae60af1692d57c230ccea125f0e880688"><div class="ttname"><a href="namespacelibcoapy_1_1llapi.html#ae60af1692d57c230ccea125f0e880688">libcoapy.llapi.errno</a></div><div class="ttdeci">errno(value=None)</div><div class="ttdef"><b>Definition</b> <a href="llapi_8py_source.html#l04080">llapi.py:4080</a></div></div>
 <div class="ttc" id="anamespacelibcoapy_1_1llapi_html_aeca50b59fe37dc0752444ca443af2c40"><div class="ttname"><a href="namespacelibcoapy_1_1llapi.html#aeca50b59fe37dc0752444ca443af2c40">libcoapy.llapi.bytes2uint8p</a></div><div class="ttdeci">bytes2uint8p(b, cast=ct.POINTER(ct.c_ubyte))</div><div class="ttdef"><b>Definition</b> <a href="llapi_8py_source.html#l00135">llapi.py:135</a></div></div>
 <div class="ttc" id="anamespacelibcoapy_1_1llapi_html_afeeadd7250a53aadfc5b2151761fc7d5"><div class="ttname"><a href="namespacelibcoapy_1_1llapi.html#afeeadd7250a53aadfc5b2151761fc7d5">libcoapy.llapi.c_uint8_p_to_str</a></div><div class="ttdeci">c_uint8_p_to_str(uint8p, length)</div><div class="ttdef"><b>Definition</b> <a href="llapi_8py_source.html#l00140">llapi.py:140</a></div></div>
 <div class="ttc" id="astructcoap__binary__t_html"><div class="ttname"><a href="https://libcoap.net/doc/reference/4.3.5/structcoap__binary__t.html">coap_binary_t</a></div></div>
