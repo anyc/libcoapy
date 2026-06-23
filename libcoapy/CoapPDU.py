@@ -302,10 +302,10 @@ class CoapPDURequest(CoapPDU):
 			response_callback_data=None,
 			persistent_rx_pdu=False,
 		):
-		"""! transmit this PDU
+		r"""! transmit this PDU
 		
 		@param response_callback: function that will be called if a response is received
-		@param response_callback_data: additional data that will be passed to \\p response_callback
+		@param response_callback_data: additional data that will be passed to \p response_callback
 		@param persistent_rx_pdu: automatically make the response PDU persistent
 	
 		@return the resulting dictionary in token_handler

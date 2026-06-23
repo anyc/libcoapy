@@ -158,7 +158,7 @@ class CoapSession():
 			response_callback=None,
 			response_callback_data=None
 		):
-		"""! prepare and send a PDU for this session
+		r"""! prepare and send a PDU for this session
 		
 		@param path: the path of the resource
 		@param payload: the payload to send with the PDU
@@ -169,7 +169,7 @@ class CoapSession():
 		@param options: set additional options (e.g., COAP_OPTION_CONTENT_FORMAT) using a list of (option_code, value) tuples
 		@param save_rx_pdu: automatically make the response PDU persistent
 		@param response_callback: function that will be called if a response is received
-		@param response_callback_data: additional data that will be passed to \\p response_callback
+		@param response_callback_data: additional data that will be passed to \p response_callback
 	
 		@return the resulting dictionary in token_handler
 		"""
@@ -268,7 +268,7 @@ class CoapSession():
 			payload_callback_data=None,
 			payload_size=None
 		):
-		"""! convenience function to prepare and send a PDU for this session
+		r"""! convenience function to prepare and send a PDU for this session
 		
 		@param path: the path of the resource
 		@param payload: the payload to send with the PDU
@@ -279,7 +279,7 @@ class CoapSession():
 		@param options: set additional options (e.g., COAP_OPTION_CONTENT_FORMAT) using a list of (option_code, value) tuples
 		@param persistent_rx_pdu: automatically make the response PDU persistent
 		@param response_callback: function that will be called if a response is received
-		@param response_callback_data: additional data that will be passed to \\p response_callback
+		@param response_callback_data: additional data that will be passed to \p response_callback
 		@param payload_callback: function that is called to retrieve the to-be-sent data in blocks,
 		@param payload_size: the size of the to-be-sent data
 		@param payload_release_callback: function that is called when all data was transmitted,
