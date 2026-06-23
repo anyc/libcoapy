@@ -8,6 +8,8 @@ class CoapPDU():
 	A PDU represents a packet in the CoAP protocol.
 	"""
 	def __init__(self, lcoap_pdu=None, session=None):
+		if not lcoap_pdu:
+			lcoap_pdu = coap_new_pdu(coap_pdu_type_t.COAP_MESSAGE_RST, coap_pdu_code_t.COAP_EMPTY_CODE, session.lcoap_session)
 		self.lcoap_pdu = lcoap_pdu
 		self.payload_ptr = ct.POINTER(ct.c_uint8)()
 		self.session = session
