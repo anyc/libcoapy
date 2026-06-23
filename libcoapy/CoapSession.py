@@ -356,7 +356,7 @@ class CoapSession():
 
 class CoapClientSession(CoapSession):
 	"""! represents a session initiated by a client """
-	def __init__(self, ctx, uri=None, hint=None, key=None, sni=None):
+	def __init__(self, ctx, uri=None, hint=None, key=None, sni=None, certfile=None, keyfile=None, ca_file=None):
 		super().__init__(ctx)
 		
 		ctx.addSession(self)
@@ -364,10 +364,10 @@ class CoapClientSession(CoapSession):
 		if uri:
 			self.uri_str = uri
 			self.uri = self.ctx.parse_uri(uri)
-		if hint or key or sni:
-			self.setup_connection(hint, key, sni)
+		if hint or key or sni or certfile or keyfile or ca_file:
+			self.setup_connection(hint, key, sni, certfile=certfile, keyfile=keyfile, ca_file=ca_file)
 	
-	def setup_connection(self, hint=None, key=None, sni=None):
+	def setup_connection(self, hint=None, key=None, sni=None, certfile=None, keyfile=None, ca_file=None):
 		# from socket import AI_ALL, AI_V4MAPPED
 		# ai_hint_flags=AI_ALL | AI_V4MAPPED)
 		
@@ -413,50 +413,103 @@ class CoapClientSession(CoapSession):
 				os.unlink(self.local_addr_unix_path)
 		
 		if self.uri.scheme == coap_uri_scheme_t.COAP_URI_SCHEME_COAPS:
-			self.dtls_psk = coap_dtls_cpsk_t()
-			
-			self.dtls_psk.version = COAP_DTLS_CPSK_SETUP_VERSION
-			
-			self.dtls_psk.validate_ih_call_back = coap_dtls_ih_callback_t(self._validate_ih_call_back)
-			self.dtls_psk.ih_call_back_arg = self
+			if certfile is None:
+				certfile = getattr(self, "certfile", None)
+			else:
+				self.certfile = certfile
+			if keyfile is None:
+				keyfile = getattr(self, "keyfile", None)
+			else:
+				self.keyfile = keyfile
+			if ca_file is None:
+				ca_file = getattr(self, "ca_file", None)
+			else:
+				self.ca_file = ca_file
 			
 			if isinstance(sni, str):
 				sni = sni.encode()
-			self.dtls_psk.client_sni = sni
+			
+			if certfile and keyfile:
+				if not coap_dtls_pki_is_supported():
+					raise RuntimeError("DTLS PKI authentication is not supported by this libcoap build")
 				
-			# register an initial name and PSK that can get replaced by the callbacks above
-			if hint is None:
-				hint = getattr(self, "psk_hint", None)
+				self.dtls_pki = coap_dtls_pki_t()
+				self.dtls_pki.version = COAP_DTLS_PKI_SETUP_VERSION
+				self.dtls_pki.verify_peer_cert = 0
+				self.dtls_pki.check_common_ca = 0
+				self.dtls_pki.allow_self_signed = 1
+				self.dtls_pki.cert_chain_validation = 0
+				self.dtls_pki.allow_no_crl = 1
+				self.dtls_pki.allow_expired_crl = 1
+				self.dtls_pki.client_sni = sni
+				self.dtls_pki.pki_key.key_type = coap_pki_key_t.COAP_PKI_KEY_PEM
+				
+				if isinstance(certfile, str):
+					certfile = certfile.encode()
+				if isinstance(keyfile, str):
+					keyfile = keyfile.encode()
+				if isinstance(ca_file, str):
+					ca_file = ca_file.encode()
+				
+				self.certfile_bytes = certfile
+				self.keyfile_bytes = keyfile
+				self.ca_file_bytes = ca_file
+				
+				self.dtls_pki.pki_key.key.pem.ca_file = self.ca_file_bytes
+				self.dtls_pki.pki_key.key.pem.public_cert = self.certfile_bytes
+				self.dtls_pki.pki_key.key.pem.private_key = self.keyfile_bytes
+				
+				if verbosity > 0:
+					print("PKI-based login with", certfile, keyfile)
+				
+				self.lcoap_session = coap_new_client_session_pki(self.ctx.lcoap_ctx,
+					ct.byref(self.local_addr) if self.local_addr else None,
+					ct.byref(self.dest_addr),
+					self.addr_info.contents.proto,
+					ct.byref(self.dtls_pki)
+					)
 			else:
-				self.psk_hint = hint
-			if key is None:
-				key = getattr(self, "psk_key", None)
-			else:
-				self.psk_key = key
+				self.dtls_psk = coap_dtls_cpsk_t()
+				
+				self.dtls_psk.version = COAP_DTLS_CPSK_SETUP_VERSION
+				
+				self.dtls_psk.validate_ih_call_back = coap_dtls_ih_callback_t(self._validate_ih_call_back)
+				self.dtls_psk.ih_call_back_arg = self
+				self.dtls_psk.client_sni = sni
+					
+				# register an initial name and PSK that can get replaced by the callbacks above
+				if hint is None:
+					hint = getattr(self, "psk_hint", None)
+				else:
+					self.psk_hint = hint
+				if key is None:
+					key = getattr(self, "psk_key", None)
+				else:
+					self.psk_key = key
+				
+				# we have to set a value or the callback will not be called
+				if not hint:
+					hint = "unset"
+				if not key:
+					key = "unset"
+				
+				if isinstance(hint, str):
+					hint = hint.encode()
+				if isinstance(key, str):
+					key = key.encode()
+				
+				self.dtls_psk.psk_info.identity.s = bytes2uint8p(hint)
+				self.dtls_psk.psk_info.key.s = bytes2uint8p(key)
+				
+				self.dtls_psk.psk_info.identity.length = len(hint) if hint else 0
+				self.dtls_psk.psk_info.key.length = len(key) if key else 0
 			
-			# we have to set a value or the callback will not be called
-			if not hint:
-				hint = "unset"
-			if not key:
-				key = "unset"
-			
-			if isinstance(hint, str):
-				hint = hint.encode()
-			if isinstance(key, str):
-				key = key.encode()
-			
-			self.dtls_psk.psk_info.identity.s = bytes2uint8p(hint)
-			self.dtls_psk.psk_info.key.s = bytes2uint8p(key)
-			
-			self.dtls_psk.psk_info.identity.length = len(hint) if hint else 0
-			self.dtls_psk.psk_info.key.length = len(key) if key else 0
-		
-			self.lcoap_session = coap_new_client_session_psk2(self.ctx.lcoap_ctx,
-				ct.byref(self.local_addr) if self.local_addr else None,
-				ct.byref(self.dest_addr),
-				self.addr_info.contents.proto,
-				self.dtls_psk
-				)
+				self.lcoap_session = coap_new_client_session_psk2(self.ctx.lcoap_ctx,
+					ct.byref(self.local_addr) if self.local_addr else None,
+					ct.byref(self.dest_addr),
+					self.addr_info.contents.proto,
+					self.dtls_psk
+					)
 		else:
 			self.lcoap_session = coap_new_client_session(self.ctx.lcoap_ctx,
 				ct.byref(self.local_addr) if self.local_addr else None,
