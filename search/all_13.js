@@ -37,7 +37,7 @@ var searchData=
   ['setoptions_34',['setOptions',['../classlibcoapy_1_1CoapPDU_1_1CoapPDURequest.html#aade410830203da5a2f6dbc937108a8ca',1,'libcoapy::CoapPDU::CoapPDURequest']]],
   ['setresponsecallback_35',['setResponseCallback',['../classlibcoapy_1_1CoapPDU_1_1CoapPDURequest.html#aecc910338ffd509203bc95f8fdeb9b33',1,'libcoapy::CoapPDU::CoapPDURequest']]],
   ['settxpayloadcallback_36',['setTXPayloadCallback',['../classlibcoapy_1_1CoapPDU_1_1CoapPDU.html#a7a1f29befca53279053602583b7f26cc',1,'libcoapy::CoapPDU::CoapPDU']]],
-  ['setup_5fconnection_37',['setup_connection',['../classlibcoapy_1_1CoapSession_1_1CoapClientSession.html#a2323e0b82752903d846705668e65c73e',1,'libcoapy::CoapSession::CoapClientSession']]],
+  ['setup_5fconnection_37',['setup_connection',['../classlibcoapy_1_1CoapSession_1_1CoapClientSession.html#a695049c384699c82f23e170725eddaac',1,'libcoapy::CoapSession::CoapClientSession']]],
   ['setup_5fdtls_5fpsk_38',['setup_dtls_psk',['../classlibcoapy_1_1CoapContext_1_1CoapContext.html#a1867a968b04abd7652cd490af9c06149',1,'libcoapy::CoapContext::CoapContext']]],
   ['setup_5ffct_39',['setup_fct',['../namespacelibcoapy_1_1llapi.html#ad85f54a9e9bf945886db40a46fb0bb7b',1,'libcoapy::llapi']]],
   ['sha1context_40',['SHA1Context',['https://libcoap.net/doc/reference/4.3.5/structSHA1Context.html',1,'']]],

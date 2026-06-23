@@ -20,7 +20,7 @@ var searchData=
   ['dtls_5fcontext_17',['dtls_context',['https://libcoap.net/doc/reference/4.3.5/structcoap__context__t.html#a85e2737b90beb8afce13a6ef2bea87f4',1,'coap_context_t']]],
   ['dtls_5fcpsk_18',['dtls_cpsk',['https://libcoap.net/doc/reference/4.3.5/structcoap__proxy__server__t.html#aaf8cdf9037a080cb7c1b909a4ae52412',1,'coap_proxy_server_t']]],
   ['dtls_5fevent_19',['dtls_event',['https://libcoap.net/doc/reference/4.3.5/structcoap__session__t.html#a9ddc6f7076a6c6f3781e65d8c7555489',1,'coap_session_t']]],
-  ['dtls_5fpki_20',['dtls_pki',['https://libcoap.net/doc/reference/4.3.5/structcoap__proxy__server__t.html#a669ae2260baa9d4dbb72aea85c05fab7',1,'coap_proxy_server_t']]],
+  ['dtls_5fpki_20',['dtls_pki',['https://libcoap.net/doc/reference/4.3.5/structcoap__proxy__server__t.html#a669ae2260baa9d4dbb72aea85c05fab7',1,'coap_proxy_server_t::dtls_pki'],['../classlibcoapy_1_1CoapSession_1_1CoapClientSession.html#a17baa62482ede22f867c3316ea90b13f',1,'libcoapy.CoapSession.CoapClientSession.dtls_pki']]],
   ['dtls_5fpsk_21',['dtls_psk',['../classlibcoapy_1_1CoapSession_1_1CoapClientSession.html#aec1673eb8c6a59f3f1fc53793b97cd9f',1,'libcoapy::CoapSession::CoapClientSession']]],
   ['dtls_5fspsk_22',['dtls_spsk',['../classlibcoapy_1_1CoapContext_1_1CoapContext.html#a4a461b974c69dfd0eb66039f26c442e1',1,'libcoapy::CoapContext::CoapContext']]],
   ['dtls_5ftimeout_5fcount_23',['dtls_timeout_count',['https://libcoap.net/doc/reference/4.3.5/structcoap__session__t.html#a0e449eb256836dcf5932791f53881b6e',1,'coap_session_t']]],
