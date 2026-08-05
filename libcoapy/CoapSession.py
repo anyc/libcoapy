@@ -87,11 +87,11 @@ class CoapSession():
 	def local_ip(self):
 		return ip2str(coap_session_get_addr_local(self.lcoap_session))
 	
-	async def responseHandler_async(self, pdu_sent, pdu_recv, mid):
-		if "handler_data" in handler_dict:
-			await self.token_handlers["handler"](self, pdu_sent, pdu_recv, mid, self.token_handlers["handler_data"])
+	async def responseHandler_async(self, handler, pdu_sent, pdu_recv, mid, handler_data=None):
+		if handler_data is not None:
+			await handler(self, pdu_sent, pdu_recv, mid, handler_data)
 		else:
-			await self.token_handlers["handler"](self, pdu_sent, pdu_recv, mid)
+			await handler(self, pdu_sent, pdu_recv, mid)
 	
 	def responseHandler(self, pdu_sent, pdu_recv, mid):
 		rv = None
@@ -105,35 +105,40 @@ class CoapSession():
 		token = rx_pdu.token
 		
 		if token in self.token_handlers:
-			orig_tx_pdu = self.token_handlers[token]["tx_pdu"]
-			self.token_handlers[token]["ready"] = True
+			token_handler = self.token_handlers[token]
+			orig_tx_pdu = token_handler["tx_pdu"]
+
+			token_handler["ready"] = True
 			rx_pdu.request_pdu = orig_tx_pdu
 			
-			if self.token_handlers[token].get("save_rx_pdu", False):
+			if token_handler.get("save_rx_pdu", False):
 				rx_pdu.make_persistent()
-				self.token_handlers[token]["rx_pdu"] = rx_pdu
+				token_handler["rx_pdu"] = rx_pdu
 			
-			if "handler" in self.token_handlers[token]:
-				handler = self.token_handlers[token]["handler"]
+			if "handler" in token_handler:
+				handler = token_handler["handler"]
 				
 				from inspect import iscoroutinefunction
 				if iscoroutinefunction(handler):
 					import asyncio
 					
-					if not self.token_handlers[token].get("observed", False):
+					handler_data = token_handler.get("handler_data")
+					if not token_handler.get("observed", False):
 						del self.token_handlers[token]
 					
 					tx_pdu.make_persistent()
 					rx_pdu.make_persistent()
 					
-					asyncio.ensure_future(self.responseHandler_async(orig_tx_pdu, rx_pdu, mid), loop=self.ctx._loop)
+					asyncio.ensure_future(
+						self.responseHandler_async(handler, orig_tx_pdu, rx_pdu, mid, handler_data),
+						loop=self.ctx._loop)
 				else:
-					if "handler_data" in self.token_handlers[token]:
-						rv = handler(self, orig_tx_pdu, rx_pdu, mid, self.token_handlers[token]["handler_data"])
+					if "handler_data" in token_handler:
+						rv = handler(self, orig_tx_pdu, rx_pdu, mid, token_handler["handler_data"])
 					else:
 						rv = handler(self, orig_tx_pdu, rx_pdu, mid)
 					
-					if not self.token_handlers[token].get("observed", False):
+					if not token_handler.get("observed", False):
 						del self.token_handlers[token]
 		else:
 			if tx_pdu:
