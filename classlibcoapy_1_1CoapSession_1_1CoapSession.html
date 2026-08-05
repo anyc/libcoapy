@@ -133,8 +133,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a112f10e154c0f0578c91d314bc1bb1ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a641149b58cd95cbaa71f0e56dafea766" id="r_a641149b58cd95cbaa71f0e56dafea766"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibcoapy_1_1CoapSession_1_1CoapSession.html#a641149b58cd95cbaa71f0e56dafea766">responseHandler</a> (self, pdu_sent, pdu_recv, mid)</td></tr>
 <tr class="separator:a641149b58cd95cbaa71f0e56dafea766"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab7fae50177a94b7ccb343dc747e7c227" id="r_ab7fae50177a94b7ccb343dc747e7c227"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibcoapy_1_1CoapSession_1_1CoapSession.html#ab7fae50177a94b7ccb343dc747e7c227">responseHandler_async</a> (self, pdu_sent, pdu_recv, mid)</td></tr>
-<tr class="separator:ab7fae50177a94b7ccb343dc747e7c227"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aedb5c60aa2383adbde0ba5e8395dc2f8" id="r_aedb5c60aa2383adbde0ba5e8395dc2f8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibcoapy_1_1CoapSession_1_1CoapSession.html#aedb5c60aa2383adbde0ba5e8395dc2f8">responseHandler_async</a> (self, handler, pdu_sent, pdu_recv, mid, handler_data=None)</td></tr>
+<tr class="separator:aedb5c60aa2383adbde0ba5e8395dc2f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1bd4126a8ca61976c601a49b2464d52c" id="r_a1bd4126a8ca61976c601a49b2464d52c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibcoapy_1_1CoapSession_1_1CoapSession.html#a1bd4126a8ca61976c601a49b2464d52c">sendMessage</a> (self, path=None, <a class="el" href="namespacelibcoapy_1_1libcoapy.html#a2d834af4a132179c48f3060c5a57f758">payload</a>=None, pdu_type=coap_pdu_type_t.COAP_MESSAGE_CON, code=coap_pdu_code_t.COAP_REQUEST_CODE_GET, <a class="el" href="namespacelibcoapy_1_1libcoapy.html#a0bd57c1f4665109adc66051b3e24811d">observe</a>=<a class="el" href="namespacelibcoapy_1_1libcoapy.html#a313d09f7264cc418194cb090c9ee0ab5">False</a>, <a class="el" href="classlibcoapy_1_1CoapSession_1_1CoapSession.html#a56b05c4434230c3cc043a2c97e327e69">query</a>=None, options=None, save_rx_pdu=<a class="el" href="namespacelibcoapy_1_1libcoapy.html#a313d09f7264cc418194cb090c9ee0ab5">False</a>, <a class="el" href="namespacelibcoapy_1_1libcoapy.html#afa65b31378e6f480f9295f2f90d7a9f1">response_callback</a>=None, response_callback_data=None)</td></tr>
 <tr class="memdesc:a1bd4126a8ca61976c601a49b2464d52c"><td class="mdescLeft">&#160;</td><td class="mdescRight">prepare and send a PDU for this session  <br /></td></tr>
 <tr class="separator:a1bd4126a8ca61976c601a49b2464d52c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -252,7 +252,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="CoapSession_8py_source.html#l00326">326</a> of file <a class="el" href="CoapSession_8py_source.html">CoapSession.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="CoapSession_8py_source.html#l00339">339</a> of file <a class="el" href="CoapSession_8py_source.html">CoapSession.py</a>.</p>
 
 </div>
 </div>
@@ -382,7 +382,7 @@ Public Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the resulting dictionary in token_handler </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="CoapSession_8py_source.html#l00255">255</a> of file <a class="el" href="CoapSession_8py_source.html">CoapSession.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="CoapSession_8py_source.html#l00268">268</a> of file <a class="el" href="CoapSession_8py_source.html">CoapSession.py</a>.</p>
 
 </div>
 </div>
@@ -412,7 +412,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="CoapSession_8py_source.html#l00351">351</a> of file <a class="el" href="CoapSession_8py_source.html">CoapSession.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="CoapSession_8py_source.html#l00364">364</a> of file <a class="el" href="CoapSession_8py_source.html">CoapSession.py</a>.</p>
 
 </div>
 </div>
@@ -551,7 +551,7 @@ Public Attributes</h2></td></tr>
 <p>start an asynchronous request and return a generator object if observe=True is set, else return the response pdu </p>
 <p>accepts same parameters as <a class="el" href="">sendMessage() </a> </p>
 
-<p class="definition">Definition at line <a class="el" href="CoapSession_8py_source.html#l00330">330</a> of file <a class="el" href="CoapSession_8py_source.html">CoapSession.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="CoapSession_8py_source.html#l00343">343</a> of file <a class="el" href="CoapSession_8py_source.html">CoapSession.py</a>.</p>
 
 </div>
 </div>
@@ -682,7 +682,7 @@ Public Attributes</h2></td></tr>
 <p>send a synchronous request and return the response </p>
 <p>accepts same parameters as \link libcoapy.libcoapy.CoapClientSession.sendMessage sendMessage() \endlink </p>
 
-<p class="definition">Definition at line <a class="el" href="CoapSession_8py_source.html#l00307">307</a> of file <a class="el" href="CoapSession_8py_source.html">CoapSession.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="CoapSession_8py_source.html#l00320">320</a> of file <a class="el" href="CoapSession_8py_source.html">CoapSession.py</a>.</p>
 
 </div>
 </div>
@@ -728,8 +728,8 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="ab7fae50177a94b7ccb343dc747e7c227" name="ab7fae50177a94b7ccb343dc747e7c227"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab7fae50177a94b7ccb343dc747e7c227">&#9670;&#160;</a></span>responseHandler_async()</h2>
+<a id="aedb5c60aa2383adbde0ba5e8395dc2f8" name="aedb5c60aa2383adbde0ba5e8395dc2f8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aedb5c60aa2383adbde0ba5e8395dc2f8">&#9670;&#160;</a></span>responseHandler_async()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -739,6 +739,12 @@ Public Attributes</h2></td></tr>
           <td>(</td>
           <td class="paramtype">&#160;</td>
           <td class="paramname"><em>self</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>handler</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -756,7 +762,13 @@ Public Attributes</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>mid</em>&#160;</td>
+          <td class="paramname"><em>mid</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>handler_data</em> = <code>None</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -868,7 +880,7 @@ Public Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the resulting dictionary in token_handler </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="CoapSession_8py_source.html#l00149">149</a> of file <a class="el" href="CoapSession_8py_source.html">CoapSession.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="CoapSession_8py_source.html#l00160">160</a> of file <a class="el" href="CoapSession_8py_source.html">CoapSession.py</a>.</p>
 
 </div>
 </div>
@@ -901,7 +913,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="CoapSession_8py_source.html#l00198">198</a> of file <a class="el" href="CoapSession_8py_source.html">CoapSession.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="CoapSession_8py_source.html#l00209">209</a> of file <a class="el" href="CoapSession_8py_source.html">CoapSession.py</a>.</p>
 
 </div>
 </div>
@@ -981,7 +993,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="CoapSession_8py_source.html#l00198">198</a> of file <a class="el" href="CoapSession_8py_source.html">CoapSession.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="CoapSession_8py_source.html#l00209">209</a> of file <a class="el" href="CoapSession_8py_source.html">CoapSession.py</a>.</p>
 
 </div>
 </div>
