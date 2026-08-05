@@ -99,6 +99,7 @@ class CoapPDU():
 		self.payload_release_cb(self, app_ptr)
 	
 	def setTXPayloadCallback(self, payload_data_cb, payload_size, payload_release_cb=None, payload_cb_data=None):
+		self.uses_q_block = bool(self.session.ctx.block_mode & COAP_BLOCK_TRY_Q_BLOCK)
 		self.wrapper_payload_cb = coap_get_large_data_t(self._wrapper_txPayloadCallback)
 		self.payload_data_cb = payload_data_cb
 		
@@ -315,6 +316,8 @@ class CoapPDURequest(CoapPDU):
 			self.token_handler = {}
 		
 		self.token_handler["tx_pdu"] = self
+		if getattr(self, "uses_q_block", False):
+			self.token_handler["q_block_transfer"] = True
 		if self.observe:
 			self.token_handler["observed"] = True
 		if persistent_rx_pdu:
@@ -338,6 +341,7 @@ class CoapPDURequest(CoapPDU):
 	
 	def addPayload(self, payload):
 		"""! add payload to a request PDU """
+		self.uses_q_block = bool(self.session.ctx.block_mode & COAP_BLOCK_TRY_Q_BLOCK)
 		if not hasattr(self, "release_payload_cb_ct"):
 			self.release_payload_cb_ct = coap_release_large_data_t(self.release_payload_cb)
 		

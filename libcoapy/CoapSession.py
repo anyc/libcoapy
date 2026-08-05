@@ -108,6 +108,12 @@ class CoapSession():
 			token_handler = self.token_handlers[token]
 			orig_tx_pdu = token_handler["tx_pdu"]
 
+			# A Q-Block1 receiver uses 4.08 to request lost blocks. libcoap
+			# retransmits those blocks, so this is not the request's result.
+			if (token_handler.get("q_block_transfer", False)
+					and rx_pdu.code == coap_pdu_code_t.COAP_RESPONSE_CODE_INCOMPLETE):
+				return coap_response_t.COAP_RESPONSE_OK
+
 			token_handler["ready"] = True
 			rx_pdu.request_pdu = orig_tx_pdu
 			
@@ -241,6 +247,8 @@ class CoapSession():
 		
 		self.token_handlers[token] = {}
 		self.token_handlers[token]["tx_pdu"] = hl_pdu
+		if getattr(hl_pdu, "uses_q_block", False):
+			self.token_handlers[token]["q_block_transfer"] = True
 		if observe:
 			self.token_handlers[token]["observed"] = True
 		if save_rx_pdu:
