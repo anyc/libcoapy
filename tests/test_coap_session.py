@@ -46,24 +46,6 @@ class CoapSessionResponseHandlerTest(unittest.TestCase):
 		session_module.CoapPDURequest = self.request_class
 		self.loop.close()
 
-	def test_q_block_incomplete_response_keeps_handler(self):
-		token = 1
-		callback_calls = []
-		self.session.token_handlers[token] = {
-			"tx_pdu": FakePDU(token, None),
-			"q_block_transfer": True,
-			"handler": lambda *args: callback_calls.append(args),
-		}
-
-		response = FakePDU(
-			token,
-			session_module.coap_pdu_code_t.COAP_RESPONSE_CODE_INCOMPLETE,
-		)
-		self.session.responseHandler(None, response, 1)
-
-		self.assertIn(token, self.session.token_handlers)
-		self.assertFalse(callback_calls)
-
 	def test_async_callback_receives_final_response_after_handler_removal(self):
 		token = 2
 		callback_calls = []

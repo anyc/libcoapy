@@ -82,7 +82,6 @@ class CoapContext():
 	
 	def setBlockMode(self, mode):
 		"""! to choose how much libcoap will help while receiving large data """
-		self.block_mode = mode
 		coap_context_set_block_mode(self.lcoap_ctx, mode)
 	
 	def newSession(self, *args, **kwargs):
