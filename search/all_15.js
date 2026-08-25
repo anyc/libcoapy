@@ -14,6 +14,5 @@ var searchData=
   ['used_11',['used',['https://libcoap.net/doc/reference/4.3.5/structcoap__rblock__t.html#aa36cbb5fd297781c119d7db4ab22d5a6',1,'coap_rblock_t']]],
   ['used_5fsize_12',['used_size',['https://libcoap.net/doc/reference/4.3.5/structcoap__pdu__t.html#ac5018459a3078a5b896119d7464cb273',1,'coap_pdu_t']]],
   ['user_5fdata_13',['user_data',['https://libcoap.net/doc/reference/4.3.5/structcoap__resource__t.html#a30146d47704b351b623c29360b205319',1,'coap_resource_t']]],
-  ['user_5fpin_14',['user_pin',['https://libcoap.net/doc/reference/4.3.5/structcoap__pki__key__define__t.html#a403388d8c5693386411f7a8a73e5a30e',1,'coap_pki_key_define_t::user_pin'],['https://libcoap.net/doc/reference/4.3.5/structcoap__pki__key__pkcs11__t.html#aa626551901634c8b738652b2e51bf7c8',1,'coap_pki_key_pkcs11_t::user_pin']]],
-  ['uses_5fq_5fblock_15',['uses_q_block',['../classlibcoapy_1_1CoapPDU_1_1CoapPDU.html#adc4deb391c0f785f6e6a49a5ffc96048',1,'libcoapy.CoapPDU.CoapPDU.uses_q_block'],['../classlibcoapy_1_1CoapPDU_1_1CoapPDURequest.html#adaddad39353373fcf740e7221a98008b',1,'libcoapy.CoapPDU.CoapPDURequest.uses_q_block']]]
+  ['user_5fpin_14',['user_pin',['https://libcoap.net/doc/reference/4.3.5/structcoap__pki__key__define__t.html#a403388d8c5693386411f7a8a73e5a30e',1,'coap_pki_key_define_t::user_pin'],['https://libcoap.net/doc/reference/4.3.5/structcoap__pki__key__pkcs11__t.html#aa626551901634c8b738652b2e51bf7c8',1,'coap_pki_key_pkcs11_t::user_pin']]]
 ];
