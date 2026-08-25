@@ -417,7 +417,10 @@ class CoapClientSession(CoapSession):
 			if os.path.exists(self.local_addr_unix_path):
 				os.unlink(self.local_addr_unix_path)
 		
-		if self.uri.scheme == coap_uri_scheme_t.COAP_URI_SCHEME_COAPS:
+		if self.uri.scheme in (
+			coap_uri_scheme_t.COAP_URI_SCHEME_COAPS,
+			coap_uri_scheme_t.COAP_URI_SCHEME_COAPS_TCP,
+		):
 			if certfile is None:
 				certfile = getattr(self, "certfile", None)
 			else:
