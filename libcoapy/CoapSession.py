@@ -16,8 +16,21 @@ class CoapSession():
 		
 		self.weakref = weakref.finalize(self, self.release)
 	
-	def release(self):
+	def release(self, force=False):
+		"""!
+		Release the libcoap session reference.
+
+		@param force If true, explicitly disconnect the session before releasing
+		the reference, including any pending work and transport-layer state.
+		If false, only this wrapper's reference is released and libcoap performs
+		transport cleanup when its session reference count reaches zero.
+		"""
 		if self.lcoap_session != None and self.session_referenced:
+			if force:
+				coap_session_disconnected(
+					self.lcoap_session,
+					coap_nack_reason_t.COAP_NACK_NOT_DELIVERABLE,
+				)
 			# unset app_data in case lcoap_session is referenced by others
 			coap_session_release(self.lcoap_session)
 			self.session_referenced = False
@@ -559,8 +572,8 @@ class CoapClientSession(CoapSession):
 		# https://bugs.python.org/issue1574593
 		return ct.cast(self.dtls_psk.cb_data, ct.c_void_p).value
 	
-	def release(self):
-		super().release()
+	def release(self, force=False):
+		super().release(force=force)
 		
 		if getattr(self, "addr_info", None):
 			coap_free_address_info(self.addr_info)
