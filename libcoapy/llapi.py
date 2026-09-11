@@ -275,6 +275,7 @@ LIBCOAP_PACKAGE_STRING = "libcoap 4.3.5";
 LIBCOAP_PACKAGE_URL = "https://libcoap.net/";
 LIBCOAP_PACKAGE_VERSION = "4.3.5";
 NULL = 0;
+COAP_MAX_OPT = 65534;
 COAP_OPT_FILTER_SHORT = 6;
 COAP_OPT_FILTER_LONG = 2;
 COAP_OPT_ALL = None;
@@ -290,43 +291,7 @@ COAP_DEFAULT_SCHEME = "coap";
 COAP_DEFAULT_URI_WELLKNOWN = ".well-known/core";
 COAP_TOKEN_DEFAULT_MAX = 8;
 COAP_TOKEN_EXT_MAX = 4096;
-COAP_OPTION_IF_MATCH = 1;
-COAP_OPTION_URI_HOST = 3;
-COAP_OPTION_ETAG = 4;
-COAP_OPTION_IF_NONE_MATCH = 5;
-COAP_OPTION_OBSERVE = 6;
-COAP_OPTION_URI_PORT = 7;
-COAP_OPTION_LOCATION_PATH = 8;
-COAP_OPTION_OSCORE = 9;
-COAP_OPTION_URI_PATH = 11;
-COAP_OPTION_CONTENT_FORMAT = 12;
-COAP_OPTION_URI_PATH_ABB = 13;
-COAP_OPTION_MAXAGE = 14;
-COAP_OPTION_URI_QUERY = 15;
-COAP_OPTION_HOP_LIMIT = 16;
-COAP_OPTION_ACCEPT = 17;
-COAP_OPTION_Q_BLOCK1 = 19;
-COAP_OPTION_LOCATION_QUERY = 20;
-COAP_OPTION_EDHOC = 21;
-COAP_OPTION_BLOCK2 = 23;
-COAP_OPTION_BLOCK1 = 27;
-COAP_OPTION_SIZE2 = 28;
-COAP_OPTION_Q_BLOCK2 = 31;
-COAP_OPTION_PROXY_URI = 35;
-COAP_OPTION_PROXY_SCHEME = 39;
-COAP_OPTION_SIZE1 = 60;
-COAP_OPTION_ECHO = 252;
-COAP_OPTION_NORESPONSE = 258;
-COAP_OPTION_RTAG = 292;
-COAP_MAX_OPT = 65534;
 COAP_ERROR_PHRASE_LENGTH = 32;
-COAP_SIGNALING_OPTION_MAX_MESSAGE_SIZE = 2;
-COAP_SIGNALING_OPTION_BLOCK_WISE_TRANSFER = 4;
-COAP_SIGNALING_OPTION_EXTENDED_TOKEN_LENGTH = 6;
-COAP_SIGNALING_OPTION_CUSTODY = 2;
-COAP_SIGNALING_OPTION_ALTERNATIVE_ADDRESS = 2;
-COAP_SIGNALING_OPTION_HOLD_OFF = 4;
-COAP_SIGNALING_OPTION_BAD_CSM_OPTION = 2;
 COAP_MEDIATYPE_TEXT_PLAIN = 0;
 COAP_MEDIATYPE_APPLICATION_LINK_FORMAT = 40;
 COAP_MEDIATYPE_APPLICATION_XML = 41;
@@ -387,7 +352,6 @@ COAP_BLOCK_NO_PREEMPTIVE_RTAG = 0x10;
 COAP_BLOCK_STLESS_FETCH = 0x20;
 COAP_BLOCK_STLESS_BLOCK2 = 0x40;
 COAP_BLOCK_NOT_RANDOM_BLOCK1 = 0x80;
-COAP_BLOCK_CACHE_RESPONSE = 0x100;
 COAP_BLOCK_FORCE_Q_BLOCK = 0x200;
 COAP_PROXY_OLD_MASK = 0x07;
 COAP_PROXY_NEW_MASK = 0x38;
@@ -413,6 +377,51 @@ COAP_RESOURCE_SAFE_REQUEST_HANDLER = 0x4000;
 COAP_OBSERVE_ESTABLISH = 0;
 COAP_OBSERVE_CANCEL = 1;
 coap_option_num_t = ct.c_ushort
+class coap_code_opt_num_t(ctypes_enum_gen):
+	COAP_OPTION_IF_MATCH = 1
+	COAP_OPTION_URI_HOST = 3
+	COAP_OPTION_ETAG = 4
+	COAP_OPTION_IF_NONE_MATCH = 5
+	COAP_OPTION_OBSERVE = 6
+	COAP_OPTION_URI_PORT = 7
+	COAP_OPTION_LOCATION_PATH = 8
+	COAP_OPTION_OSCORE = 9
+	COAP_OPTION_URI_PATH = 11
+	COAP_OPTION_CONTENT_FORMAT = 12
+	COAP_OPTION_URI_PATH_ABB = 13
+	COAP_OPTION_MAXAGE = 14
+	COAP_OPTION_URI_QUERY = 15
+	COAP_OPTION_HOP_LIMIT = 16
+	COAP_OPTION_ACCEPT = 17
+	COAP_OPTION_Q_BLOCK1 = 19
+	COAP_OPTION_LOCATION_QUERY = 20
+	COAP_OPTION_EDHOC = 21
+	COAP_OPTION_BLOCK2 = 23
+	COAP_OPTION_BLOCK1 = 27
+	COAP_OPTION_SIZE2 = 28
+	COAP_OPTION_Q_BLOCK2 = 31
+	COAP_OPTION_PROXY_URI = 35
+	COAP_OPTION_PROXY_SCHEME = 39
+	COAP_OPTION_SIZE1 = 60
+	COAP_OPTION_ECHO = 252
+	COAP_OPTION_NORESPONSE = 258
+	COAP_OPTION_RTAG = 292
+
+class coap_sig_csm_opt_t(ctypes_enum_gen):
+	COAP_SIG_OPT_MAX_MESSAGE_SIZE = 2
+	COAP_SIG_OPT_BLOCK_WISE_TRANSFER = 4
+	COAP_SIG_OPT_EXTENDED_TOKEN_LENGTH = 6
+
+class coap_sig_ping_opt_t(ctypes_enum_gen):
+	COAP_SIG_OPT_CUSTODY = 2
+
+class coap_sig_release_opt_t(ctypes_enum_gen):
+	COAP_SIG_OPT_ALTERNATIVE_ADDRESS = 2
+	COAP_SIG_OPT_HOLD_OFF = 4
+
+class coap_sig_abort_opt_t(ctypes_enum_gen):
+	COAP_SIG_OPT_BAD_CSM_OPTION = 2
+
 coap_opt_t = ct.c_uint8
 coap_option_t._fields_ = [
 	("delta", ct.c_ushort),
@@ -622,6 +631,7 @@ class coap_tls_library_t(ctypes_enum_gen):
 	COAP_TLS_LIBRARY_GNUTLS = 3
 	COAP_TLS_LIBRARY_MBEDTLS = 4
 	COAP_TLS_LIBRARY_WOLFSSL = 5
+	COAP_TLS_LIBRARY_OPENHITLS = 6
 
 coap_tls_version_t._fields_ = [
 	("version", ct.c_ulong),
@@ -740,7 +750,8 @@ coap_dtls_pki_t._fields_ = [
 	("allow_short_rsa_length", ct.c_uint8),
 	("is_rpk_not_cert", ct.c_uint8),
 	("use_cid", ct.c_uint8),
-	("reserved", ct.c_uint8 * 2),
+	("allow_sni_cn_mismatch", ct.c_uint8),
+	("reserved", ct.c_uint8 * 1),
 	("validate_cn_call_back", coap_dtls_cn_callback_t),
 	("cn_call_back_arg", ct.py_object),
 	("validate_sni_call_back", coap_dtls_pki_sni_callback_t),
@@ -886,11 +897,14 @@ coap_cache_app_data_free_callback_t = ct.CFUNCTYPE(None, ct.py_object)
 class coap_cache_session_based_t(ctypes_enum_gen):
 	COAP_CACHE_NOT_SESSION_BASED = 0
 	COAP_CACHE_IS_SESSION_BASED = 1
+	COAP_CACHE_IS_SESSION_BASED_NO_DATA = 2
 
 class coap_cache_record_pdu_t(ctypes_enum_gen):
 	COAP_CACHE_NOT_RECORD_PDU = 0
 	COAP_CACHE_RECORD_PDU = 1
 
+coap_oscore_find_handler_t = ct.CFUNCTYPE(ct.c_void_p, ct.POINTER(coap_session_t), ct.POINTER(coap_bin_const_t), ct.POINTER(coap_bin_const_t))
+coap_oscore_update_seq_num_handler_t = ct.CFUNCTYPE(ct.c_int, ct.POINTER(coap_session_t), ct.POINTER(coap_bin_const_t), ct.POINTER(coap_bin_const_t), ct.c_ulong, ct.c_ulong)
 coap_oscore_save_seq_num_t = ct.CFUNCTYPE(ct.c_int, ct.c_ulong, ct.py_object)
 class coap_proxy_t(ctypes_enum_gen):
 	COAP_PROXY_REVERSE = 0
@@ -2387,6 +2401,13 @@ library_functions.append({
 	"restype": ct.c_int,
 	})
 library_functions.append({
+	"name": "coap_debug_set_packet_drop",
+	"args": [
+		(ct.c_char_p, "drop_level"),
+		],
+	"restype": ct.c_int,
+	})
+library_functions.append({
 	"name": "coap_register_response_handler",
 	"args": [
 		(ct.POINTER(coap_context_t), "context"),
@@ -2775,6 +2796,15 @@ library_functions.append({
 		],
 	"restype": ct.c_int,
 	"res_error": -1,
+	})
+library_functions.append({
+	"name": "coap_endpoint_join_mcast_group_intf",
+	"args": [
+		(ct.POINTER(coap_endpoint_t), "endpoint"),
+		(ct.c_char_p, "groupname"),
+		(ct.c_char_p, "ifname"),
+		],
+	"restype": ct.c_int,
 	})
 library_functions.append({
 	"name": "coap_mcast_set_hops",
@@ -3416,6 +3446,15 @@ library_functions.append({
 	"restype": ct.c_int,
 	})
 library_functions.append({
+	"name": "coap_oscore_register_external_handlers",
+	"args": [
+		(ct.POINTER(coap_context_t), "context"),
+		(coap_oscore_find_handler_t, "find_handler"),
+		(coap_oscore_update_seq_num_handler_t, "update_seq_num_handler"),
+		],
+	"restype": None,
+	})
+library_functions.append({
 	"name": "coap_new_oscore_recipient",
 	"args": [
 		(ct.POINTER(coap_context_t), "context"),
@@ -3428,6 +3467,16 @@ library_functions.append({
 	"args": [
 		(ct.POINTER(coap_context_t), "context"),
 		(ct.POINTER(coap_bin_const_t), "recipient_id"),
+		],
+	"restype": ct.c_int,
+	})
+library_functions.append({
+	"name": "coap_oscore_recipient_set_latest_seq",
+	"args": [
+		(ct.POINTER(coap_oscore_conf_t), "oscore_conf"),
+		(ct.POINTER(coap_bin_const_t), "recipient_id"),
+		(ct.c_ulong, "last_seq"),
+		(ct.c_ulong, "seq_window"),
 		],
 	"restype": ct.c_int,
 	})
@@ -3486,6 +3535,13 @@ library_functions.append({
 	"restype": ct.POINTER(coap_proxy_entry_t),
 	})
 library_functions.append({
+	"name": "coap_dump_memory_type_counts",
+	"args": [
+		(coap_log_t.get_ctype(), "log_level"),
+		],
+	"restype": None,
+	})
+library_functions.append({
 	"name": "coap_memory_init",
 	"restype": None,
 	})
@@ -3511,13 +3567,6 @@ library_functions.append({
 	"args": [
 		(coap_memory_tag_t.get_ctype(), "type"),
 		(ct.py_object, "p"),
-		],
-	"restype": None,
-	})
-library_functions.append({
-	"name": "coap_dump_memory_type_counts",
-	"args": [
-		(coap_log_t.get_ctype(), "log_level"),
 		],
 	"restype": None,
 	})
@@ -4059,12 +4108,11 @@ for show_msg in [False, True]:
 		except OSError as e:
 			if show_msg:
 				print(type(e), e, e.errno)
-		except Exception as e:
-			print(type(e), e)
-			continue
+		except Exception:
+			raise
 		else:
 			break
-	if show_msg:
+	if clibrary is not None:
 		break
 
 if clibrary is None:
