@@ -320,7 +320,7 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span>            <span class="keywordflow">if</span> isinstance(path, str):</div>
 <div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span>                path = path.encode()</div>
 <div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span>            </div>
-<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span>            coap_path_into_optlist(ct.cast(ct.c_char_p(path), ct.POINTER(ct.c_uint8)), len(path), COAP_OPTION_URI_PATH, ct.byref(optlist))</div>
+<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span>            coap_path_into_optlist(ct.cast(ct.c_char_p(path), ct.POINTER(ct.c_uint8)), len(path), coap_code_opt_num_t.COAP_OPTION_URI_PATH, ct.byref(optlist))</div>
 <div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span>        <span class="keywordflow">else</span>:</div>
 <div class="line"><a id="l00216" name="l00216"></a><span class="lineno"><a class="line" href="classlibcoapy_1_1CoapSession_1_1CoapSession.html#a153cff8627371c263728cfda91202a4c">  216</a></span>            coap_uri_into_optlist(ct.byref(self.<a class="code hl_variable" href="classlibcoapy_1_1CoapSession_1_1CoapSession.html#a821d6a3ab8e270601116bf1ae33e698d">uri</a>), ct.byref(self.<a class="code hl_variable" href="classlibcoapy_1_1CoapSession_1_1CoapSession.html#a153cff8627371c263728cfda91202a4c">dest_addr</a>), ct.byref(optlist), 1)</div>
 <div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span>        </div>
@@ -329,7 +329,7 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span>            scratch_t = ct.c_uint8 * 100</div>
 <div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span>            scratch = scratch_t()</div>
 <div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span>            coap_insert_optlist(ct.byref(optlist),</div>
-<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span>                coap_new_optlist(COAP_OPTION_OBSERVE,</div>
+<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span>                coap_new_optlist(coap_code_opt_num_t.COAP_OPTION_OBSERVE,</div>
 <div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span>                    coap_encode_var_safe(scratch, ct.sizeof(scratch), COAP_OBSERVE_ESTABLISH),</div>
 <div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span>                    scratch)</div>
 <div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span>                )</div>
@@ -338,7 +338,7 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span>            <span class="keywordflow">if</span> isinstance(query, str):</div>
 <div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span>                query = query.encode()</div>
 <div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span>            </div>
-<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span>            coap_query_into_optlist(ct.cast(ct.c_char_p(query), ct.POINTER(ct.c_uint8)), len(query), COAP_OPTION_URI_QUERY, ct.byref(optlist))</div>
+<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span>            coap_query_into_optlist(ct.cast(ct.c_char_p(query), ct.POINTER(ct.c_uint8)), len(query), coap_code_opt_num_t.COAP_OPTION_URI_QUERY, ct.byref(optlist))</div>
 <div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span>        </div>
 <div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span>        <span class="keywordflow">if</span> options:</div>
 <div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span>            scratch_t = ct.c_uint8 * 8</div>
@@ -735,7 +735,7 @@ $(document).ready(function() { init_codefold(0); });
 </div>
 </div>
 <div class="ttc" id="aclasslibcoapy_1_1CoapObserver_1_1CoapObserver_html"><div class="ttname"><a href="classlibcoapy_1_1CoapObserver_1_1CoapObserver.html">libcoapy.CoapObserver.CoapObserver</a></div><div class="ttdoc">This class is used to handle asynchronous requests.</div><div class="ttdef"><b>Definition</b> <a href="CoapObserver_8py_source.html#l00005">CoapObserver.py:5</a></div></div>
-<div class="ttc" id="aclasslibcoapy_1_1CoapPDU_1_1CoapPDURequest_html"><div class="ttname"><a href="classlibcoapy_1_1CoapPDU_1_1CoapPDURequest.html">libcoapy.CoapPDU.CoapPDURequest</a></div><div class="ttdoc">PDU that represents a request</div><div class="ttdef"><b>Definition</b> <a href="CoapPDU_8py_source.html#l00219">CoapPDU.py:219</a></div></div>
+<div class="ttc" id="aclasslibcoapy_1_1CoapPDU_1_1CoapPDURequest_html"><div class="ttname"><a href="classlibcoapy_1_1CoapPDU_1_1CoapPDURequest.html">libcoapy.CoapPDU.CoapPDURequest</a></div><div class="ttdoc">PDU that represents a request</div><div class="ttdef"><b>Definition</b> <a href="CoapPDU_8py_source.html#l00225">CoapPDU.py:225</a></div></div>
 <div class="ttc" id="aclasslibcoapy_1_1CoapSession_1_1CoapClientSession_html"><div class="ttname"><a href="classlibcoapy_1_1CoapSession_1_1CoapClientSession.html">libcoapy.CoapSession.CoapClientSession</a></div><div class="ttdoc">represents a session initiated by a client</div><div class="ttdef"><b>Definition</b> <a href="CoapSession_8py_source.html#l00379">CoapSession.py:379</a></div></div>
 <div class="ttc" id="aclasslibcoapy_1_1CoapSession_1_1CoapClientSession_html_a0dab3acd7ab9b6638583e2ca687232cd"><div class="ttname"><a href="classlibcoapy_1_1CoapSession_1_1CoapClientSession.html#a0dab3acd7ab9b6638583e2ca687232cd">libcoapy.CoapSession.CoapClientSession.psk_key</a></div><div class="ttdeci">psk_key</div><div class="ttdef"><b>Definition</b> <a href="CoapSession_8py_source.html#l00513">CoapSession.py:513</a></div></div>
 <div class="ttc" id="aclasslibcoapy_1_1CoapSession_1_1CoapClientSession_html_a102ee4994fb12a566df9e8aff4955cba"><div class="ttname"><a href="classlibcoapy_1_1CoapSession_1_1CoapClientSession.html#a102ee4994fb12a566df9e8aff4955cba">libcoapy.CoapSession.CoapClientSession.session_referenced</a></div><div class="ttdeci">session_referenced</div><div class="ttdef"><b>Definition</b> <a href="CoapSession_8py_source.html#l00546">CoapSession.py:546</a></div></div>
