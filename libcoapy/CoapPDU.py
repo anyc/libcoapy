@@ -165,14 +165,20 @@ class CoapPDU():
 		coap_option_iterator_init(self.lcoap_pdu, ct.byref(opt_iter), COAP_OPT_ALL)
 		
 		opt_types = {
-			COAP_OPTION_URI_PATH: str,
-			COAP_OPTION_URI_HOST: str,
-			COAP_OPTION_LOCATION_PATH: str,
-			COAP_OPTION_URI_QUERY: str,
-			COAP_OPTION_LOCATION_QUERY: str,
-			COAP_OPTION_PROXY_URI: str,
-			COAP_OPTION_PROXY_SCHEME: str,
-			COAP_OPTION_RTAG: bytes,
+			coap_code_opt_num_t.COAP_OPTION_IF_MATCH: bytes,
+			coap_code_opt_num_t.COAP_OPTION_URI_PATH: str,
+			coap_code_opt_num_t.COAP_OPTION_URI_HOST: str,
+			coap_code_opt_num_t.COAP_OPTION_ETAG: bytes,
+			coap_code_opt_num_t.COAP_OPTION_LOCATION_PATH: str,
+			coap_code_opt_num_t.COAP_OPTION_OSCORE: bytes,
+			coap_code_opt_num_t.COAP_OPTION_URI_PATH_ABB: str,
+			coap_code_opt_num_t.COAP_OPTION_URI_QUERY: str,
+			coap_code_opt_num_t.COAP_OPTION_LOCATION_QUERY: str,
+			coap_code_opt_num_t.COAP_OPTION_EDHOC: bytes,
+			coap_code_opt_num_t.COAP_OPTION_PROXY_URI: str,
+			coap_code_opt_num_t.COAP_OPTION_PROXY_SCHEME: str,
+			coap_code_opt_num_t.COAP_OPTION_ECHO: bytes,
+			coap_code_opt_num_t.COAP_OPTION_RTAG: bytes,
 			}
 		
 		opts = {}
@@ -188,7 +194,7 @@ class CoapPDU():
 					value = ct.string_at(coap_opt_value(option), coap_opt_length(option))
 				elif typ == bytes:
 					value = bytes(ct.cast(coap_opt_value(option), ct.POINTER(ct.c_char * coap_opt_length(option))))
-			elif opt_iter.number == COAP_OPTION_CONTENT_FORMAT:
+			elif opt_iter.number == coap_code_opt_num_t.COAP_OPTION_CONTENT_FORMAT:
 				value = coap_decode_var_bytes(coap_opt_value(option), coap_opt_length(option))
 				if lookup_names:
 					for key in dir(llapi):
@@ -205,12 +211,12 @@ class CoapPDU():
 					value = bytes(ct.cast(coap_opt_value(option), ct.POINTER(ct.c_char * coap_opt_length(option))))
 			
 			if lookup_names:
-				for key in dir(llapi):
-					if key.startswith("COAP_OPTION_"):
-						if getattr(llapi, key, False) == opt_iter.number:
-							if key[len("COAP_OPTION_"):].lower() not in opts:
-								opts[key[len("COAP_OPTION_"):].lower().replace("_","-")] = []
-							opts[key[len("COAP_OPTION_"):].lower().replace("_","-")].append(value)
+				for key, option_num in coap_code_opt_num_t.__members__.items():
+					if option_num == opt_iter.number:
+						option_name = key[len("COAP_OPTION_"):].lower().replace("_", "-")
+						if option_name not in opts:
+							opts[option_name] = []
+						opts[option_name].append(value)
 			else:
 				opts[opt_iter.number] = value
 		
@@ -262,14 +268,14 @@ class CoapPDURequest(CoapPDU):
 		if isinstance(path, str):
 			path = path.encode()
 		
-		coap_path_into_optlist(ct.cast(ct.c_char_p(path), ct.POINTER(ct.c_uint8)), len(path), COAP_OPTION_URI_PATH, ct.byref(optlist))
+		coap_path_into_optlist(ct.cast(ct.c_char_p(path), ct.POINTER(ct.c_uint8)), len(path), coap_code_opt_num_t.COAP_OPTION_URI_PATH, ct.byref(optlist))
 		
 		self.observe = observe
 		if observe:
 			scratch_t = ct.c_uint8 * 100
 			scratch = scratch_t()
 			coap_insert_optlist(ct.byref(optlist),
-				coap_new_optlist(COAP_OPTION_OBSERVE,
+				coap_new_optlist(coap_code_opt_num_t.COAP_OPTION_OBSERVE,
 					coap_encode_var_safe(scratch, ct.sizeof(scratch), COAP_OBSERVE_ESTABLISH),
 					scratch)
 				)
@@ -279,7 +285,7 @@ class CoapPDURequest(CoapPDU):
 			if isinstance(query, str):
 				query = query.encode()
 			
-			coap_query_into_optlist(ct.cast(ct.c_char_p(query), ct.POINTER(ct.c_uint8)), len(query), COAP_OPTION_URI_QUERY, ct.byref(optlist))
+			coap_query_into_optlist(ct.cast(ct.c_char_p(query), ct.POINTER(ct.c_uint8)), len(query), coap_code_opt_num_t.COAP_OPTION_URI_QUERY, ct.byref(optlist))
 		
 		if options:
 			scratch_t = ct.c_uint8 * 8

@@ -211,7 +211,7 @@ class CoapSession():
 			if isinstance(path, str):
 				path = path.encode()
 			
-			coap_path_into_optlist(ct.cast(ct.c_char_p(path), ct.POINTER(ct.c_uint8)), len(path), COAP_OPTION_URI_PATH, ct.byref(optlist))
+			coap_path_into_optlist(ct.cast(ct.c_char_p(path), ct.POINTER(ct.c_uint8)), len(path), coap_code_opt_num_t.COAP_OPTION_URI_PATH, ct.byref(optlist))
 		else:
 			coap_uri_into_optlist(ct.byref(self.uri), ct.byref(self.dest_addr), ct.byref(optlist), 1)
 		
@@ -220,7 +220,7 @@ class CoapSession():
 			scratch_t = ct.c_uint8 * 100
 			scratch = scratch_t()
 			coap_insert_optlist(ct.byref(optlist),
-				coap_new_optlist(COAP_OPTION_OBSERVE,
+				coap_new_optlist(coap_code_opt_num_t.COAP_OPTION_OBSERVE,
 					coap_encode_var_safe(scratch, ct.sizeof(scratch), COAP_OBSERVE_ESTABLISH),
 					scratch)
 				)
@@ -229,7 +229,7 @@ class CoapSession():
 			if isinstance(query, str):
 				query = query.encode()
 			
-			coap_query_into_optlist(ct.cast(ct.c_char_p(query), ct.POINTER(ct.c_uint8)), len(query), COAP_OPTION_URI_QUERY, ct.byref(optlist))
+			coap_query_into_optlist(ct.cast(ct.c_char_p(query), ct.POINTER(ct.c_uint8)), len(query), coap_code_opt_num_t.COAP_OPTION_URI_QUERY, ct.byref(optlist))
 		
 		if options:
 			scratch_t = ct.c_uint8 * 8
