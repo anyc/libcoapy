@@ -250,25 +250,29 @@ class CoapSession():
 		if payload is not None:
 			hl_pdu.payload = payload
 		
-		mid = coap_send(self.lcoap_session, pdu)
-		
-		self.token_handlers[token] = {}
-		self.token_handlers[token]["tx_pdu"] = hl_pdu
+		token_handler = {
+			"tx_pdu": hl_pdu,
+		}
 		if observe:
-			self.token_handlers[token]["observed"] = True
+			token_handler["observed"] = True
 		if save_rx_pdu:
-			self.token_handlers[token]["save_rx_pdu"] = True
+			token_handler["save_rx_pdu"] = True
 		if response_callback:
-			self.token_handlers[token]["handler"] = response_callback
+			token_handler["handler"] = response_callback
 			if response_callback_data:
-				self.token_handlers[token]["handler_data"] = response_callback_data
+				token_handler["handler_data"] = response_callback_data
+
+		# Register before sending because coap_send() may make a response
+		# available synchronously through fd_callback().
+		self.token_handlers[token] = token_handler
+		mid = coap_send(self.lcoap_session, pdu)
 		
 		# libcoap automatically signals an epoll fd that work has to be done, without
 		# epoll we have to do this ourselves.
 		if self.ctx._loop and self.ctx.coap_fd < 0:
 			self.ctx.fd_callback()
 		
-		return self.token_handlers[token]
+		return token_handler
 	
 	def createRequest(self,
 			path=None,

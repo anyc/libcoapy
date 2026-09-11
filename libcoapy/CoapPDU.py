@@ -327,7 +327,8 @@ class CoapPDURequest(CoapPDU):
 	def send(self):
 		"""! transmit this PDU """
 		
-		self.session.token_handlers[self.token] = self.token_handler
+		token_handler = self.token_handler
+		self.session.token_handlers[self.token] = token_handler
 		
 		mid = coap_send(self.session.lcoap_session, self.lcoap_pdu)
 		
@@ -335,6 +336,8 @@ class CoapPDURequest(CoapPDU):
 		# epoll we have to do this ourselves.
 		if self.session.ctx._loop and self.session.ctx.coap_fd < 0:
 			self.session.ctx.fd_callback()
+
+		return token_handler
 	
 	def addPayload(self, payload):
 		"""! add payload to a request PDU """
