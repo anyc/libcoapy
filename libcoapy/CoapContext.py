@@ -43,6 +43,12 @@ class CoapContext():
 				coap_event_t.COAP_EVENT_SESSION_CLOSED,
 			)
 		):
+			for fd in getattr(self, "old_read_fds", ()):
+				self._loop.remove_reader(fd)
+			for fd in getattr(self, "old_write_fds", ()):
+				self._loop.remove_writer(fd)
+			self.old_read_fds = ()
+			self.old_write_fds = ()
 			self._loop.call_soon(self.fd_callback)
 
 		if event_type == coap_event_t.COAP_EVENT_SERVER_SESSION_NEW:
@@ -367,8 +373,12 @@ class CoapContext():
 						if fd not in write_fds:
 							self._loop.remove_writer(fd)
 				
-				self.old_read_fds = read_fds
-				self.old_write_fds = write_fds
+				self.old_read_fds = tuple(
+					read_fds[i] for i in range(have_read_fds.value)
+				)
+				self.old_write_fds = tuple(
+					write_fds[i] for i in range(have_write_fds.value)
+				)
 				
 				break
 		
