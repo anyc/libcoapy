@@ -33,6 +33,18 @@ class CoapContext():
 		event_type = coap_event_t(event_type)
 		session = coap_session_get_app_data(ll_session)
 		
+		# Refresh individual socket registrations when no shared coap fd exists.
+		if (
+			self._loop
+			and self.coap_fd < 0
+			and event_type in (
+				coap_event_t.COAP_EVENT_DTLS_CLOSED,
+				coap_event_t.COAP_EVENT_TCP_CLOSED,
+				coap_event_t.COAP_EVENT_SESSION_CLOSED,
+			)
+		):
+			self._loop.call_soon(self.fd_callback)
+
 		if event_type == coap_event_t.COAP_EVENT_SERVER_SESSION_NEW:
 			session = CoapServerSession(self, ll_session)
 			self.addSession(session)
