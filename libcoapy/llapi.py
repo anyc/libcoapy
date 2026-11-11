@@ -640,7 +640,7 @@ coap_tls_version_t._fields_ = [
 	]
 
 coap_dtls_security_setup_t = ct.CFUNCTYPE(ct.c_int, ct.py_object, ct.POINTER(coap_dtls_pki_t))
-coap_dtls_cn_callback_t = ct.CFUNCTYPE(ct.c_int, ct.c_char_p, ct.POINTER(ct.c_uint8), ct.c_ulong, ct.POINTER(coap_session_t), ct.c_uint, ct.c_int, ct.py_object)
+coap_dtls_cn_callback_t = ct.CFUNCTYPE(ct.c_int, ct.c_char_p, ct.POINTER(ct.c_uint8), ct.c_size_t, ct.POINTER(coap_session_t), ct.c_uint, ct.c_int, ct.py_object)
 class coap_asn1_privatekey_type_t(ctypes_enum_gen):
 	COAP_ASN1_PKEY_NONE = 0
 	COAP_ASN1_PKEY_RSA = 1
@@ -822,6 +822,7 @@ class coap_event_t(ctypes_enum_gen):
 	COAP_EVENT_OSCORE_NO_SECURITY = 24580
 	COAP_EVENT_OSCORE_INTERNAL_ERROR = 24581
 	COAP_EVENT_OSCORE_DECODE_ERROR = 24582
+	COAP_EVENT_OSCORE_RECIPIENT_CHANGED = 24583
 	COAP_EVENT_WS_PACKET_SIZE = 28673
 	COAP_EVENT_WS_CONNECTED = 28674
 	COAP_EVENT_WS_CLOSED = 28675
@@ -873,7 +874,7 @@ coap_nack_handler_t = ct.CFUNCTYPE(None, ct.POINTER(coap_session_t), ct.POINTER(
 coap_ping_handler_t = ct.CFUNCTYPE(None, ct.POINTER(coap_session_t), ct.POINTER(coap_pdu_t), ct.c_int)
 coap_pong_handler_t = ct.CFUNCTYPE(None, ct.POINTER(coap_session_t), ct.POINTER(coap_pdu_t), ct.c_int)
 coap_resource_dynamic_create_t = ct.CFUNCTYPE(ct.c_void_p, ct.POINTER(coap_session_t), ct.POINTER(coap_pdu_t))
-coap_block_data_handler_t = ct.CFUNCTYPE(coap_response_t.get_ctype(), ct.POINTER(coap_session_t), ct.POINTER(coap_pdu_t), ct.POINTER(coap_resource_t), ct.POINTER(ct.POINTER(coap_binary_t)), ct.c_ulong, ct.POINTER(ct.c_uint8), ct.c_ulong, ct.c_ulong)
+coap_block_data_handler_t = ct.CFUNCTYPE(coap_response_t.get_ctype(), ct.POINTER(coap_session_t), ct.POINTER(coap_pdu_t), ct.POINTER(coap_resource_t), ct.POINTER(ct.POINTER(coap_binary_t)), ct.c_size_t, ct.POINTER(ct.c_uint8), ct.c_size_t, ct.c_size_t)
 coap_io_process_thread_t = ct.CFUNCTYPE(None, ct.py_object)
 coap_block_t._fields_ = [
 	("num", ct.c_uint),
@@ -892,7 +893,7 @@ coap_block_b_t._fields_ = [
 	]
 
 coap_release_large_data_t = ct.CFUNCTYPE(None, ct.POINTER(coap_session_t), ct.py_object)
-coap_get_large_data_t = ct.CFUNCTYPE(ct.c_int, ct.POINTER(coap_session_t), ct.c_ulong, ct.c_ulong, ct.POINTER(ct.c_uint8), ct.POINTER(ct.c_ulong), ct.py_object)
+coap_get_large_data_t = ct.CFUNCTYPE(ct.c_int, ct.POINTER(coap_session_t), ct.c_size_t, ct.c_size_t, ct.POINTER(ct.c_uint8), ct.POINTER(ct.c_size_t), ct.py_object)
 coap_cache_app_data_free_callback_t = ct.CFUNCTYPE(None, ct.py_object)
 class coap_cache_session_based_t(ctypes_enum_gen):
 	COAP_CACHE_NOT_SESSION_BASED = 0
@@ -971,7 +972,7 @@ class coap_memory_tag_t(ctypes_enum_gen):
 	COAP_COSE = 28
 	COAP_MEM_TAG_LAST = 29
 
-coap_rand_func_t = ct.CFUNCTYPE(ct.c_int, ct.py_object, ct.c_ulong)
+coap_rand_func_t = ct.CFUNCTYPE(ct.c_int, ct.py_object, ct.c_size_t)
 coap_method_handler_t = ct.CFUNCTYPE(None, ct.POINTER(coap_resource_t), ct.POINTER(coap_session_t), ct.POINTER(coap_pdu_t), ct.POINTER(coap_string_t), ct.POINTER(coap_pdu_t))
 coap_resource_release_userdata_handler_t = ct.CFUNCTYPE(None, ct.py_object)
 coap_print_status_t = ct.c_uint
@@ -2541,7 +2542,15 @@ library_functions.append({
 	"name": "coap_context_set_max_body_size",
 	"args": [
 		(ct.POINTER(coap_context_t), "context"),
-		(ct.c_uint, "max_body_size"),
+		(ct.c_size_t, "max_body_size"),
+		],
+	"restype": None,
+	})
+library_functions.append({
+	"name": "coap_context_set_max_bodies_ram",
+	"args": [
+		(ct.POINTER(coap_context_t), "context"),
+		(ct.c_size_t, "max_bodies_ram"),
 		],
 	"restype": None,
 	})
