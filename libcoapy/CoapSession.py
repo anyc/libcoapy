@@ -317,9 +317,9 @@ class CoapSession():
 			query=query,
 			options=options)
 		
-		if payload:
+		if payload is not None:
 			tx_pdu.addPayload(payload)
-		elif payload_callback and payload_size:
+		elif payload_callback is not None and payload_size is not None:
 			tx_pdu.setTXPayloadCallback(payload_callback, payload_size, payload_release_callback, payload_callback_data)
 		
 		tx_pdu.setResponseCallback(response_callback, response_callback_data, persistent_rx_pdu)
@@ -353,14 +353,15 @@ class CoapSession():
 		r"""! start an asynchronous request and return a generator object if
 		observe=True is set, else return the response pdu
 		
-		accepts same parameters as \link libcoapy.libcoapy.CoapClientSession.sendMessage sendMessage() \endlink
+		accepts same parameters as \link libcoapy.libcoapy.CoapSession.createRequest createRequest() \endlink
 		"""
 		observer = CoapObserver()
 		
 		kwargs["response_callback"] = self.async_response_callback
 		kwargs["response_callback_data"] = observer
 		
-		tx_pdu = self.sendMessage(*args, **kwargs)["tx_pdu"]
+		tx_pdu = self.createRequest(*args, **kwargs)
+		tx_pdu.send()
 		tx_pdu.make_persistent()
 		observer.tx_pdu = tx_pdu
 		

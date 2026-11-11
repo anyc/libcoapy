@@ -88,35 +88,46 @@ class CoapPDU():
 		self.addPayload(value)
 	
 	def _wrapper_txPayloadCallback(self, lcoap_session, max_size, offset, data_ptr, length, app_ptr):
-		data = self.payload_data_cb(self, max_size, offset, app_ptr)
-		
-		length[0] = len(data)
-		ct.memmove(data_ptr, data, len(data))
-		
-		return 1
+		try:
+			data = self.payload_data_cb(self, max_size, offset, app_ptr)
+			if len(data) > max_size:
+				raise ValueError("payload callback returned more data than requested")
+			length[0] = len(data)
+			ct.memmove(data_ptr, data, len(data))
+			return 1
+		except Exception as error:
+			self.payload_callback_error = error
+			return 0
 	
 	def _wrapper_txPayloadReleaseCallback(self, lcoap_session, app_ptr):
-		self.payload_release_cb(self, app_ptr)
+		try:
+			self.payload_release_cb(self, app_ptr)
+		finally:
+			self.payload_callback_data = None
 	
 	def setTXPayloadCallback(self, payload_data_cb, payload_size, payload_release_cb=None, payload_cb_data=None):
 		self.wrapper_payload_cb = coap_get_large_data_t(self._wrapper_txPayloadCallback)
 		self.payload_data_cb = payload_data_cb
 		
-		if payload_release_cb:
+		if payload_release_cb is not None:
 			self.payload_release_cb = payload_release_cb
+			self.wrapper_payload_release_cb = coap_release_large_data_t(self._wrapper_txPayloadReleaseCallback)
 		else:
-			self.payload_release_cb = 0
-		self.wrapper_payload_release_cb = coap_release_large_data_t(self._wrapper_txPayloadReleaseCallback)
+			self.payload_release_cb = None
+			self.wrapper_payload_release_cb = ct.cast(None, coap_release_large_data_t)
 		
-		if not payload_cb_data:
+		if payload_cb_data is None:
 			payload_cb_data = self
+		self.payload_callback_data = payload_cb_data
 		
-		coap_add_data_large_request_app(self.session.lcoap_session,
+		self.payload_callback_error = None
+		if not coap_add_data_large_request_app(self.session.lcoap_session,
 			self.lcoap_pdu,
 			payload_size,
 			self.wrapper_payload_release_cb,
 			self.wrapper_payload_cb,
-			payload_cb_data)
+			payload_cb_data):
+			raise RuntimeError("coap_add_data_large_request_app() failed") from self.payload_callback_error
 	
 	def release_payload_cb(self, lcoap_session, payload):
 		self.ct_payload = None
